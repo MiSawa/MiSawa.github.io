@@ -1,0 +1,184 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>yukicoder 0014 最小公倍数ソート</title>
+
+    <link href="../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
+    <script src="../javascripts/base.js" type="text/javascript"></script>
+        <script src="../javascripts/fold.js" type="text/javascript"></script>
+      <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-25117970-3', 'misawa.github.io');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+      </script>
+  </head>
+
+  <body class='yukicoder yukicoder_0014'>
+  <div id='menu'>
+    <ul>
+      <li> <a href="../index.html">top</a> </li>
+      <li> <a href="../aoj/index.html">AOJ の記事</a> </li>
+      <li> <a href="../topcoder/index.html">TopCoder の記事</a> </li>
+      <li> <a href="index.html">yukicoder の記事</a> </li>
+      <li> <a href="../tags/index.html">tags</a> </li>
+    </ul>
+  </div>
+  <div id='main'>
+      <h2> yukicoder 0014 最小公倍数ソート </h2>
+  <a href="http://yukicoder.me/problems/38">問題文</a>
+  <h3 id="section">概要</h3>
+
+<p>数列 $a_1, \dots, a_n$ が与えられる.
+$i = 1, \dots, n-1$ に対し, 次の操作を順に行う.</p>
+
+<ul>
+  <li>$a_i$ を今の値で固定し, $a _ {i+1}, \dots, a_n$ を,
+$f _ {a_i}(x) = (\mathop{LCM}(a_i, x), x)$ の辞書順でソートし, 小さい順に番号を付け直す.</li>
+</ul>
+
+<p>最終的な $a_1, \dots, a_n$ を答えよ.</p>
+
+<h4 id="section-1">制約</h4>
+
+<p>$1 \le N \le 10^4$, $1 \le a_i \le 10^4$.</p>
+
+<h3 id="section-2">解法</h3>
+
+<p>どうせ次の数以降はまた別の基準でソートされるので, 一々ソートする必要はなくて, min だけとれればよい.
+従って, 次の操作に対応する何かがあればよい:</p>
+
+<ul>
+  <li>
+    <p>multiset 的なものを, $a_1, \dots, a_n$ で初期化.</p>
+  </li>
+  <li>
+    <p>t が与えられるので, $f_t(x)$ の最も小さいものを一つ取り除き, 返す.</p>
+  </li>
+</ul>
+
+<p>これを, 値の範囲が小さい事を利用して, 次のようにして作る.</p>
+
+<ul>
+  <li>
+    <p>各 $a_i$ に対してその約数を列挙しておく. (下のソースでいう <code>fac</code>)</p>
+  </li>
+  <li>
+    <p>$d$ が与えられた時, $d$ の倍数であるような $a_i$ を小さい順に返す構造を作っておく. (下のソースでいう <code>rev</code>)</p>
+  </li>
+  <li>
+    <p>$t$ が与えられた時, $t$ の各約数 $d$ について, <code>rev[d]</code> に入っている最小値を持ってきて, それを候補し, $d$ に渡る min を取って次の数を決める.</p>
+  </li>
+  <li>
+    <p>あとは削除に対応すればよいが, set を使いたくはないので, 遅延しておく. (下のソースでいう <code>c</code> を使っている所)</p>
+  </li>
+</ul>
+
+<p>計算量は, $D$ を $A$ 以下の数の約数の個数の最大値として $O(N \sqrt{A} + N D).</p>
+
+<p>ここで $\sqrt{A}$ の部分は約数列挙の所で, これは前処理 $O(N)$ で $O(D)$ に落とせるので, $O(ND)$ でも行ける.</p>
+
+<p>$D$ は $o(A^\epsilon), \forall \epsilon &gt; 0$ とかだったハズで, ちっちゃい.
+この辺, 解析的整数論のにおいがしてヤバいですね.</p>
+
+<h3 id="section-3">ソースコード</h3>
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></td><td class="code"><pre><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">11000</span><span class="p">;</span>
+<span class="n">bool</span> <span class="n">solve</span><span class="p">(){</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">x</span> <span class="o">:</span> <span class="n">a</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">;</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">N</span><span class="o">&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">x</span> <span class="o">:</span> <span class="n">a</span><span class="p">)</span> <span class="o">++</span><span class="n">c</span><span class="p">[</span><span class="n">x</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="o">--</span><span class="n">c</span><span class="p">[</span><span class="n">last</span><span class="p">];</span>
+
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">N</span><span class="o">&gt;</span> <span class="n">fac</span><span class="p">;</span>
+    <span class="n">array</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">N</span><span class="o">&gt;</span> <span class="n">rev</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">x</span> <span class="o">:</span> <span class="n">a</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">fac</span><span class="p">[</span><span class="n">x</span><span class="p">].</span><span class="n">empty</span><span class="p">()){</span>
+        <span class="n">fac</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">factors</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">f</span> <span class="o">:</span> <span class="n">fac</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">x</span> <span class="o">:</span> <span class="n">rev</span><span class="p">)</span> <span class="n">sort</span><span class="p">(</span><span class="n">rall</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+    <span class="n">res</span><span class="p">.</span><span class="n">eb</span><span class="p">(</span><span class="n">last</span><span class="p">);</span>
+    <span class="n">rep</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">nex</span> <span class="o">=</span> <span class="n">make_pair</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">f</span> <span class="o">:</span> <span class="n">fac</span><span class="p">[</span><span class="n">last</span><span class="p">]){</span>
+            <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">empty</span><span class="p">()</span> <span class="n">and</span> <span class="o">!</span><span class="n">c</span><span class="p">[</span><span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">back</span><span class="p">()])</span> <span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="k">continue</span><span class="p">;</span>
+            <span class="n">chmin</span><span class="p">(</span><span class="n">nex</span><span class="p">,</span> <span class="n">make_pair</span><span class="p">(</span><span class="n">lcm</span><span class="p">(</span><span class="n">last</span><span class="p">,</span> <span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">back</span><span class="p">()),</span> <span class="n">rev</span><span class="p">[</span><span class="n">f</span><span class="p">].</span><span class="n">back</span><span class="p">()));</span>
+        <span class="p">}</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="n">nex</span><span class="p">.</span><span class="n">snd</span><span class="p">;</span>
+        <span class="o">--</span><span class="n">c</span><span class="p">[</span><span class="n">last</span><span class="p">];</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">eb</span><span class="p">(</span><span class="n">last</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">:</span> <span class="s">" "</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+
+
+    <a href="src/0014.cc">download full source code</a>
+
+      <h3>Tags</h3>
+        <div class='tag'><a href="../tags/yukicoder.html">yukicoder</a></div>
+        <div class='tag'><a href="../tags/数論.html">数論</a></div>
+
+    <h3>Comments</h3>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+var disqus_shortname = 'misawa';
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+  </body>
+</html>

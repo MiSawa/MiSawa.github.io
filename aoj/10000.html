@@ -1,4 +1,3 @@
-<!doctype html>
 
 <!doctype html>
 <html>
@@ -30,26 +29,35 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../index.html">top</a> </li>
+      <li> <a href="index.html">AOJ の記事</a> </li>
+      <li> <a href="../topcoder/index.html">TopCoder の記事</a> </li>
+      <li> <a href="../yukicoder/index.html">yukicoder の記事</a> </li>
       <li> <a href="../tags/index.html">tags</a> </li>
-      <li> <a href="10000.html">AOJ/10000</a> </li>
     </ul>
   </div>
   <div id='main'>
-        <h2> AOJ 10000 Hello World </h2>
-<a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=10000">問題文</a>
-<h3>概要</h3>
+      <h1> AOJ 10000 Hello World </h1>
+  <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=10000">問題文</a>
+  <h3 id="section">概要</h3>
 
 <p><code>Hello World</code> と出力せよ.</p>
 
-<h3>解法</h3>
+<h3 id="section-1">解法</h3>
 
 <p>やるだけ. $O(1)$.</p>
 
-<h3>ソースコード</h3>
+<h3 id="section-2">ソースコード</h3>
+
 <div class="highlight ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre></td><td class="code"><pre><span class="nb">puts</span> <span class="s2">"Hello World"</span>
 </pre></td></tr></tbody></table>
 </div>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1</pre><pre class="lineno">2</pre><pre class="lineno">3</pre><pre class="lineno">4</pre><pre class="lineno">5</pre><pre class="lineno">6</pre></td><td class="code"><pre><span class="cp">#include &lt;bits/stdc++.h&gt;
+
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6</pre></td><td class="code"><pre><span class="cp">#include &lt;bits/stdc++.h&gt;
 </span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
     <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello World"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
@@ -58,10 +66,44 @@ ga('send', 'pageview');
 </pre></td></tr></tbody></table>
 </div>
 
-<a href="10000.cc">download source code</a>
+<blockquote>
+  <h3 id="hoge">hoge</h3>
+
+  <p>foo</p>
+</blockquote>
+
+<div class="fold" style="display: none;">
+  <p>fizz buzz</p>
+
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3</pre></td><td class="code"><pre><span class="cp">#include&lt;bits/stdc++.h&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+</div>
+
+
+    <a href="src/10000.cc">download source code</a>
 
       <h3>Tags</h3>
+        <div class='tag'><a href="../tags/aoj.html">AOJ</a></div>
         <div class='tag'><a href="../tags/やるだけ.html">やるだけ</a></div>
+
+    <h3>Comments</h3>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+var disqus_shortname = 'misawa';
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
   </div>
   </body>
 </html>

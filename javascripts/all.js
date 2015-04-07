@@ -33,9 +33,11 @@ return d||(f=$b[b],$b[b]=e,e=null!=c(a,b,d)?b.toLowerCase():null,$b[b]=f),e}});v
 
 $(function(){
     $('#main>h3').each(function(){
-        $(this).nextUntil('h1,h2,h3').wrapAll("<div class='fold' />")
+        $(this).prepend('<tt>+</tt> ');
+        $(this).nextUntil('h1,h2,h3').wrapAll("<div class='fold' />");
         $(this).next().toggle(false);
         $(this).on('click', function(){
+            $(this).find('tt').text($(this).find('tt').text() == '+' ? '-' : '+')
             $(this).next().toggle();
         });
     });
