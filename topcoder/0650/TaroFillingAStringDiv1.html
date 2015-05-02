@@ -13,6 +13,21 @@
     <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
     <script src="../../javascripts/base.js" type="text/javascript"></script>
         <script src="../../javascripts/fold.js" type="text/javascript"></script>
+      <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
+<script type="text/javascript">
+Hatena.Star.SiteConfig = {
+  entryNodes: {
+    'div#main' : {
+      uri: 'document.location',
+      title: 'document.title',
+      container: 'span.hatena_star'
+    }
+  }
+};
+</script>
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
       <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -36,28 +51,39 @@ ga('send', 'pageview');
     </ul>
   </div>
   <div id='main'>
+
+    <ul class="social_button_box">
+        <li class="social_button" style="">
+          <span class="hatena_star"></span>
+
+        </li>
+        <li class="social_button" style="">
+          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+
+        </li>
+    </ul>
+
         <h2> TopCoder SRM650 Div1Easy TaroFillingAStringDiv1 </h2>
     <a href="http://community.topcoder.com/stat?c=problem_statement&amp;pm=13669&amp;rd=16314">問題文</a>
-    <h3 id="section">概要</h3>
+    <h3>概要</h3>
 
 <p>$N$ 文字の, 各文字が <code>A</code> か <code>B</code> からなる文字列で,
 同じ文字が $2$ 文字連続している箇所をなるべく少なくしたい.
 <code>position[i]</code> 番目の文字が <code>value[i]</code> であるという制約の下,
 連続している箇所が最も少なくなるような文字列のパターン数を $\mathrm{mod}\ 1000000007$ で答えよ.</p>
 
-<h4 id="section-1">制約</h4>
+<h4>制約</h4>
 
 <p>$N \le 10^9$, $\mathrm{position.size()} \le 50$.</p>
 
-<h3 id="section-2">解法</h3>
+<h3>解法</h3>
 
 <p>指定を <code>position</code> でソート.
 隣合う指定の差の偶奇と, 指定された文字の一致不一致を見ると,
 そこを連続する箇所 $0$ で埋められるか, $1$ 必要かが解る.
 $0$ の時は $1$ パターン, そうでない時は, どこで連続させるかで, <code>position</code> の差くらい.</p>
 
-<h3 id="section-3">ソースコード</h3>
-
+<h3>ソースコード</h3>
 <div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
 2
 3
@@ -89,25 +115,24 @@ $0$ の時は $1$ パターン, そうでない時は, どこで連続させる�
 </div>
 
 
-
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
         <div class='tag'><a href="../../tags/数え上げ.html">数え上げ</a></div>
         <div class='tag'><a href="../../tags/算数.html">算数</a></div>
 
     <h3>Comments</h3>
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-var disqus_shortname = 'misawa';
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+  var disqus_shortname = 'misawa';
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
   </div>
   </body>
 </html>

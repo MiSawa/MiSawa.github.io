@@ -16,10 +16,16 @@ MathJax.Hub.Config({
             Q: '{\\mathbb{Q}}',
             R: '{\\mathbb{R}}',
             C: '{\\mathbb{C}}',
+            divides: '{\\mid}',
             abs: ['{\\left| #1 \\right|}', 1],
         }
     },
 });
 MathJax.Hub.Configured();
 }.toString() + ")()</script>");
+document.write("<div style=\"display:none\">");
+document.write("\\(\\def\\relmiddle#1{\\mathrel{}\\middle#1\\mathrel{}}\\)");
+document.write("\\(\\def\\setmid{\\mathrel{}\\middle|\\mathrel{}}\\)");
+document.write("\\(\\def\\set#1{\\left\\{\\,#1\\,\\right\\}}\\)");
+document.write("</div>");
 
