@@ -1,0 +1,403 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>TopCoder SRM591 Div1 Med 500 PyramidSequences - みさわめも</title>
+
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
+    <script src="../../javascripts/base.js" type="text/javascript"></script>
+        <script src="../../javascripts/fold.js" type="text/javascript"></script>
+      <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
+<script type="text/javascript">
+Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
+Hatena.Star.SiteConfig = {
+  entryNodes: {
+    'div#main' : {
+      uri: 'document.location',
+      title: 'document.title',
+      container: 'span.hatena_star'
+    }
+  }
+};
+</script>
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+      <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-25117970-3', 'misawa.github.io');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+      </script>
+  </head>
+
+  <body class='topcoder topcoder_0591 topcoder_0591_PyramidSequences'>
+  <div id='menu'>
+    <ul>
+      <li> <a href="../../index.html">top</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
+      <li> <a href="../index.html">topcoder</a> </li>
+      <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../tags/index.html">tags</a> </li>
+      <li> <a href="../../other/index.html">other</a> </li>
+    </ul>
+  </div>
+
+  <div id='main'>
+    <ul class="social_button_box">
+        <li class="social_button" style="">
+          <span class="hatena_star"></span>
+
+        </li>
+        <li class="social_button" style="">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-via="Mi_Sawa" data-dnt="true">Tweet</a>
+
+        </li>
+    </ul>
+
+        <h2> TopCoder SRM591 Div1 Med 500 PyramidSequences </h2>
+    <a href="http://community.topcoder.com/stat?c=problem_statement&amp;pm=12619&amp;rd=15703">問題文</a>
+    <h3>概要</h3>
+
+<p>$ X $ に対し, 高さ $ X $ のピラミッド列とは,</p>
+
+<p>$ (1, 2, \dots, X-1, X, X-1, \dots, 2) $</p>
+
+<p>の $ 2X - 2 $ 個の無限繰り返しを指す.</p>
+
+<p>高さ $ N $ と $ M $ のピラミッド列 $ A $ と $ B $ が, (左端の $ 1 $ が並ぶようにして) おいてある.</p>
+
+<p>$ (A_i, B_i) $ のペアとしてありうる組合せを数え上げよ.</p>
+
+<h4>制約</h4>
+
+<p>$ 1 \le N, M \le 10^9$.</p>
+
+<h3>解法</h3>
+
+<p>ここより <a href="http://apps.topcoder.com/wiki/display/tc/SRM+591">editorial</a> を見たほうがよい.
+まだ読んでないけど, ここよりずっと綺麗っぽい.</p>
+
+<p>$ 1, \dots, N, \dots, 1 $ じゃなくて $ 0, \dots, N-1, \dots, 0 $ にしとく.</p>
+
+<p>$ \gcd(2N-2, 2M-2) $ まで取ると, 左右対称なので,
+とりあえず, $ A $ が増加している部分だけ考えればよい.</p>
+
+<p>それぞれの周期を $ a = 2N - 2,\ b = 2 M - 2 $ とする.</p>
+
+<p>$ t $ が $ A $ の増加部分で現れるのは, $ t, t + a, t + 2a, \dots $ 番目.</p>
+
+<p>$ t $ が現れる index を $ \bmod b $ した値は,
+$$
+t + ka \equiv i \mod b \\
+\Leftrightarrow
+i - t \equiv k a \mod b
+$$
+だから, $ g = \gcd(a, b) $ として, $ i - t \equiv 0 \mod g $ のとき.</p>
+
+<p>このときは, $ (x - t) / g \equiv k (a / g) \mod (b / g) $ で, $ a/g $ の $ \bmod (b/g) $ の逆元を両辺にかけて $ k $ を復元出来るから, 実際に解がある.</p>
+
+<p>一方, $ B_i $ は, $ i \bmod b < b/2 $ か否かに従って $ i \bmod b $ か $ -i \bmod b $.</p>
+
+<p>よって, $ (t, x) $ が現れうるのは, $ t \equiv \pm x \mod g $ のとき.</p>
+
+<p>よって,</p>
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2</pre></td><td class="code"><pre><span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="n">rep</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span> <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="p">)</span><span class="o">%</span><span class="n">g</span> <span class="o">==</span> <span class="mi">0</span> <span class="n">or</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">%</span><span class="n">g</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="o">++</span><span class="n">res</span><span class="p">;</span>
+</pre></td></tr></tbody></table>
+</div>
+
+<p>というのは正しい答えを返す.</p>
+
+<p>あとは, $ i $ を固定した時に $ i \equiv j \mod g $ の解と $ i \equiv -j \mod g $ の解が一致するか否かで場合分けしつつ, ループを一重に落とせる.</p>
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7</pre></td><td class="code"><pre><span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">g</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">))</span><span class="o">/</span><span class="n">g</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">))</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">g</span><span class="o">-</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">)</span><span class="o">%</span><span class="n">g</span><span class="p">))</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table>
+</div>
+
+<p>これは明らかに $ mod g $ で周期的な挙動をするから, $ g $ が小さい時は周期でスキップすればよい.</p>
+
+<p>一方, $ g $ が大きいときは, <code>(M - 1 - (i\%g)) / g</code> などの変わり目がすぐにわかることを利用して, <code>+= g</code> のタイプのスキップをすると楽.</p>
+
+<p>(端っこが面倒だからこういうスキップをしているだけで, 算数をすると, いちおう $ O(1) $ には出来る)</p>
+
+<p>あと, なんか $N = M$ のときコーナーケースになっていた.
+どこの議論か追う気力がない.</p>
+
+<h3>ソースコード</h3>
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre></td><td class="code"><pre><span class="cm">/*
+   A 側の増加部分だけ考えればいい. (逆から見ても同じペアになるはずだから).
+   a = 2N-2, b = 2M-2 とする.
+   0 1 2 ... N-1 N-2 ... 0 と思う.
+
+   t が現れるのは,
+      t, t+a, ..., t + ab
+   番目.
+   i 番目の B の値は,
+      i % b &lt; b/2 なら  i % b
+      そうでないなら  (-i) % b
+
+    (t + ka) == x mod b
+   &lt;=&gt;
+    x - t == ka mod b
+   だから,
+     x - t : gcd(a, b) の倍数.
+   g = gcd(a, b) とすると,
+   要するに, (t, x) となりうる x は,
+     g | (x - t)
+      or
+     g | (x + t)
+   なやつら.
+
+   g | (x-t) かつ g | (x+t) となるには, g | 2t が必要で,
+   この時は
+    x == t == -t mod g
+   よって, x == (t%g) な 0 &lt;= x &lt; M の個数 = (M - 1 - (t%g))/g + 1
+
+   そうでないとき,
+     x == t mod g
+     or
+     x == -t mod g
+    (M - 1 - (t%g)) / g + 1
+    +
+    (M - 1 - ((g-t%g)%g)) / g + 1
+*/</span>
+
+<span class="c1">// 150.0 pts
+</span>
+<span class="kt">long</span> <span class="kt">long</span> <span class="n">PyramidSequences</span><span class="o">::</span><span class="n">distinctPairs</span><span class="p">(</span> <span class="kt">int</span> <span class="n">N_</span><span class="p">,</span> <span class="kt">int</span> <span class="n">M_</span> <span class="p">){</span><span class="c1">//{{{
+</span>    <span class="kt">long</span> <span class="kt">long</span> <span class="n">N</span> <span class="o">=</span> <span class="n">N_</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="n">M_</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">M</span> <span class="o">==</span> <span class="n">N</span><span class="p">)</span> <span class="k">return</span> <span class="n">M</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">g</span> <span class="o">=</span> <span class="n">__gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+    <span class="kt">long</span> <span class="kt">long</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="c1">// rep(i, N) rep(j, M) if((i-j)%g == 0 or (i+j)%g == 0)//{{{
+</span>    <span class="c1">//     ++res;
+</span>    <span class="c1">// rep(i, N){
+</span>    <span class="c1">//     int cnt = 0;
+</span>    <span class="c1">//     rep(j, M) if((i-j)%g == 0 or (i+j)%g == 0)
+</span>    <span class="c1">//         ++cnt;
+</span>    <span class="c1">//     cout &lt;&lt; i &lt;&lt; ": " &lt;&lt; cnt &lt;&lt; endl;
+</span>    <span class="c1">//     if((i*2)%g == 0){
+</span>    <span class="c1">//         cout &lt;&lt; (M-1-(i%g))/g+1 &lt;&lt; endl;
+</span>    <span class="c1">//     }else{
+</span>    <span class="c1">//         cout &lt;&lt; (M - 1 - (i%g)) / g + 1 + (M - 1 - ((g-i%g)%g)) / g + 1 &lt;&lt; endl;
+</span>    <span class="c1">//     }
+</span>    <span class="c1">//     // cout &lt;&lt; (i*2 % g == 0 ? (a-1)/g : (a-1)/g*2) &lt;&lt; endl;
+</span>    <span class="c1">// }//}}}
+</span>    <span class="k">if</span><span class="p">(</span><span class="n">g</span> <span class="o">&gt;</span> <span class="mi">100000</span><span class="p">){</span>
+        <span class="n">res</span> <span class="o">-=</span> <span class="p">((</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">res</span> <span class="o">-=</span> <span class="p">((</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">g</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">g</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+        <span class="c1">// M-1-(i%g) == 0 &lt;=&gt; i == M-1 mod g
+</span>        <span class="c1">// [0, (M-1)%g+1) は (M-1) / g + 1
+</span>        <span class="c1">// [(M-1)%g+1, g) は (M-1) / g.
+</span>        <span class="c1">// rep(i, N){
+</span>        <span class="c1">//     res += (M - 1 - (i%g)) / g + 1;
+</span>        <span class="c1">// }
+</span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">g</span><span class="p">){</span>
+            <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">g</span><span class="p">);</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// M - 1 + i == 0 &lt;=&gt; i == 1-M mod g
+</span>        <span class="c1">// [0, ((1-M)%g+g)%g+1) は (M-1)/g+1
+</span>        <span class="c1">// [((1-M)%g+g)%g+1, g) は (M-1)/g
+</span>        <span class="c1">// rep(i, N){
+</span>        <span class="c1">//     res += (M - 1 - ((g-i%g)%g)) / g + 1;
+</span>        <span class="c1">// }
+</span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">g</span><span class="p">){</span>
+            <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">M</span><span class="p">)</span><span class="o">%</span><span class="n">g</span><span class="o">+</span><span class="n">g</span><span class="p">)</span><span class="o">%</span><span class="n">g</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">g</span><span class="p">);</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">g</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// rep(i, N){
+</span>        <span class="c1">//     if((i*2) % g == 0){
+</span>        <span class="c1">//         res += (M-1-(i%g))/g+1;
+</span>        <span class="c1">//     }else{
+</span>        <span class="c1">//         res += (M - 1 - (i%g)) / g + 1;
+</span>        <span class="c1">//         res += (M - 1 - ((g-i%g)%g)) / g + 1;
+</span>        <span class="c1">//     }
+</span>        <span class="c1">// }
+</span>    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">g</span><span class="o">*</span><span class="mi">2</span><span class="p">){</span>
+                <span class="kt">long</span> <span class="kt">long</span> <span class="n">cnt</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">g</span><span class="o">*</span><span class="mi">2</span><span class="p">);</span>
+                <span class="k">while</span><span class="p">(</span><span class="n">cnt</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">N</span><span class="p">)</span> <span class="o">--</span><span class="n">cnt</span><span class="p">;</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="n">cnt</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="n">cnt</span> <span class="o">*</span> <span class="n">res</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">((</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">g</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">))</span><span class="o">/</span><span class="n">g</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+                <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">))</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">g</span><span class="o">-</span><span class="n">i</span><span class="o">%</span><span class="n">g</span><span class="p">)</span><span class="o">%</span><span class="n">g</span><span class="p">))</span> <span class="o">/</span> <span class="n">g</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span><span class="c1">//}}}
+</span></pre></td></tr></tbody></table>
+</div>
+
+
+      <h3>Tags</h3>
+        <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
+        <div class='tag'><a href="../../tags/整数.html">整数</a></div>
+
+    <h3>Comments</h3>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+  var disqus_shortname = 'misawa';
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+  </body>
+</html>
