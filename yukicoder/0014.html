@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../index.html">top</a> </li>
-      <li> <a href="../aoj/index.html">aoj</a> </li>
+      <li> <a href="../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../topcoder/index.html">topcoder</a> </li>
       <li> <a href="index.html">yukicoder</a> </li>
+      <li> <a href="../aoj/index.html">aoj</a> </li>
       <li> <a href="../tags/index.html">tags</a> </li>
       <li> <a href="../other/index.html">other</a> </li>
     </ul>
@@ -69,15 +70,15 @@ ga('send', 'pageview');
   <a href="http://yukicoder.me/problems/38">問題文</a>
   <h3>概要</h3>
 
-<p>数列 $a<em>1, \dots, a</em>n$ が与えられる.
+<p>数列 $a_1, \dots, a_n$ が与えられる.
 $i = 1, \dots, n-1$ に対し, 次の操作を順に行う.</p>
 
 <ul>
-<li>$a<em>i$ を今の値で固定し, $a _ {i+1}, \dots, a</em>n$ を,
-$f _ {a<em>i}(x) = (\mathop{LCM}(a</em>i, x), x)$ の辞書順でソートし, 小さい順に番号を付け直す.</li>
+<li>$a_i$ を今の値で固定し, $a _ {i+1}, \dots, a_n$ を,
+$f _ {a_i}(x) = (\mathop{LCM}(a_i, x), x)$ の辞書順でソートし, 小さい順に番号を付け直す.</li>
 </ul>
 
-<p>最終的な $a<em>1, \dots, a</em>n$ を答えよ.</p>
+<p>最終的な $a_1, \dots, a_n$ を答えよ.</p>
 
 <h4>制約</h4>
 
@@ -89,7 +90,7 @@ $f _ {a<em>i}(x) = (\mathop{LCM}(a</em>i, x), x)$ の辞書順でソートし, �
 従って, 次の操作に対応する何かがあればよい:</p>
 
 <ul>
-<li><p>multiset 的なものを, $a<em>1, \dots, a</em>n$ で初期化.</p></li>
+<li><p>multiset 的なものを, $a_1, \dots, a_n$ で初期化.</p></li>
 <li><p>t が与えられるので, $f_t(x)$ の最も小さいものを一つ取り除き, 返す.</p></li>
 </ul>
 
@@ -102,11 +103,11 @@ $f _ {a<em>i}(x) = (\mathop{LCM}(a</em>i, x), x)$ の辞書順でソートし, �
 <li><p>あとは削除に対応すればよいが, set を使いたくはないので, 遅延しておく. (下のソースでいう <code>c</code> を使っている所)</p></li>
 </ul>
 
-<p>計算量は, $D$ を $A$ 以下の数の約数の個数の最大値として $O(N \sqrt{A} + N D).</p>
+<p>計算量は, $D$ を $A$ 以下の数の約数の個数の最大値として `$O(N \sqrt{A} + N D).</p>
 
-<p>ここで $\sqrt{A}$ の部分は約数列挙の所で, これは前処理 $O(N)$ で $O(D)$ に落とせるので, $O(ND)$ でも行ける.</p>
+<p>ここで $<code>\sqrt{A}</code>$ の部分は約数列挙の所で, これは前処理 $<code>O(N)</code>$ で $<code>O(D)</code>$ に落とせるので, $<code>O(ND)</code>$ でも行ける.</p>
 
-<p>$D$ は $o(A^\epsilon), \forall \epsilon &gt; 0$ とかだったハズで, ちっちゃい.
+<p>$<code>D$ は</code>$o(A^\epsilon), \forall \epsilon &gt; 0$` とかだったハズで, ちっちゃい.
 この辺, 解析的整数論のにおいがしてヤバいですね.</p>
 
 <h3>ソースコード</h3>

@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../../index.html">top</a> </li>
-      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../index.html">topcoder</a> </li>
       <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
       <li> <a href="../../tags/index.html">tags</a> </li>
       <li> <a href="../../other/index.html">other</a> </li>
     </ul>
@@ -81,10 +82,10 @@ ga('send', 'pageview');
 <h3>解法</h3>
 
 <p>Hall の結婚定理から, 二部グラフ $(L, R, E)$ に完全マッチングが存在しないための必要十分条件は,
-$$ \exists A \subset L : \abs{N(A)} &lt; \abs{A} $$
+$$ \exists A \subset L : \abs{N(A)} < \abs{A} $$
 である. ここで, $N(A)$ は $A$ に隣接する頂点の集合.</p>
 
-<p>一つ $A \subset L$ を固定し, 上の条件を $A$ で満たす, すなわち $\abs{N(A)} &lt; \abs{A}$ とする為に必要なコストを考える.</p>
+<p>一つ $A \subset L$ を固定し, 上の条件を $A$ で満たす, すなわち $\abs{N(A)} < \abs{A}$ とする為に必要なコストを考える.</p>
 
 <p>$\abs{N(A)}$ から $v \in R$ を取り除くのにかかるコストは, $\sum_{u \in A} c(u, v)$ だから, これでソートし, コストの高いもの $\abs{A}-1$ 個以外を取り除くことにすればよい.</p>
 

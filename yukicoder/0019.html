@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../index.html">top</a> </li>
-      <li> <a href="../aoj/index.html">aoj</a> </li>
+      <li> <a href="../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../topcoder/index.html">topcoder</a> </li>
       <li> <a href="index.html">yukicoder</a> </li>
+      <li> <a href="../aoj/index.html">aoj</a> </li>
       <li> <a href="../tags/index.html">tags</a> </li>
       <li> <a href="../other/index.html">other</a> </li>
     </ul>
@@ -70,8 +71,8 @@ ga('send', 'pageview');
   <h3>概要</h3>
 
 <p>$N$ 個のステージがあるゲームがある.
-ステージ $i$ をクリアするには, 基本的には $L<em>i$ だけ時間がかかるが,
-特定のステージ $S</em>i$ を既にクリアしている時だけ, $L_i/2$ の時間でクリア出来る.</p>
+ステージ $i$ をクリアするには, 基本的には $L_i$ だけ時間がかかるが,
+特定のステージ $S_i$ を既にクリアしている時だけ, $L_i/2$ の時間でクリア出来る.</p>
 
 <p>全ステージをクリアするのにかかる最短時間を求めよ.</p>
 
@@ -85,8 +86,8 @@ ga('send', 'pageview');
 すると, 各連結成分は, 内向き木の根から一本辺が伸びたような形になっている. (functional graph とか言うんだっけ)
 つまり, 有向閉路が一つあり, その閉路を縮約すると, 縮約した頂点を根とする内向き木になっている.</p>
 
-<p>閉路内は少なくとも一箇所は $L<em>i$ だけ時間をかけなければならないが,
-それ以外の閉路内の頂点は $L</em>i/2$ でよく,
+<p>閉路内は少なくとも一箇所は $L_i$ だけ時間をかけなければならないが,
+それ以外の閉路内の頂点は $L_i/2$ でよく,
 更に, グラフの形から, 同じ連結成分内の他の頂点も $L_i/2$ でよい.</p>
 
 <p>よって, 全部の和/2 + 各閉路の最小コストの頂点の和/2 が答えになる.</p>

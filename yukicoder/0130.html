@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../index.html">top</a> </li>
-      <li> <a href="../aoj/index.html">aoj</a> </li>
+      <li> <a href="../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../topcoder/index.html">topcoder</a> </li>
       <li> <a href="index.html">yukicoder</a> </li>
+      <li> <a href="../aoj/index.html">aoj</a> </li>
       <li> <a href="../tags/index.html">tags</a> </li>
       <li> <a href="../other/index.html">other</a> </li>
     </ul>
@@ -69,8 +70,8 @@ ga('send', 'pageview');
   <a href="http://yukicoder.me/problems/282">問題文</a>
   <h3>概要</h3>
 
-<p>非負整数数列 $a<em>1, \dots, a</em>n$ が与えられる.
-非負整数 $x$ に対し, $f(x) = \max{ a<em>1 \oplus x, \dots, a</em>n \oplus x}$ とする.
+<p>非負整数数列 $a_1, \dots, a_n$ が与えられる.
+非負整数 $x$ に対し, $f(x) = \max\{ a_1 \oplus x, \dots, a_n \oplus x\}$ とする.
 $\min f(x)$ を求めよ.</p>
 
 <h4>制約</h4>
@@ -79,10 +80,10 @@ $\min f(x)$ を求めよ.</p>
 
 <h3>解法</h3>
 
-<p>$a<em>1, \dots, a</em>n$ の中に $d$ ビット目が $0$ のものも $1$ のものもあるようなもののうち, 最大の $d$ をとる.
+<p>$a_1, \dots, a_n$ の中に $d$ ビット目が $0$ のものも $1$ のものもあるようなもののうち, 最大の $d$ をとる.
 すると, どんな $x$ を取っても, $f(x)$ の $d$ ビット目は $1$ になる.</p>
 
-<p>$x$ の $d$ ビット目を $0$ にすると, $f(x) = a<em>i \oplus x$ となる $a</em>i$ の候補は $d$ ビット目が $1$ のもののみで, それ以外は考慮しなくてよい.</p>
+<p>$x$ の $d$ ビット目を $0$ にすると, $f(x) = a_i \oplus x$ となる $a_i$ の候補は $d$ ビット目が $1$ のもののみで, それ以外は考慮しなくてよい.</p>
 
 <p>同様に, $x$ の $d$ ビット目を $1$ にすると, $d$ ビット目が $0$ な $a_i$ のみが候補になる.</p>
 

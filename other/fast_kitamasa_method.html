@@ -43,9 +43,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../index.html">top</a> </li>
-      <li> <a href="../aoj/index.html">aoj</a> </li>
+      <li> <a href="../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../topcoder/index.html">topcoder</a> </li>
       <li> <a href="../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../aoj/index.html">aoj</a> </li>
       <li> <a href="../tags/index.html">tags</a> </li>
       <li> <a href="index.html">other</a> </li>
     </ul>
@@ -63,10 +64,10 @@ ga('send', 'pageview');
         </li>
     </ul>
 
-        <div style="display:none">$$
+        <div style="display:none">`$$
 \newcommand{\seq}[1]{\left(\,#1\,\right)}
 \newcommand{\pos}[2]{\stackrel{#1}{\stackrel{\smile}{#2}}}
-$$</div>
+$$`</div>
 
 <h1>高速 Kitamasa 法</h1>
 
@@ -220,12 +221,12 @@ $$
 c * c' = (-1, 0, \dots, \pos{k}{0}, *, \dots, \pos{2k}{*})
 $$
 なる数列とする.
-実は, この $c'$ は, $a_{2k}$ を多項式剰余で求めるときの商を表しており, $c * c&#39;$ の $k+1$ 項目以降の部分は $b_{2k}$ を表している.</p>
+実は, この $c'$ は, $a_{2k}$ を多項式剰余で求めるときの商を表しており, $c * c'$ の $k+1$ 項目以降の部分は $b_{2k}$ を表している.</p>
 
 <p>多項式の言葉でいうと, $-c'$ は, $g(t)$ の係数を逆順にした多項式 $g(1/t)t^k$ の &quot;逆多項式&quot; の近似である.
 この $c'$ を用いて, 多項式環上の Montgomery 剰余算のようなものをするのが, 今回紹介するアルゴリズムである.</p>
 
-<p>この $c&#39;$ の計算方法は後で紹介することにして, 今は, 既に求めたものとして話を進めよう.</p>
+<p>この $c'$ の計算方法は後で紹介することにして, 今は, 既に求めたものとして話を進めよう.</p>
 
 <p>Kitamasa 法のボトルネックは,
 $$\begin{align}

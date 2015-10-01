@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../../index.html">top</a> </li>
-      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../index.html">topcoder</a> </li>
       <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
       <li> <a href="../../tags/index.html">tags</a> </li>
       <li> <a href="../../other/index.html">other</a> </li>
     </ul>
@@ -97,8 +98,8 @@ Alice が頂点 $u$ に居て, Bob が残り $k$ 回邪魔出来る時の結果�
 <p>$\mathrm{dp}[0]$ は, $n-1$ からの $H$ での最短路長の配列である.</p>
 
 <p>$\mathrm{dp}[k-1]$ が定まっている時,
-- $\mathrm{dp}[k][u]$ は $\max<em>{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.
-- $\mathrm{dp}[k][u]$ は, $\min</em>{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.
+- $\mathrm{dp}[k][u]$ は $\max_{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.
+- $\mathrm{dp}[k][u]$ は, $\min_{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.
 の二つを満たすよな最小のものを, $\mathrm{dp}[k][u]$ とすればよい.</p>
 
 <p>後者が難しいが, 「後者だけで dijkstra 法をしつつ, 今確定する頂点が前者を満たさなければ, 前者を満たすように置き換える」という戦略でよい.

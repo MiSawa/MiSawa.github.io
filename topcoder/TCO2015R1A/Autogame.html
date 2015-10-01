@@ -45,9 +45,10 @@ ga('send', 'pageview');
   <div id='menu'>
     <ul>
       <li> <a href="../../index.html">top</a> </li>
-      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
       <li> <a href="../index.html">topcoder</a> </li>
       <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
       <li> <a href="../../tags/index.html">tags</a> </li>
       <li> <a href="../../other/index.html">other</a> </li>
     </ul>
@@ -74,7 +75,7 @@ ga('send', 'pageview');
 <p>自然数 $k$ を指定した時, 各頂点 $v$ に対し, $v$ を始点とする長さ $k$ の walk の終点 $v^k$ が一意に定まる.
 これを $k$ ターン後の頂点と呼ぶ.</p>
 
-<p>頂点の部分集合 $\{v<em>i\}$ で, $0 \le j \le k$ なる任意の $j$ で $v</em>i^j$ が distinct なものの個数を求めよ.</p>
+<p>頂点の部分集合 $\\{v_i\\}$ で, $0 \le j \le k$ なる任意の $j$ で $v_i^j$ が distinct なものの個数を求めよ.</p>
 
 <h4>制約</h4>
 
@@ -84,7 +85,7 @@ ga('send', 'pageview');
 
 <p>一回同じ頂点になったらその後もずっと同じ頂点だから, $k$ ターン後の頂点 $v_i^k$ が distinct であればよい.</p>
 
-<p>$n$ ターン以内にループに入るから, $\min\{n, k\}$ ターンのシミュレートを行うと, $k$ ターン後に同じ頂点になるような頂点達がわかる.</p>
+<p>$n$ ターン以内にループに入るから, $\min\\{n, k\\}$ ターンのシミュレートを行うと, $k$ ターン後に同じ頂点になるような頂点達がわかる.</p>
 
 <p>これら, $k$ ターン後に同じ頂点になるやつらは, そのうち一つ選ぶか, 一つも選ばないかの $k+1$ 通りの選び方がある.
 同じにならないやつらとは独立なので, それらを掛けあわせればいい.</p>
