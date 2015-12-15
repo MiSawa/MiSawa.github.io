@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>誤差と戦う小手先のテク - みさわめも</title>
+
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
+    <script src="../../javascripts/base.js" type="text/javascript"></script>
+      <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
+<script type="text/javascript">
+Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
+Hatena.Star.SiteConfig = {
+  entryNodes: {
+    'div#main' : {
+      uri: 'document.location',
+      title: 'document.title',
+      container: 'span.hatena_star'
+    }
+  }
+};
+</script>
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+      <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-25117970-3', 'misawa.github.io');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+      </script>
+  </head>
+
+  <body class='other other_avoid_error other_avoid_error_technique_to_avoid_error'>
+  <div id='menu'>
+    <ul>
+      <li> <a href="../../index.html">top</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
+      <li> <a href="../../topcoder/index.html">topcoder</a> </li>
+      <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../tags/index.html">tags</a> </li>
+      <li> <a href="../index.html">other</a> </li>
+    </ul>
+  </div>
+
+  <div id='main'>
+    <ul class="social_button_box">
+        <li class="social_button" style="">
+          <span class="hatena_star"></span>
+
+        </li>
+        <li class="social_button" style="">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-via="Mi_Sawa" data-dnt="true">Tweet</a>
+
+        </li>
+    </ul>
+
+        <div style="display:none">`$$
+\newcommand{\floor}[1]{\lfloor\,#1\,\rfloor}
+$$`</div>
+
+<p>この記事は, <a href="http://www.adventar.org/calendars/1165">Competitive Programming （その2） Advent Calendar 2015</a> の 12/16 の記事として書かれました.
+12/15 の記事は iwashi31 さんの <a href="http://iwashi31.hatenablog.com/entry/2015/12/15/235026">ゲームAIコンテストのすすめ</a> で, 12/17 の記事は Respect2D さんの <a href="TODO">多分、Clar通知とか(hasiさんいなければ)風船システムのことについて書きます</a> です.</p>
+
+<h2>イントロ</h2>
+
+<p>競技プログラミングでは, 特に計算幾何の問題を解くときなど, 誤差が襲い掛かってくる場面があります.
+そのとき, 最も簡単な選択肢は &quot;その問題から逃げる&quot; ことで, 実際その選択が正しい場合もあります.
+しかし, 時には戦わなければならず, 戦うための道具を知っておくことは重要です.</p>
+
+<p>ということで, 僕が知っている, 誤差との戦うための &quot;競技プログラミングにおける&quot; 小手先のテクニックを, いくつか紹介したいと思います.</p>
+
+<p>具体的には,</p>
+
+<ul>
+<li>誤差が辛い問題かの判定や, 誤差が出ると辛い場所を見つけるときの, 自分の基本的な思考経路,</li>
+<li>誤差が辛そうなとき, それをどうやって克服するか</li>
+</ul>
+
+<p>の二点について書きました.</p>
+
+<p>相対誤差/絶対誤差などに踏み込んだ話や, &quot;こうすれば絶対大丈夫&quot; とかいう話ではなく, &quot;経験的にこうすると避けられる事が多い&quot; 程度の話です.</p>
+
+<p>何度か戦った経験のある人は大体知っているかもしれませんが, ご容赦下さい.</p>
+
+<h2>大前提</h2>
+
+<p>まず, <code>long double</code> や <code>__float128</code> など, 精度の高い型を使うのが最初に考えるべきこと.</p>
+
+<p>特に計算幾何の問題など, 計算時間に余裕がある問題では, これをするデメリットは無いので, 誤差を気にしなくてよいときでも, とりあえずそうしておくべき.</p>
+
+<h2>誤差と戦うべきか</h2>
+
+<p>もちろん, &quot;てきとーにやってもなんとかなる&quot; 場合は, 誤差をあまり気にせず, てきとーに書いて済ませたい.
+その為には, &quot;てきとーにやってもなんとかなる&quot; かを判断出来なければならない.</p>
+
+<p>基本的な判断基準は, &quot;最終的な出力にどれだけ影響するか&quot; ということ.
+イメージは, 出力を, 誤差が出そうな計算の項で微分するような感じ.</p>
+
+<h3>例: 極座標</h3>
+
+<p>例えば, 出力の座標ベクトル $(x, y)$ を, $(x, y) = (r \cos \theta, r \sin \theta)$ として, $r$ と $\theta$ で管理しているとしよう.</p>
+
+<p>$(x, y)$ を $r$ で微分すると $(\cos \theta, \sin \theta)$ だから, $r$ が $\epsilon$ 変わると $(x, y)$ は大体 $\epsilon (\cos \theta, \sin \theta)$ だけ変わる.
+$-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力に同じくらいのオーダーでしか影響しないことが解る.</p>
+
+<p>一方で, $(x, y)$ を $\theta$ で微分すると $(-r \sin \theta, r \cos \theta)$ だから, $\theta$ が $\epsilon$ 変わると, $(x, y)$ は大体 $\epsilon (-r \sin \theta, r \cos \theta)$ だけ変わる.
+従って, $\theta$ への誤差は, 出力に $r$ 倍くらいの影響を与える.</p>
+
+<p>もちろん, これは絶対誤差の意味で, 相対誤差は同じオーダーになる.</p>
+
+<h3>例: 四捨五入</h3>
+
+<p>連続から離散にする時には, かなり注意が必要である.
+例えば, 出力は整数だが, それを最後まで浮動小数点数で計算している場合を考えよう.</p>
+
+<p>誤差が無く, $x$ が整数を表しているならば, 単なる切り捨て $\floor{x}$ と四捨五入 $\floor{x + 0.5}$ は同じだが, 普通は四捨五入をして出力する.</p>
+
+<p>これらの違いは &quot;不連続点がどこにあるか&quot; にある.</p>
+
+<p>切り捨ては $x$ が整数の場所で不連続であり, 後者は $x$ が整数 $+ 0.5$ の場所で不連続であり, 不連続な点を, $x$ のとりうる値である整数 $\pm \epsilon$ からずらしている.</p>
+
+<p>これにより, 整数 $\pm \epsilon$ における微係数を $0$ にできる.</p>
+
+<p>今回は, $x$ の取りうる値が整数 $\pm \epsilon$ のような所であることを利用できたが, 例えば &quot;$x$ に対し, $\floor{\tan x}$ を答えよ&quot; のような状況では, どうしようもない.</p>
+
+<h3>例: min と argmin</h3>
+
+<p>三分探索をするとき, &quot;$f(x)$ の最小値は求めやすいが, 最小値を与える $x$ を求めるのは誤差が辛い&quot; ことが多いというのを知っている人は多いと思う.</p>
+
+<p>これは, $f(x)$ の最小値を与える $x$ での微係数が $0$ だと, その付近ではほぼ同じ値を取るため, $f$ を求めるときの誤差に影響を受けやすいからである.</p>
+
+<p>似たように, &quot;$p \in S$ を選び, $f(p)$ を最小にする&quot; 系の問題で, 最小値を求めるのはよいが, 最小値を与える $p \in S$ を求めるのは誤差が辛いことがある.</p>
+
+<h3>例: 一致判定, 大小比較</h3>
+
+<p>$|x - y| < \epsilon$ で一致判定をしたり, $x < y - \epsilon$ と $x > y + \epsilon$ で大小比較をすることが, 非常によくある.</p>
+
+<p>これはもちろん, &quot;あまりに近い数は無い&quot; 場合や, &quot;非常に近い場合はどんな結果を返してもよい&quot; 場合にしか使えない.</p>
+
+<p>ちなみに, よくこれで比較するのを数カ所忘れたりするが, それを防止するのに, 次のような関数を定義し, いつもこれを利用して比較するようにするとよい.</p>
+<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</pre></td><td class="code"><pre><span class="k">using</span> <span class="n">R</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">double</span><span class="p">;</span>
+<span class="n">constexpr</span> <span class="n">R</span> <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1E-11</span><span class="p">;</span>
+
+<span class="c1">// r の(誤差付きの)符号に従って, -1, 0, 1 を返す.
+</span><span class="kt">int</span> <span class="n">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">r</span><span class="p">){</span> <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">EPS</span><span class="p">);</span> <span class="p">}</span>
+<span class="c1">// a, b の(誤差付きの)大小比較の結果に従って, -1, 0, 1 を返す.
+</span><span class="kt">int</span> <span class="n">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">R</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span> <span class="k">return</span> <span class="n">sgn</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="c1">// a &gt; 0 は sgn(a) &gt; 0
+// a &lt; b は sgn(a, b) &lt; 0
+// a &gt;= b は sgn(a, b) &gt;= 0
+// のように書く.
+</span></pre></td></tr></tbody></table>
+</div>
+
+<h2>誤差と戦う道具</h2>
+
+<p>基本的な道具とその特徴を, 表に纏めた.
+それぞれ, 表そうとするもの(例えば実数全体 $\mathbb{R}$ )があり, それを妥協(有限精度)している.</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center">道具</th>
+<th style="text-align: center">何を表すか</th>
+<th style="text-align: center">妥協したところ</th>
+<th style="text-align: center">出来ない/難しいこと</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">浮動小数点数</td>
+<td style="text-align: center">実数</td>
+<td style="text-align: center">精度</td>
+<td style="text-align: center">一致判定, 大小比較</td>
+</tr>
+<tr>
+<td style="text-align: center">整数型</td>
+<td style="text-align: center">整数</td>
+<td style="text-align: center">オーバーフロー</td>
+<td style="text-align: center">除算, 他</td>
+</tr>
+<tr>
+<td style="text-align: center">有理数型</td>
+<td style="text-align: center">有理数</td>
+<td style="text-align: center">分母子のオーバーフロー</td>
+<td style="text-align: center">平方根, 三角関数, 他</td>
+</tr>
+<tr>
+<td style="text-align: center">$\bmod p$</td>
+<td style="text-align: center">$\mathbb{F}_p$</td>
+<td style="text-align: center">なし</td>
+<td style="text-align: center">大小比較, 平方根, 三角関数, 他</td>
+</tr>
+</tbody></table>
+
+<p>だいたい, このうち一つを使うか, 浮動小数点数ともう一つを組み合わせて使うことが多い.</p>
+
+<p>組み合わせて使う場合も,</p>
+
+<ul>
+<li>クリティカルな場所だけ他の型を使う,</li>
+<li>同じことを複数の型で計算する</li>
+</ul>
+
+<p>の二通りがある.</p>
+
+<h3>浮動小数点数</h3>
+
+<p>これで済むならそれでよい.
+一致判定や大小比較は, 近すぎる数があると難しい.</p>
+
+<p><code>eps</code> をてきとーに調節して誤魔化すのは常套手段.</p>
+
+<h3>整数</h3>
+
+<p>入力が整数で, 途中計算で割り算や平方根などを使わない上に, 途中結果が大き過ぎない場合は, <code>int</code>, <code>long long</code> や <code>__int128</code> などの整数型を使うことを検討する.</p>
+
+<p>平方根を扱う代わりに自乗を持っておくテクニック (例えば, $\sqrt{a^2 + b^2}$ と $c$ の比較を $a^2 + b^2$ と $c^2$ の比較で行う) などで, 整数の演算に還元することもよくある.</p>
+
+<h3>有理数</h3>
+
+<p>整数の場合に加えて割り算を扱える.
+これにより, 点と直線の距離や, 直線同士の交点などを扱うことができる.</p>
+
+<p>大小比較でオーバーフローしないように注意. ( <a href="compare_fractions.html">ここ</a> を参照)</p>
+
+<h3>$\bmod p$</h3>
+
+<p>大きい素数 $p$ を取り, 全て $p$ で割った余りで計算する.
+$p$ で割り切れない数での割り算までなら出来る.</p>
+
+<p>オーバーフローせずに, (差が $p$ で割りきれてしまう場合を除いて)一致判定ができるのが重要.
+浮動小数点数と同時に同じ計算を $\bmod p$ で行い, ハッシュのようにして使うことが多い.</p>
+
+<p>複数の $p$ を用いることで, &quot;実際は異なるが同じと判定してしまう&quot; 確率を下げられる. (中国式剰余定理)</p>
+
+<p>有理数より実装が楽なので, 大小比較が無いなら, こちらを選択することも考えるべき.</p>
+
+<p>例えば, (それぞれ格子点二点ずつで指定された)三直線が一点で交わるかを判定することを考えよう.</p>
+
+<p>一番簡単に思いつくのは, 二直線の交点を取り, それがもう一本の直線の上にあるかを判定する方法や, 異なるペアで交点をとり, それらが一致するかを判定する方法だろう.
+しかし, これを実数で計算するのは, 誤差が怖い.</p>
+
+<p>このようなときは, 入力の $\bmod p$ を取り, 交点の座標を $\bmod p$ で計算し, 直線上かの判定や点の一致判定も $\bmod p$ で行なってしまえばよい.</p>
+
+<h2>例: Shortest Bridge</h2>
+
+<p>問題文は<a href="http://jag2015autumn.contest.atcoder.jp/tasks/icpc2015autumn_i">こちら</a>.</p>
+
+<pre class='fold_button'>ネタバレを含むので折りたたみ</pre>
+
+<pre class='fold_begin'></pre>
+
+<p>この問題は, 大雑把にいうと二つのパートにわかれる.</p>
+
+<ol>
+<li><p>橋の長さが最も短くなるような橋の候補を列挙する.</p></li>
+<li><p>上で列挙した各橋について, 始点から橋の西側, 橋の東側から終点の最短距離をそれぞれ求め, その和の最小値を求める.</p></li>
+</ol>
+
+<p>前半パートは, &quot;橋の長さの最小値&quot; ではなく, &quot;橋の長さが最小となるような橋を列挙せよ&quot; というタイプである.
+ここで誤差が出ると, &quot;橋の長さが最も短い&quot; という条件を満たさない候補が紛れ込む.</p>
+
+<p>橋の長さが近いからといって, 始点から橋の西側, 橋の東側から終点の最短距離の和が近いとは限らないため, 前半パートの誤差は答えに大きな影響を及ぼす可能性があり, 前半パートで誤差を出さないことは重要である.</p>
+
+<p>一方, 後半パートでは, &quot;全体の道のりが最小となる橋の位置を求めよ&quot; ではなく &quot;全体の道のりの最小値を求めよ&quot; なので, ここでの誤差が答えに及ぼす影響は大きくならない. (出た誤差と同程度.)</p>
+
+<p>実は, この問題では <code>long double</code> と小さめの <code>eps</code> を使うと通る(ことがある)が, 不安な場合は, 前半パートだけ, 誤差と戦えばよい.</p>
+
+<p>前半パートでは, 点と点, 点と直線の距離を列挙し, その比較をすることになる.
+これらは自乗すると有理数(入力の加減乗除のみで表せる)だから, 自乗したものを比較することにする.</p>
+
+<p>今回の場合, &quot;大小比較&quot; が出来なければならず, 除算もあるから, 有理数で扱うとよい.</p>
+
+<p>少し計算すればわかるが, これは分母子を 64 bit の整数型で表した有理数型で扱える範囲の数になる.
+<pre class='fold_end'></pre></p>
+
+<h2>おわり</h2>
+
+<p>12/15 の記事は iwashi31 さんの <a href="http://iwashi31.hatenablog.com/entry/2015/12/15/235026">ゲームAIコンテストのすすめ</a> で, 12/17 の記事は Respect2D さんの <a href="TODO">多分、Clar通知とか(hasiさんいなければ)風船システムのことについて書きます</a> です.</p>
+
+
+      <h3>Tags</h3>
+        <div class='tag'><a href="../../tags/誤差.html">誤差</a></div>
+
+    <h3>Comments</h3>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+  var disqus_shortname = 'misawa';
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+  </body>
+</html>
