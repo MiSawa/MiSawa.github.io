@@ -119,7 +119,7 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 <p>一方で, $(x, y)$ を $\theta$ で微分すると $(-r \sin \theta, r \cos \theta)$ だから, $\theta$ が $\epsilon$ 変わると, $(x, y)$ は大体 $\epsilon (-r \sin \theta, r \cos \theta)$ だけ変わる.
 従って, $\theta$ への誤差は, 出力に $r$ 倍くらいの影響を与える.</p>
 
-<p>例えば, 角度に $\mathit{EPS}$ くらいの誤差が乗りうる状況(角度を $\mathit{EPS}$ で摂動したなど)では, 座標になおすと $r \mathit{EPS}$ 程度の誤差になるから, 座標に対して同じ $\mathit{EPS}$ を使う操作はするべきではない.</p>
+<p>例えば, 角度に $\mathit{EPS}$ くらいの誤差が乗りうる状況(角度を $\mathit{EPS}$ で摂動したなど)では, 座標になおすと $r * \mathit{EPS}$ 程度の誤差になるから, 座標に対して同じ $\mathit{EPS}$ を使う操作はするべきではない.</p>
 
 <p>もちろん, これは絶対誤差の意味で, 相対誤差は同じオーダーになる.</p>
 
