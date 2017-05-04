@@ -1,4 +1,4 @@
-document.write("<script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured'></script>")
+document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured'></script>")
 document.write("<meta http-equiv='X-UA-Compatible' CONTENT='IE=EmulateIE7'/>")
 document.write("<script type='text/javascript'>(" + function(){
 MathJax.Hub.Config({
