@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM585 Div1 Med 500 LISNumber - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -99,7 +99,7 @@ ga('send', 'pageview');
 <p>あとは, &quot;既にある IS の最後に挿入する&quot; をいくつやるか固定して, 他の部分は重複組合せする.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -133,12 +133,13 @@ ga('send', 'pageview');
 32
 33
 34
-35</pre></td><td class="code"><pre>
-<span class="c1">// 285.00 pts
-</span>
-<span class="n">constexpr</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">1000000007</span><span class="p">;</span>
+35
+</pre></td><td class="rouge-code"><pre>
+<span class="c1">// 285.00 pts</span>
+
+<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">1000000007</span><span class="p">;</span>
 <span class="kt">int</span> <span class="n">LISNumber</span><span class="o">::</span><span class="n">count</span><span class="p">(</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cardsnum</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span> <span class="p">){</span>
-    <span class="n">constexpr</span> <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">;</span>
+    <span class="k">constexpr</span> <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">;</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
     <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">T</span><span class="p">){</span>
         <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
@@ -157,8 +158,8 @@ ga('send', 'pageview');
                 <span class="k">const</span> <span class="kt">int</span> <span class="n">numone</span> <span class="o">=</span> <span class="n">cardsnum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">numzero</span><span class="p">;</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">numone</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
                 <span class="kt">long</span> <span class="kt">long</span> <span class="n">cnt</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">prev</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="n">zero</span><span class="p">][</span><span class="n">numzero</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-                <span class="c1">// one と, 入れた zero の後ろ
-</span>                <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">numzero</span><span class="p">;</span>
+                <span class="c1">// one と, 入れた zero の後ろ</span>
+                <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">numzero</span><span class="p">;</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">numone</span> <span class="o">+</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">t</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">*=</span> <span class="n">C</span><span class="p">[</span><span class="n">numone</span> <span class="o">+</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">numone</span><span class="p">])</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
                 <span class="k">if</span><span class="p">(</span><span class="n">prev</span> <span class="o">+</span> <span class="n">numone</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span> <span class="p">(</span><span class="n">qb</span><span class="p">[</span><span class="n">prev</span> <span class="o">+</span> <span class="n">numone</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cnt</span><span class="p">)</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
@@ -168,9 +169,7 @@ ga('send', 'pageview');
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">K</span><span class="p">];</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

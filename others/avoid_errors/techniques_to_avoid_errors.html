@@ -9,8 +9,8 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>誤差と戦う小手先のテク - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -153,7 +153,7 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 <p>これはもちろん, &quot;あまりに近い数は無い&quot; 場合や, &quot;非常に近い場合はどんな結果を返してもよい&quot; 場合にしか使えない.</p>
 
 <p>ちなみに, よくこれで比較するのを数カ所忘れたりするが, それを防止するのに, 次のような関数を定義し, いつもこれを利用して比較するようにするとよい.</p>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -164,21 +164,20 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 9
 10
 11
-12</pre></td><td class="code"><pre><span class="k">using</span> <span class="n">R</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">double</span><span class="p">;</span>
-<span class="n">constexpr</span> <span class="n">R</span> <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1E-11</span><span class="p">;</span>
+12
+</pre></td><td class="rouge-code"><pre><span class="k">using</span> <span class="n">R</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">double</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="n">R</span> <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1E-11</span><span class="p">;</span>
 
-<span class="c1">// r の(誤差付きの)符号に従って, -1, 0, 1 を返す.
-</span><span class="kt">int</span> <span class="n">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">r</span><span class="p">){</span> <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">EPS</span><span class="p">);</span> <span class="p">}</span>
-<span class="c1">// a, b の(誤差付きの)大小比較の結果に従って, -1, 0, 1 を返す.
-</span><span class="kt">int</span> <span class="n">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">R</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span> <span class="k">return</span> <span class="n">sgn</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span> <span class="p">}</span>
+<span class="c1">// r の(誤差付きの)符号に従って, -1, 0, 1 を返す.</span>
+<span class="kt">int</span> <span class="nf">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">r</span><span class="p">){</span> <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">EPS</span><span class="p">);</span> <span class="p">}</span>
+<span class="c1">// a, b の(誤差付きの)大小比較の結果に従って, -1, 0, 1 を返す.</span>
+<span class="kt">int</span> <span class="nf">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">R</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span> <span class="k">return</span> <span class="n">sgn</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span> <span class="p">}</span>
 
-<span class="c1">// a &gt; 0 は sgn(a) &gt; 0
-// a &lt; b は sgn(a, b) &lt; 0
-// a &gt;= b は sgn(a, b) &gt;= 0
-// のように書く.
-</span></pre></td></tr></tbody></table>
-</div>
-
+<span class="c1">// a &gt; 0 は sgn(a) &gt; 0</span>
+<span class="c1">// a &lt; b は sgn(a, b) &lt; 0</span>
+<span class="c1">// a &gt;= b は sgn(a, b) &gt;= 0</span>
+<span class="c1">// のように書く.</span>
+</pre></td></tr></tbody></table></code></pre></div>
 <h2>誤差と戦う道具</h2>
 
 <p>基本的な道具とその特徴を, 表に纏めた.

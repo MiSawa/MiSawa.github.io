@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM583 Div1 Med 500 TurnOnLamps - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -94,7 +94,7 @@ ga('send', 'pageview');
 <p>これは, &quot;$ u $ から上に $ 2 $ 本出すのは, $ u $ でその二本を結び, 上で必要だった $ 2 $ 本を結んでも同じことだから&quot; という感じで示せる.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -130,17 +130,18 @@ ga('send', 'pageview');
 34
 35
 36
-37</pre></td><td class="code"><pre>
-<span class="c1">// 310.71 pts
-</span>
-<span class="k">struct</span> <span class="n">E</span><span class="p">{</span>
+37
+</pre></td><td class="rouge-code"><pre>
+<span class="c1">// 310.71 pts</span>
+
+<span class="k">struct</span> <span class="nc">E</span><span class="p">{</span>
     <span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">state</span><span class="p">;</span>
 <span class="p">};</span>
 
 <span class="k">const</span> <span class="kt">int</span> <span class="n">inf</span> <span class="o">=</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">25</span><span class="p">;</span>
 <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">g</span><span class="p">){</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">and</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span> <span class="c1">// leaf
-</span>        <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">and</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span> <span class="c1">// leaf</span>
+        <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
         <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">dp</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
@@ -167,9 +168,7 @@ ga('send', 'pageview');
     <span class="k">auto</span> <span class="n">res</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">g</span><span class="p">);</span>
     <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>yukicoder 0017 2つの地点に泊まりたい - みさわめも</title>
 
-    <link href="../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../javascripts/base.js" type="text/javascript"></script>
-        <script src="../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../stylesheets/normalize.css" rel="stylesheet" /><link href="../stylesheets/all.css" rel="stylesheet" /><link href="../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../javascripts/base.js"></script>
+        <script src="../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -89,7 +89,7 @@ path 上の全ての辺重みと, $u$, $v$ の頂点重みの和で定める.</p
 $O(n^3)$.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -107,7 +107,8 @@ $O(n^3)$.</p>
 16
 17
 18
-19</pre></td><td class="code"><pre><span class="n">bool</span> <span class="n">solve</span><span class="p">(){</span>
+19
+</pre></td><td class="rouge-code"><pre><span class="kt">bool</span> <span class="nf">solve</span><span class="p">(){</span>
     <span class="kt">int</span> <span class="n">n</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="k">for</span><span class="p">(</span><span class="n">aur</span> <span class="n">x</span> <span class="o">:</span> <span class="n">s</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">;</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">g</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">()</span><span class="o">/</span><span class="mi">4</span><span class="p">));</span>
@@ -126,9 +127,7 @@ $O(n^3)$.</p>
     <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
     <a href="src/0017.cc">download full source code</a>
 
       <h3>Tags</h3>

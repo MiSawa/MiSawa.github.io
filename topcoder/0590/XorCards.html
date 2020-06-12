@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM590 Div1 Med 500 XorCards - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -91,7 +91,7 @@ $X$ 未満の数というのは, $X$ と $i+1$ 桁目以降一致しているが
 <p>せっかくだから二進行列ライブラリ作ろうと思ったけど, バグってつらかったので, 普通の行列ライブラリに投げた.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -138,14 +138,15 @@ $X$ 未満の数というのは, $X$ と $i+1$ 桁目以降一致しているが
 45
 46
 47
-48</pre></td><td class="code"><pre><span class="c1">// 176.71 pts
-</span>
+48
+</pre></td><td class="rouge-code"><pre><span class="c1">// 176.71 pts</span>
+
 <span class="k">typedef</span> <span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
 <span class="k">const</span> <span class="n">num</span> <span class="n">EPS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 <span class="k">typedef</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">num</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
 <span class="k">typedef</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vec</span><span class="o">&gt;</span> <span class="n">mat</span><span class="p">;</span>
-<span class="n">num</span> <span class="n">rank</span><span class="p">(</span><span class="n">mat</span> <span class="n">A</span><span class="p">){</span><span class="c1">//{{{
-</span>    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">num</span> <span class="nf">rank</span><span class="p">(</span><span class="n">mat</span> <span class="n">A</span><span class="p">){</span><span class="c1">//{{{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">m</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
     <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
         <span class="kt">int</span> <span class="n">piv</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
@@ -161,8 +162,8 @@ $X$ 未満の数というのは, $X$ と $i+1$ 桁目以降一致しているが
         <span class="o">++</span><span class="n">r</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
-<span class="p">}</span><span class="c1">//}}}
-</span>
+<span class="p">}</span><span class="c1">//}}}</span>
+
 
 <span class="kt">long</span> <span class="kt">long</span> <span class="n">XorCards</span><span class="o">::</span><span class="n">numberOfWays</span><span class="p">(</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span> <span class="n">number</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">limit</span> <span class="p">){</span>
     <span class="o">++</span><span class="n">limit</span><span class="p">;</span>
@@ -178,7 +179,7 @@ $X$ 未満の数というのは, $X$ と $i+1$ 桁目以降一致しているが
         <span class="kt">int</span> <span class="n">rb</span> <span class="o">=</span> <span class="o">::</span><span class="n">rank</span><span class="p">(</span><span class="n">B</span><span class="p">);</span>
         <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
         <span class="n">rep</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="mi">60</span><span class="p">){</span>
-            <span class="n">bool</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="kt">bool</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
             <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="n">ok</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
             <span class="n">c</span> <span class="o">+=</span> <span class="n">ok</span><span class="p">;</span>
         <span class="p">}</span>
@@ -186,9 +187,7 @@ $X$ 未満の数というのは, $X$ と $i+1$ 桁目以降一致しているが
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

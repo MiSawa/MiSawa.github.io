@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder TCO2015R1A Div1 Medium 500 Autogame - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -94,7 +94,7 @@ ga('send', 'pageview');
 当然, 連結成分は完全グラフになるので探索は一瞬で終了し, AC はする.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -151,16 +151,17 @@ ga('send', 'pageview');
 55
 56
 57
-58</pre></td><td class="code"><pre><span class="n">constexpr</span> <span class="n">ll</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
+58
+</pre></td><td class="rouge-code"><pre><span class="k">constexpr</span> <span class="n">ll</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
 
-<span class="k">struct</span> <span class="n">UnionFind</span><span class="p">{</span> <span class="c1">//{{{
-</span>    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">par</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">UnionFind</span><span class="p">{</span> <span class="c1">//{{{</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">par</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">cnt</span><span class="p">;</span>
     <span class="n">UnionFind</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">){</span><span class="n">init</span><span class="p">(</span><span class="n">x</span><span class="p">);}</span>
     <span class="kt">void</span> <span class="n">init</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">){</span><span class="n">par</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cnt</span> <span class="o">=</span> <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);}</span>
     <span class="kr">inline</span> <span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">){</span> <span class="k">return</span> <span class="n">par</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">?</span> <span class="n">x</span> <span class="o">:</span> <span class="n">par</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">par</span><span class="p">[</span><span class="n">x</span><span class="p">]);</span> <span class="p">}</span>
-    <span class="kr">inline</span> <span class="n">bool</span> <span class="n">same</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">){</span> <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">find</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
-    <span class="kr">inline</span> <span class="n">bool</span> <span class="n">unite</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">){</span>
+    <span class="kr">inline</span> <span class="kt">bool</span> <span class="n">same</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">){</span> <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">find</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="p">}</span>
+    <span class="kr">inline</span> <span class="kt">bool</span> <span class="n">unite</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">){</span>
         <span class="k">if</span><span class="p">((</span><span class="n">x</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
         <span class="o">--</span><span class="n">cnt</span><span class="p">;</span>
         <span class="k">if</span><span class="p">(</span><span class="n">par</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">par</span><span class="p">[</span><span class="n">y</span><span class="p">])</span> <span class="n">swap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
@@ -171,9 +172,9 @@ ga('send', 'pageview');
     <span class="kr">inline</span> <span class="kt">int</span> <span class="n">count</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">cnt</span><span class="p">;</span> <span class="p">}</span>
     <span class="kr">inline</span> <span class="kt">int</span> <span class="n">count</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">){</span> <span class="k">return</span> <span class="o">-</span><span class="n">par</span><span class="p">[</span><span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">)];</span> <span class="p">}</span>
 <span class="p">};</span>
-<span class="c1">//}}}
-</span>
-<span class="n">ll</span> <span class="n">dfs</span><span class="p">(</span><span class="n">ll</span> <span class="n">mask</span><span class="p">,</span> <span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="n">ll</span> <span class="n">ng</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">g</span><span class="p">){</span>
+<span class="c1">//}}}</span>
+
+<span class="n">ll</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">ll</span> <span class="n">mask</span><span class="p">,</span> <span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="n">ll</span> <span class="n">ng</span><span class="p">,</span> <span class="k">const</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">g</span><span class="p">){</span>
     <span class="k">for</span><span class="p">(;</span> <span class="n">u</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">u</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">mask</span><span class="o">&gt;&gt;</span><span class="n">u</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">ng</span><span class="o">&gt;&gt;</span><span class="n">u</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">u</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ng</span><span class="p">,</span> <span class="n">g</span><span class="p">);</span>
@@ -209,9 +210,7 @@ ga('send', 'pageview');
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

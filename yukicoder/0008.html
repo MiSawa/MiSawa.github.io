@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>yukicoder 0008 N言っちゃダメゲーム - みさわめも</title>
 
-    <link href="../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../javascripts/base.js" type="text/javascript"></script>
-        <script src="../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../stylesheets/normalize.css" rel="stylesheet" /><link href="../stylesheets/all.css" rel="stylesheet" /><link href="../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../javascripts/base.js"></script>
+        <script src="../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -87,7 +87,7 @@ $0$ になってしまったら負け.</p>
 <p>よくやる手で, $(N-1) \equiv 0 \pmod K+1$ かで判定できる.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -96,7 +96,8 @@ $0$ になってしまったら負け.</p>
 7
 8
 9
-10</pre></td><td class="code"><pre><span class="n">bool</span> <span class="n">solve</span><span class="p">(){</span>
+10
+</pre></td><td class="rouge-code"><pre><span class="kt">bool</span> <span class="nf">solve</span><span class="p">(){</span>
     <span class="kt">int</span> <span class="n">p</span><span class="p">;</span>
     <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">p</span><span class="p">;</span>
     <span class="n">rep</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">p</span><span class="p">){</span>
@@ -106,9 +107,7 @@ $0$ になってしまったら負け.</p>
     <span class="p">}</span>
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
     <a href="src/0008.cc">download full source code</a>
 
       <h3>Tags</h3>

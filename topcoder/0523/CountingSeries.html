@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM523 Div1 Easy 250 CountingSeries - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -85,7 +85,7 @@ ga('send', 'pageview');
 <p>基本的には, 等差数列に入るものを $ O(1) $ で求めたあと, 等比数列の方をイテレートし, 等差数列に入らないものを数えればよい.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -115,9 +115,10 @@ ga('send', 'pageview');
 28
 29
 30
-31</pre></td><td class="code"><pre>
-<span class="c1">// 232.06 pts
-</span>
+31
+</pre></td><td class="rouge-code"><pre>
+<span class="c1">// 232.06 pts</span>
+
 <span class="kt">long</span> <span class="kt">long</span> <span class="n">CountingSeries</span><span class="o">::</span><span class="n">countThem</span><span class="p">(</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">a</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">b</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">c</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">d</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">upperBound</span> <span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="n">upperBound</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">){</span>
         <span class="k">if</span><span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">upperBound</span><span class="p">;</span>
@@ -145,10 +146,8 @@ ga('send', 'pageview');
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="c1">// vim:set foldmethod=marker commentstring=//%s:
-</span></pre></td></tr></tbody></table>
-</div>
-
+<span class="c1">// vim:set foldmethod=marker commentstring=//%s:</span>
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

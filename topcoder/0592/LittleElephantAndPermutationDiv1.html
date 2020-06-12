@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM592 Div1 Med 500 LittleElephantAndPermutationDiv1 - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -151,7 +151,7 @@ $$
 <p>とにもかくにも, DP を ($i$ を置く, ペアで埋まっている個数, 残り必要な f の値) ですればいい.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -181,27 +181,28 @@ $$
 28
 29
 30
-31</pre></td><td class="code"><pre><span class="c1">// 189.75 pts
-</span><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1E9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
+31
+</pre></td><td class="rouge-code"><pre><span class="c1">// 189.75 pts</span>
+<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1E9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
 
-<span class="c1">// i を入れる.
-// 両方空いている + 片方ずつ空いている = i.
-// 両方空いてるのが c マス.
-</span>
+<span class="c1">// i を入れる.</span>
+<span class="c1">// 両方空いている + 片方ずつ空いている = i.</span>
+<span class="c1">// 両方空いてるのが c マス.</span>
+
 <span class="n">array</span><span class="o">&lt;</span><span class="n">array</span><span class="o">&lt;</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2600</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">60</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">60</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">;</span>
 <span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="mi">60</span><span class="o">&gt;</span> <span class="n">factorial_double</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">c</span><span class="p">,</span> <span class="kt">int</span> <span class="n">need</span><span class="p">){</span>
+<span class="kt">int</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">c</span><span class="p">,</span> <span class="kt">int</span> <span class="n">need</span><span class="p">){</span>
     <span class="k">if</span><span class="p">(</span><span class="n">need</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">factorial_double</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
     <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">need</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">c</span><span class="p">][</span><span class="n">need</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">c</span><span class="p">][</span><span class="n">need</span><span class="p">];</span>
     <span class="k">const</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c</span><span class="p">;</span>
     <span class="kt">long</span> <span class="kt">long</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="c1">// 両方 "片方空いている" に入れる
-</span>    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">need</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
-    <span class="c1">// 一方だけ "片方空いている" に入れる
-</span>    <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="n">and</span> <span class="n">c</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">need</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
-    <span class="c1">// 両方 "両方空いている" に入れる
-</span>    <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>      <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">need</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
+    <span class="c1">// 両方 "片方空いている" に入れる</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">need</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
+    <span class="c1">// 一方だけ "片方空いている" に入れる</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">x</span> <span class="n">and</span> <span class="n">c</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">need</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
+    <span class="c1">// 両方 "両方空いている" に入れる</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>      <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">need</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
     <span class="k">if</span><span class="p">(</span><span class="n">c</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="n">res</span> <span class="o">+=</span> <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">need</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">c</span><span class="p">][</span><span class="n">need</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
@@ -212,9 +213,7 @@ $$
     <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span> <span class="n">rep</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span> <span class="n">rep</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">2600</span><span class="p">)</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">K</span><span class="p">);</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

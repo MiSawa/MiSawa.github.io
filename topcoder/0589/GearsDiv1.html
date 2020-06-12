@@ -10,9 +10,9 @@
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder SRM589 Div1 Med 450 GearsDiv1 - みさわめも</title>
 
-    <link href="../../stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/all.css" rel="stylesheet" type="text/css" /><link href="../../stylesheets/rouge.css" rel="stylesheet" type="text/css" />
-    <script src="../../javascripts/base.js" type="text/javascript"></script>
-        <script src="../../javascripts/foldh3.js" type="text/javascript"></script>
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+        <script src="../../javascripts/foldh3.js"></script>
       <script type="text/javascript" src="http://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
@@ -95,7 +95,7 @@ ga('send', 'pageview');
 1:2 の 2 側だけ二部グラフの最大独立集合をすればよい.</p>
 
 <h3>ソースコード</h3>
-<div class="highlight cpp"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -151,12 +151,13 @@ ga('send', 'pageview');
 54
 55
 56
-57</pre></td><td class="code"><pre><span class="c1">// 375.27 pts
-</span>
+57
+</pre></td><td class="rouge-code"><pre><span class="c1">// 375.27 pts</span>
+
 <span class="k">typedef</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ll</span><span class="p">;</span>
 <span class="k">typedef</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">G</span><span class="p">;</span>
-<span class="k">namespace</span> <span class="n">MIS</span><span class="p">{</span><span class="c1">//{{{
-</span>    <span class="kr">inline</span> <span class="kt">int</span> <span class="n">tz</span><span class="p">(</span><span class="k">const</span> <span class="n">ll</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">){</span> <span class="k">return</span> <span class="n">__builtin_ctzll</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
+<span class="k">namespace</span> <span class="n">MIS</span><span class="p">{</span><span class="c1">//{{{</span>
+    <span class="kr">inline</span> <span class="kt">int</span> <span class="n">tz</span><span class="p">(</span><span class="k">const</span> <span class="n">ll</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">){</span> <span class="k">return</span> <span class="n">__builtin_ctzll</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="kr">inline</span> <span class="kt">int</span> <span class="n">popcnt</span><span class="p">(</span><span class="k">const</span> <span class="n">ll</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">){</span> <span class="k">return</span> <span class="n">__builtin_popcountll</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="p">}</span>
     <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
     <span class="n">ll</span> <span class="n">g</span><span class="p">[</span><span class="mi">70</span><span class="p">];</span>
@@ -180,8 +181,8 @@ ga('send', 'pageview');
         <span class="n">mis</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bit</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
         <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
     <span class="p">}</span>
-<span class="p">};</span><span class="c1">//}}}
-</span>
+<span class="p">};</span><span class="c1">//}}}</span>
+
 <span class="kt">int</span> <span class="n">GearsDiv1</span><span class="o">::</span><span class="n">getmin</span><span class="p">(</span> <span class="n">string</span> <span class="n">color_</span><span class="p">,</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">graph</span> <span class="p">){</span>
     <span class="k">const</span> <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">color_</span><span class="p">);</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">color</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
@@ -208,9 +209,7 @@ ga('send', 'pageview');
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">n</span> <span class="o">-</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table>
-</div>
-
+</pre></td></tr></tbody></table></code></pre></div>
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
