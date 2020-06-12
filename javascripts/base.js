@@ -42,11 +42,12 @@ document.write("<meta http-equiv='X-UA-Compatible' CONTENT='IE=EmulateIE7'/>");
 $(function(){
     $('.fold_button:not(.fold_button_processed)').each(function(){
          $(this).addClass('fold_button_processed')
-         $(this).prepend('<tt>+</tt> ');
+         $(this).prepend('<span class="fold-plus">+</span> ');
          $(this).nextAll('.fold_begin').first().nextUntil('.fold_end').wrapAll("<div class='fold' />");
          $(this).nextAll('.fold').first().toggle(false);
          $(this).on('click', function(){
-             $(this).find('tt').text($(this).find('tt').text() == '+' ? '-' : '+');
+             const elem=$(this).find('.fold-plus');
+             elem.text(elem.text() == '+' ? '-' : '+');
              $(this).nextAll('.fold').first().toggle();
          });
     });
