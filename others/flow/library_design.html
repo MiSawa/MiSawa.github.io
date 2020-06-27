@@ -1,0 +1,1230 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>ぼくの考えたさいきょうのフローライブラリ - みさわめも</title>
+
+    <link href="../../stylesheets/normalize.css" rel="stylesheet" /><link href="../../stylesheets/all.css" rel="stylesheet" /><link href="../../stylesheets/rouge.css" rel="stylesheet" />
+    <script src="../../javascripts/base.js"></script>
+      <script type="text/javascript" src="https://s.hatena.ne.jp/js/HatenaStar.js"></script>
+<script type="text/javascript">
+Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
+Hatena.Star.SiteConfig = {
+  entryNodes: {
+    'div#main' : {
+      uri: 'document.location',
+      title: 'document.title',
+      container: 'span.hatena_star'
+    }
+  }
+};
+</script>
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+      <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-25117970-3', 'misawa.github.io');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+      </script>
+  </head>
+
+  <body class='others others_flow others_flow_library_design'>
+  <div id='menu'>
+    <ul>
+      <li> <a href="../../index.html">top</a> </li>
+      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
+      <li> <a href="../../topcoder/index.html">topcoder</a> </li>
+      <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
+      <li> <a href="../../aoj/index.html">aoj</a> </li>
+      <li> <a href="../../tags/index.html">tags</a> </li>
+      <li> <a href="../index.html">others</a> </li>
+    </ul>
+  </div>
+
+  <div id='main'>
+    <span class="social_button_box">
+        <span class="social_button" style="">
+          <span class="hatena_star"></span>
+
+        </span>
+        <span class="social_button" style="">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-via="Mi_Sawa" data-dnt="true">Tweet</a>
+
+        </span>
+    </span>
+
+        <div style="display:none">`$$
+\newcommand{\vec}[1]{\mathbf{#1}}
+\def\vecb{\vec{b}}
+\def\veczero{\vec{0}}
+$$`</div>
+
+<h1>ぼくの考えたさいきょうのフローライブラリ</h1>
+
+<h2>要約</h2>
+
+<p>&quot;最小費用流&quot; のライブラリを &quot;最小費用最大流&quot; ではなく &quot;最小費用 $\vecb$-フロー&quot; の形で書くことについて.
+「さいきょう」であって「さいそく」ではない.</p>
+
+<p>よくある実装に少し手を加えることで, 入力として扱える問題の範囲を広くでき, ライブラリ使用毎にアドホック気味に書く部分を減らせる.</p>
+
+<h2>イントロ</h2>
+
+<p>最小費用流問題と呼ばれる問題を解く際, 競技プログラミングでは, <a href="https://book.mynavi.jp/ec/products/detail/id=22672" title="プログラミングコンテストチャレンジブック">蟻本</a> に記載のものをはじめ多くの場合, 最小費用最大流を解くライブラリ,
+特に最短路反復法や Primal-Dual 法 <sup id="fnref1"><a href="#fn1">1</a></sup> と呼ばれる実装が用いられる.
+これらのアルゴリズムを使う際, 辺コストが負になりうる場合, 負サイクルがある場合, 最小流量制約がある場合, 頂点吸込みや湧出しがある場合などは, Bellman-Ford 法や SPFA 等で追加処理を行ったり,
+ネットワークの変形をすることで, 同値な最小費用最大流問題への還元を行うことになる.
+しかし, これらは単に煩雑でバグの温床になるだけでなく, 解の復元も面倒になるなど, デメリットが多い.</p>
+
+<p>この記事では, 少しの工夫をすることで, これらの問題に自然に対応できるライブラリを書くことを目指す.
+より具体的には, 次の機能をサポートすることを目指す.</p>
+
+<ul>
+<li><code>void add_edge(from, to, lower bound, upper bound, cost)</code><strong>:</strong> 流量上下限制約のついた辺を追加する.</li>
+<li><code>void add_excess(vertex, amount)</code><strong>:</strong> 頂点に湧出しを追加する.</li>
+<li><code>void add_deficit(vertex, amount)</code><strong>:</strong> 頂点に吸込みを追加する.</li>
+<li><code>Result&lt;Cost&gt; solve()</code><strong>:</strong> 最小費用 $\vecb$-フロー問題を解き, 最小費用を返すか, 問題が infeasible であることを報告する.</li>
+<li><code>Result&lt;(Flow, Cost)&gt; solve(source, sink)</code><strong>:</strong> 最小費用最大流問題に対応する. $f \ge 0$ を <code>add_excess(source, f)</code> と <code>add_deficit(sink, f)</code> をした後の制約を満たすフローが存在するような最大の $f$ とし, この $f$ に加えてその時の最小費用を返す.</li>
+<li>最適解の各辺の流量の復元が簡単にできる.</li>
+</ul>
+
+<p>一方で, 速いライブラリを書くことは, この記事の目標ではないことに注意されたい.
+また, 負辺や最小流量制約がある場合, 最小費用最大流問題の &quot;最大流量を $F$ として...&quot; 系の計算量がサイレントに悪化していることに注意.
+具体的には, &quot;以下の絶対値の和を $F$ として...&quot; のようになる.</p>
+
+<ul>
+<li>各頂点の湧出し/吸込み</li>
+<li>コスト正の辺の流量下限</li>
+<li>コスト負の辺の流量上限</li>
+<li>($s$-$t$ 最大流量を求める場合) $s$-$t$ 最大流量</li>
+</ul>
+
+<p>速いライブラリを書くならば, そもそも最短路反復法や Primal-Dual 法を脱するべきである.
+しかし, このアルゴリズム特有のテクニックである最大流量の計算部分を除き, 利便性向上を目指す部分は, 最短路反復法や Primal-Dual 法以外を用いる場合でも適用できるだろう.</p>
+
+<p>基本的に, 自分の書いたソースコードを細切れにして貼付け, 解説を書いた. ページ末尾にフルのコードがある.
+もちろん, <em>バグっていても責任は持ちません. 必ず自分で検証をしてください.</em></p>
+
+<h2>概形</h2>
+
+<p>最大化問題を解きたいときにライブラリへの入出力全てを $-1$ 倍するのは面倒なので, 適当にテンプレート引数にしておいた.
+<code>MinCostFlow<Flow, Cost></code> で最小化, <code>MaxGainFlow<Flow, Cost></code> で最大化問題になる.
+ついでに, <code>auto</code> と structured bindings で返り値を受けるのも楽になったので, 結果が infeasible であったかを enum で同時に返すようにした.</p>
+
+<p>また, <code>add_edge</code> で, 最適解で流れたフロー量などにアクセスできるようにする為のポインタのようなものを返すようにした. <code>MinCostFlow</code> 自体の destruct 後はもちろん invalid なので注意.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre></td><td class="rouge-code"><pre><span class="k">enum</span> <span class="n">Objective</span> <span class="p">{</span>
+  <span class="n">MINIMIZE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">MAXIMIZE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="k">enum</span> <span class="k">class</span> <span class="nc">Status</span> <span class="p">{</span>
+  <span class="n">OPTIMAL</span><span class="p">,</span>
+  <span class="n">INFEASIBLE</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">,</span> <span class="n">Objective</span> <span class="n">objective</span> <span class="o">=</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MINIMIZE</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">MinCostFlow</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="n">V_id</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">E_id</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">;</span>
+
+  <span class="k">class</span> <span class="nc">EdgePtr</span> <span class="p">{</span>
+    <span class="k">friend</span> <span class="k">class</span> <span class="nc">MinCostFlow</span><span class="p">;</span>
+
+    <span class="k">const</span> <span class="n">MinCostFlow</span> <span class="o">*</span><span class="n">instance</span><span class="p">;</span>
+    <span class="n">V_id</span> <span class="n">v</span><span class="p">;</span>
+    <span class="n">E_id</span> <span class="n">e</span><span class="p">;</span>
+
+    <span class="n">EdgePtr</span><span class="p">(</span><span class="k">const</span> <span class="n">MinCostFlow</span> <span class="o">*</span> <span class="k">const</span> <span class="n">instance</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">E_id</span> <span class="n">e</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">instance</span><span class="p">(</span><span class="n">instance</span><span class="p">),</span> <span class="n">v</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">e</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">edge</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span><span class="o">-&gt;</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">e</span><span class="p">];</span> <span class="p">}</span>
+
+  <span class="nl">public:</span>
+    <span class="n">EdgePtr</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">src</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">dst</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">flow</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">flow</span><span class="p">;</span> <span class="p">}</span>
+    <span class="c1">// 略</span>
+  <span class="p">};</span>
+  <span class="c1">// ここに色々追加</span>
+<span class="p">}</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">&gt;</span>
+<span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h2>データの持ち方</h2>
+
+<p>簡単のため, 単に <code>std::vector<std::vector<Edge>></code> で隣接リストを持つ方式にした. <code>Edge</code> 構造体の定義はもう少し後で.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="nl">private:</span>
+  <span class="n">V_id</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;&gt;</span> <span class="n">g</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Flow</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h2>入力部</h2>
+
+<h3>頂点まわり</h3>
+
+<p>フローの問題の場合, <code>add_edge(i + n, j + n + m ...)</code> のようなオフセットが大量に登場しがちで間違えやすいため,
+頂点数を陽に指定せず, <code>add_vertex()</code> や <code>add_vertices(size_t)</code> で頂点を追加し, その返り値を使う造りにしている.</p>
+
+<p>例えば,</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="k">const</span> <span class="k">auto</span> <span class="n">S</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_vertex</span><span class="p">();</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">vs</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<p>などのように, 頂点は常に <code>add_vertex</code> / <code>add_vertices</code> の返り値を使う. 本来はこれをラップする構造体を用意して, 不用意に <code>int</code> などを渡せないようにすべきだろうが,
+そうしないことによる利便性もあり, とりあえずこのまま使えるようにしている.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="nl">public:</span>
+  <span class="n">MinCostFlow</span><span class="p">()</span> <span class="o">:</span> <span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="n">V_id</span> <span class="nf">add_vertex</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">++</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">add_vertices</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">ret</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">iota</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">ret</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">ret</span><span class="p">),</span> <span class="n">n</span><span class="p">);</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="n">size</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="nf">add_excess</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">void</span> <span class="nf">add_deficit</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span> <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>辺追加</h3>
+
+<p>辺の構造体は次のとおり.
+辺は逆辺とペアにし, <code>flow</code> の値の和が常に $0$ になるように保つことにする.
+このとき, $f_e, f_{e'}$ をそれぞれ辺 $e$ とその逆辺 $e'$ の <code>flow</code> の値とすると, $\mathrm{lower} \le f_e = -f_{e'}$ であるから, $f_{e'} \le -\mathrm{lower}$.
+従って, 流量下限制約は, 逆辺の流量上限制約と同一視できる.</p>
+
+<p>これを使って流量下限制約を入れると, 最大流量を $\mathrm{upper}-\mathrm{lower}$ に変形する方法に比べ, 流量の復元が非常に簡単になる.
+$\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満たさないことに注意.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre>  <span class="k">class</span> <span class="nc">Edge</span> <span class="p">{</span>
+    <span class="k">friend</span> <span class="k">class</span> <span class="nc">MinCostFlow</span><span class="p">;</span>
+
+    <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">;</span>
+    <span class="n">Flow</span> <span class="n">flow</span><span class="p">;</span>
+    <span class="n">Flow</span> <span class="n">cap</span><span class="p">;</span> <span class="c1">// lower と upper でなく cap のみ!!</span>
+    <span class="n">Cost</span> <span class="n">cost</span><span class="p">;</span>
+    <span class="n">E_id</span> <span class="n">rev</span><span class="p">;</span>
+
+  <span class="nl">public:</span>
+    <span class="n">Edge</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+    <span class="n">Edge</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">cap</span><span class="p">,</span> <span class="k">const</span> <span class="n">Cost</span> <span class="n">cost</span><span class="p">,</span>
+         <span class="k">const</span> <span class="n">E_id</span> <span class="n">rev</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">src</span><span class="p">(</span><span class="n">src</span><span class="p">),</span> <span class="n">dst</span><span class="p">(</span><span class="n">dst</span><span class="p">),</span> <span class="n">flow</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">cap</span><span class="p">(</span><span class="n">cap</span><span class="p">),</span> <span class="n">cost</span><span class="p">(</span><span class="n">cost</span><span class="p">),</span> <span class="n">rev</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">residual_cap</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">cap</span> <span class="o">-</span> <span class="n">flow</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="n">EdgePtr</span> <span class="nf">add_edge</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">lower</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="n">Flow</span> <span class="n">upper</span><span class="p">,</span> <span class="k">const</span> <span class="n">Cost</span> <span class="n">cost</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// src == dst の時用</span>
+    <span class="k">const</span> <span class="n">E_id</span> <span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span> <span class="n">re</span> <span class="o">=</span> <span class="n">src</span> <span class="o">==</span> <span class="n">dst</span> <span class="o">?</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">upper</span><span class="p">);</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">Edge</span><span class="p">{</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">cost</span> <span class="o">*</span> <span class="n">objective</span><span class="p">,</span> <span class="n">re</span><span class="p">});</span>  <span class="c1">// objective を掛けておく</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">].</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">Edge</span><span class="p">{</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="o">-</span><span class="n">lower</span><span class="p">,</span> <span class="o">-</span><span class="n">cost</span> <span class="o">*</span> <span class="n">objective</span><span class="p">,</span> <span class="n">e</span><span class="p">});</span> <span class="c1">// -lower にする!!!</span>
+    <span class="k">return</span> <span class="n">EdgePtr</span><span class="p">{</span><span class="k">this</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">e</span><span class="p">};</span>
+  <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h2>計算部</h2>
+
+<h3>途中で使う変数と便利関数たち</h3>
+
+<p>一つの関数内で使用が簡潔する <code>priority_queue</code> なども, その関数を度々呼ぶなら, 使いまわしたほうが速度的に少々お得.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre>  <span class="k">static</span> <span class="n">Cost</span> <span class="k">constexpr</span> <span class="n">unreachable</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+  <span class="n">Cost</span> <span class="n">farthest</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;</span> <span class="n">potential</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;</span> <span class="n">dist</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span> <span class="o">*&gt;</span> <span class="n">parent</span><span class="p">;</span> <span class="c1">// out-forrest.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Cost</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Cost</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+                      <span class="n">std</span><span class="o">::</span><span class="n">greater</span><span class="o">&lt;&gt;&gt;</span> <span class="n">pq</span><span class="p">;</span> <span class="c1">// should be empty outside of dual()</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">excess_vs</span><span class="p">,</span> <span class="n">deficit_vs</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">][</span><span class="n">e</span><span class="p">.</span><span class="n">rev</span><span class="p">].</span><span class="n">flow</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Cost</span> <span class="nf">residual_cost</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">e</span><span class="p">.</span><span class="n">cost</span> <span class="o">+</span> <span class="n">potential</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">-</span> <span class="n">potential</span><span class="p">[</span><span class="n">dst</span><span class="p">];</span>
+  <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>前処理</h3>
+
+<p>まず, 流量下限制約と負辺を $\vecb$ を使って対処する.
+これにより, $\vecb$ に非零成分は残るが, フローの上下限制約と, 相補性条件 ($\mathrm{rcost} < 0 \Rightarrow \mathrm{rcap} = 0$) が満たされた初期状態を作れる.
+これら2つの条件は, この前処理以後, 常に保つ.</p>
+
+<p>また, 小手先の高速化として, $\vecb$ が正である頂点と負である頂点を保持することにした. これはなくとも正しくは動くが, 特に最小費用最大流を求める際などに強めに影響すると考えられる.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="rouge-code"><pre>  <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Status</span><span class="p">,</span> <span class="n">Cost</span><span class="o">&gt;</span> <span class="n">solve</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">potential</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="c1">// potential.assign(n, 0) ではないことに注意</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">es</span> <span class="o">:</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">es</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="n">Flow</span> <span class="n">rcap</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">();</span>
+      <span class="k">const</span> <span class="n">Cost</span> <span class="n">rcost</span> <span class="o">=</span> <span class="n">residual_cost</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">src</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">rcost</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">rcap</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">rcap</span><span class="p">);</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">src</span><span class="p">]</span> <span class="o">-=</span> <span class="n">rcap</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rcap</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">V_id</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">excess_vs</span> <span class="o">:</span> <span class="n">deficit_vs</span><span class="p">).</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// 続く</span>
+  <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>メインループと事後処理</h3>
+
+<p>メインループは <code>while(dual()) primal()</code> で, Dinic 法などとほぼ同じ.
+<code>dual()</code> は主問題の解(フロー)は更新せず, そのフローとの相補性条件を保ったまま, 双対問題の解(ポテンシャル)を更新することで, 相補性条件を崩さずにフローを流せる場所を増やす.
+一方 <code>primal()</code> は双対問題の解(ポテンシャル)は更新せず, そのポテンシャルとの相補性条件を保ちつつ, 主問題の解(フロー)を変更することで, $\vecb$ が $\veczero$ に近づくようにする.</p>
+
+<p>最適値の復元では, 単に $\vec{f} \cdot \vec{c}$ を取ると, 順辺に対する $f_e c_e$ と逆辺に対する $f_{e'} c_{e'} = (- f_e) (- c_e) = f_e c_e$ で倍になる為, 最後に $2$ で割ることに注意.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>    <span class="k">while</span> <span class="p">(</span><span class="n">dual</span><span class="p">())</span> <span class="n">primal</span><span class="p">();</span>
+
+    <span class="n">Cost</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">es</span> <span class="o">:</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">es</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">value</span> <span class="o">+=</span> <span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">*</span> <span class="n">e</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">value</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">excess_vs</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">deficit_vs</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">OPTIMAL</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">objective</span> <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">INFEASIBLE</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">objective</span> <span class="p">};</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>dual step</h3>
+
+<p>相補性条件から, 残余グラフに簡約コストが負な辺は無いことがわかる. 従って, 湧出しからはじめ, 普通に多始点の Dijkstra 法を使える.
+途中, 少なくともひとつの吸込みへの距離が確定した以降の任意の時点で計算を打ち切っても正しく動くが, 今回は全部の吸込みへの距離が確定するまで回す実装にした.
+いつまで回すかに従って, 次の primal step でどれだけ流せるかが決まる.
+楽をしたいなら全頂点まで計算してもよい.</p>
+
+<p>potential を変更する際に <code>min(dist[v], farthest)</code> をしているのは, 相補性条件を保つため.
+この <code>farthest</code> まで距離が確定しているので, primal step でもこれを用いて足切りを行っている.</p>
+
+<p>また, primal step で使うために, 最短経路森を保存しておく.
+今回は, 頂点毎に, その点に入ってくる時に使う辺へのポインタを持つ形にした.
+primal step では簡約コストが $0$ な辺のみを使って増大路を計算することで, 最短経路森の部分をサボることも出来る.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="rouge-code"><pre>  <span class="kt">bool</span> <span class="nf">dual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">dist</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">unreachable</span><span class="p">);</span>
+    <span class="n">parent</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">nullptr</span><span class="p">);</span>
+    <span class="n">excess_vs</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">remove_if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">),</span>
+                                   <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}),</span>
+                    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">));</span>
+    <span class="n">deficit_vs</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">remove_if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">),</span>
+                                    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">),</span>
+                                    <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}),</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">excess_vs</span><span class="p">)</span> <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+    <span class="n">farthest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">deficit_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+      <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="n">farthest</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">++</span><span class="n">deficit_count</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">deficit_count</span> <span class="o">&gt;=</span> <span class="n">deficit_vs</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="k">break</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">;</span>
+        <span class="k">const</span> <span class="k">auto</span> <span class="n">new_dist</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">residual_cost</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_dist</span> <span class="o">&gt;=</span> <span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_dist</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+        <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">pq</span> <span class="o">=</span> <span class="k">decltype</span><span class="p">(</span><span class="n">pq</span><span class="p">)();</span> <span class="c1">// pq.clear() doesn't exist.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">V_id</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">potential</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">farthest</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">deficit_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>primal step</h3>
+
+<p>dual step で計算した最短経路森に従い, フローを流すだけ.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre>  <span class="kt">void</span> <span class="nf">primal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">t</span> <span class="o">:</span> <span class="n">deficit_vs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">farthest</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="n">Flow</span> <span class="n">f</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+      <span class="n">V_id</span> <span class="n">v</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">residual_cap</span><span class="p">());</span>
+      <span class="p">}</span>
+      <span class="n">f</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">;)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">=</span> <span class="o">*</span><span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+        <span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f</span><span class="p">;</span>
+      <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-=</span> <span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h3>最大流量への対応</h3>
+
+<p>最大流量に対応するには, 次の2つのステップを踏む.</p>
+
+<ol>
+<li>$s$-$t$ 間に最大流量を流さなくともよい場合の問題の解を求める.</li>
+<li>$s$-$t$ 間の流量が最大となるよう, 解を変形する.</li>
+</ol>
+
+<p>ステップ 1 は, $s$-$t$ 間にどれだけフローが流れていてもよいという条件を加えた最小費用 $\vecb$-フロー問題であるから, $t$ から $s$ へコスト $0$, 容量 $\infty$ の辺を追加して <code>solve()</code> を呼べばよい.</p>
+
+<p>ステップ 2 は, $s$ に $\infty$ の湧出し, $t$ に $\infty$ の吸込みがあると思って問題を解くことを試み, $s$ から $t$ へ流せなくなった時点で終了すればよい.
+実際にこれが正しく動くことは, 次のようにしてわかる.</p>
+
+<ul>
+<li>ステップ 1 で, 内部状態は, 流量制約と相補性条件を満たすようになる.</li>
+<li>従って, ステップ 2 の <code>solve()</code> 時の前処理で <code>push</code> すべき辺は無く, $s$, $t$ の他に新たな吸込み/湧出しが出来ることはない.</li>
+<li><code>primal()</code> も <code>dual()</code> も吸込み/湧出しを増やさない.</li>
+<li>アルゴリズムが停止する時, 湧出しから吸込みへの残余パスは存在しない. 従って, $s$-$t$ 流量が最大化されている.</li>
+</ul>
+
+<p>容量 $\infty$ は, 実際には $s$ 周りの容量を使った.</p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre>  <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">Status</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Flow</span><span class="o">&gt;</span> <span class="n">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="n">t</span><span class="p">);</span>
+    <span class="n">Flow</span> <span class="n">inf_flow</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="n">inf_flow</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">cap</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Flow</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+
+    <span class="n">add_edge</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inf_flow</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">status</span><span class="p">,</span> <span class="n">circulation_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">::</span><span class="n">INFEASIBLE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="n">g</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">status</span><span class="p">,</span> <span class="n">circulation_value</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="p">}</span>
+    <span class="n">inf_flow</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="n">inf_flow</span> <span class="o">+=</span> <span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">();</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">-=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">mf_status</span><span class="p">,</span> <span class="n">mf_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">();</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">OPTIMAL</span><span class="p">,</span> <span class="n">mf_value</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="p">};</span>
+  <span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<h2>ソースコード</h2>
+
+<pre class='fold_button'>長いので折りたたみ</pre>
+
+<pre class='fold_begin'></pre>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+</pre></td><td class="rouge-code"><pre><span class="cp">#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+#include &lt;iostream&gt;
+#include &lt;numeric&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+</span>
+<span class="k">enum</span> <span class="n">Objective</span> <span class="p">{</span>
+  <span class="n">MINIMIZE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="n">MAXIMIZE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="k">enum</span> <span class="k">class</span> <span class="nc">Status</span> <span class="p">{</span>
+  <span class="n">OPTIMAL</span><span class="p">,</span>
+  <span class="n">INFEASIBLE</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">,</span> <span class="n">Objective</span> <span class="n">objective</span> <span class="o">=</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MINIMIZE</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">MinCostFlow</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="n">V_id</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">E_id</span> <span class="o">=</span> <span class="kt">uint32_t</span><span class="p">;</span>
+
+  <span class="k">class</span> <span class="nc">Edge</span> <span class="p">{</span>
+    <span class="k">friend</span> <span class="k">class</span> <span class="nc">MinCostFlow</span><span class="p">;</span>
+
+    <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">;</span>
+    <span class="n">Flow</span> <span class="n">flow</span><span class="p">,</span> <span class="n">cap</span><span class="p">;</span>
+    <span class="n">Cost</span> <span class="n">cost</span><span class="p">;</span>
+    <span class="n">E_id</span> <span class="n">rev</span><span class="p">;</span>
+
+  <span class="nl">public:</span>
+    <span class="n">Edge</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+    <span class="n">Edge</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">cap</span><span class="p">,</span> <span class="k">const</span> <span class="n">Cost</span> <span class="n">cost</span><span class="p">,</span>
+         <span class="k">const</span> <span class="n">E_id</span> <span class="n">rev</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">src</span><span class="p">(</span><span class="n">src</span><span class="p">),</span> <span class="n">dst</span><span class="p">(</span><span class="n">dst</span><span class="p">),</span> <span class="n">flow</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">cap</span><span class="p">(</span><span class="n">cap</span><span class="p">),</span> <span class="n">cost</span><span class="p">(</span><span class="n">cost</span><span class="p">),</span> <span class="n">rev</span><span class="p">(</span><span class="n">rev</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">residual_cap</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">cap</span> <span class="o">-</span> <span class="n">flow</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+
+<span class="nl">public:</span>
+  <span class="k">class</span> <span class="nc">EdgePtr</span> <span class="p">{</span>
+    <span class="k">friend</span> <span class="k">class</span> <span class="nc">MinCostFlow</span><span class="p">;</span>
+
+    <span class="k">const</span> <span class="n">MinCostFlow</span> <span class="o">*</span><span class="n">instance</span><span class="p">;</span>
+    <span class="n">V_id</span> <span class="n">v</span><span class="p">;</span>
+    <span class="n">E_id</span> <span class="n">e</span><span class="p">;</span>
+
+    <span class="n">EdgePtr</span><span class="p">(</span><span class="k">const</span> <span class="n">MinCostFlow</span> <span class="o">*</span> <span class="k">const</span> <span class="n">instance</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">E_id</span> <span class="n">e</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">instance</span><span class="p">(</span><span class="n">instance</span><span class="p">),</span> <span class="n">v</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">e</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">edge</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">instance</span><span class="o">-&gt;</span><span class="n">g</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">e</span><span class="p">];</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">rev</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">=</span> <span class="n">edge</span><span class="p">();</span>
+      <span class="k">return</span> <span class="n">instance</span><span class="o">-&gt;</span><span class="n">g</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">][</span><span class="n">e</span><span class="p">.</span><span class="n">rev</span><span class="p">];</span>
+    <span class="p">}</span>
+
+  <span class="nl">public:</span>
+    <span class="n">EdgePtr</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">src</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">dst</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">flow</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">flow</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">lower</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="n">rev</span><span class="p">().</span><span class="n">cap</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Flow</span> <span class="n">upper</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">cap</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Cost</span> <span class="n">cost</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">edge</span><span class="p">().</span><span class="n">cost</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="n">Cost</span> <span class="n">gain</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="n">edge</span><span class="p">().</span><span class="n">cost</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+
+<span class="nl">private:</span>
+  <span class="n">V_id</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span><span class="o">&gt;&gt;</span> <span class="n">g</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Flow</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+
+<span class="nl">public:</span>
+  <span class="n">MinCostFlow</span><span class="p">()</span> <span class="o">:</span> <span class="n">n</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
+
+  <span class="n">V_id</span> <span class="n">add_vertex</span><span class="p">()</span> <span class="p">{</span>
+    <span class="o">++</span><span class="n">n</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">add_vertices</span><span class="p">(</span><span class="k">const</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">ret</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">iota</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">ret</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">ret</span><span class="p">),</span> <span class="n">n</span><span class="p">);</span>
+    <span class="n">n</span> <span class="o">+=</span> <span class="n">size</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="n">b</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">EdgePtr</span> <span class="n">add_edge</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">lower</span><span class="p">,</span>
+                   <span class="k">const</span> <span class="n">Flow</span> <span class="n">upper</span><span class="p">,</span> <span class="k">const</span> <span class="n">Cost</span> <span class="n">cost</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">E_id</span> <span class="n">e</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">size</span><span class="p">(),</span> <span class="n">re</span> <span class="o">=</span> <span class="n">src</span> <span class="o">==</span> <span class="n">dst</span> <span class="o">?</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">lower</span> <span class="o">&lt;=</span> <span class="n">upper</span><span class="p">);</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">Edge</span><span class="p">{</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">cost</span> <span class="o">*</span> <span class="n">objective</span><span class="p">,</span> <span class="n">re</span><span class="p">});</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">dst</span><span class="p">].</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">Edge</span><span class="p">{</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="o">-</span><span class="n">lower</span><span class="p">,</span> <span class="o">-</span><span class="n">cost</span> <span class="o">*</span> <span class="n">objective</span><span class="p">,</span> <span class="n">e</span><span class="p">});</span>
+    <span class="k">return</span> <span class="n">EdgePtr</span><span class="p">{</span><span class="k">this</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">e</span><span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">add_excess</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">add_deficit</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="nl">private:</span>
+  <span class="c1">// Variables used in calculation</span>
+  <span class="k">static</span> <span class="n">Cost</span> <span class="k">constexpr</span> <span class="n">unreachable</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+  <span class="n">Cost</span> <span class="n">farthest</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;</span> <span class="n">potential</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Cost</span><span class="o">&gt;</span> <span class="n">dist</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Edge</span> <span class="o">*&gt;</span> <span class="n">parent</span><span class="p">;</span> <span class="c1">// out-forrest.</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Cost</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Cost</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+                      <span class="n">std</span><span class="o">::</span><span class="n">greater</span><span class="o">&lt;&gt;&gt;</span>
+      <span class="n">pq</span><span class="p">;</span> <span class="c1">// should be empty outside of dual()</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">V_id</span><span class="o">&gt;</span> <span class="n">excess_vs</span><span class="p">,</span> <span class="n">deficit_vs</span><span class="p">;</span>
+
+  <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">rev</span><span class="p">(</span><span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">g</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">][</span><span class="n">e</span><span class="p">.</span><span class="n">rev</span><span class="p">];</span> <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">push</span><span class="p">(</span><span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">,</span> <span class="k">const</span> <span class="n">Flow</span> <span class="n">amount</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">][</span><span class="n">e</span><span class="p">.</span><span class="n">rev</span><span class="p">].</span><span class="n">flow</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Cost</span> <span class="n">residual_cost</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">src</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="n">Edge</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">e</span><span class="p">.</span><span class="n">cost</span> <span class="o">+</span> <span class="n">potential</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">-</span> <span class="n">potential</span><span class="p">[</span><span class="n">dst</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="n">dual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">dist</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">unreachable</span><span class="p">);</span>
+    <span class="n">parent</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">nullptr</span><span class="p">);</span>
+    <span class="n">excess_vs</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">remove_if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">),</span>
+                                   <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}),</span>
+                    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">excess_vs</span><span class="p">));</span>
+    <span class="n">deficit_vs</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">remove_if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">),</span>
+                                    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">),</span>
+                                    <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}),</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">deficit_vs</span><span class="p">));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">excess_vs</span><span class="p">)</span> <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+    <span class="n">farthest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">deficit_count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+      <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="n">farthest</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">++</span><span class="n">deficit_count</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">deficit_count</span> <span class="o">&gt;=</span> <span class="n">deficit_vs</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="k">break</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">;</span>
+        <span class="k">const</span> <span class="k">auto</span> <span class="n">new_dist</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">residual_cost</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_dist</span> <span class="o">&gt;=</span> <span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_dist</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+        <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">pq</span> <span class="o">=</span> <span class="k">decltype</span><span class="p">(</span><span class="n">pq</span><span class="p">)();</span> <span class="c1">// pq.clear() doesn't exist.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">V_id</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">potential</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">farthest</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">deficit_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">primal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">t</span> <span class="o">:</span> <span class="n">deficit_vs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">farthest</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="n">Flow</span> <span class="n">f</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">];</span>
+      <span class="n">V_id</span> <span class="n">v</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">residual_cap</span><span class="p">());</span>
+      <span class="p">}</span>
+      <span class="n">f</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">nullptr</span><span class="p">;)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">=</span> <span class="o">*</span><span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+        <span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+        <span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">src</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f</span><span class="p">;</span>
+      <span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">-=</span> <span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="nl">public:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">Status</span><span class="p">,</span> <span class="n">Cost</span><span class="o">&gt;</span> <span class="n">solve</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">potential</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">es</span> <span class="o">:</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">es</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="n">Flow</span> <span class="n">rcap</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">();</span>
+      <span class="k">const</span> <span class="n">Cost</span> <span class="n">rcost</span> <span class="o">=</span> <span class="n">residual_cost</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">src</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">rcost</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">rcap</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">rcap</span><span class="p">);</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">src</span><span class="p">]</span> <span class="o">-=</span> <span class="n">rcap</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rcap</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">V_id</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">v</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">excess_vs</span> <span class="o">:</span> <span class="n">deficit_vs</span><span class="p">).</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">dual</span><span class="p">())</span> <span class="n">primal</span><span class="p">();</span>
+    <span class="n">Cost</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">es</span> <span class="o">:</span> <span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">es</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">value</span> <span class="o">+=</span> <span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">*</span> <span class="n">e</span><span class="p">.</span><span class="n">cost</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">value</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">excess_vs</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">deficit_vs</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">OPTIMAL</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">objective</span> <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">INFEASIBLE</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">objective</span> <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+
+  <span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">Status</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Flow</span><span class="o">&gt;</span> <span class="n">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">V_id</span> <span class="n">s</span><span class="p">,</span> <span class="k">const</span> <span class="n">V_id</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="n">t</span><span class="p">);</span>
+    <span class="n">Flow</span> <span class="n">inf_flow</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="n">inf_flow</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">cap</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Flow</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+
+    <span class="n">add_edge</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inf_flow</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">status</span><span class="p">,</span> <span class="n">circulation_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">::</span><span class="n">INFEASIBLE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="n">g</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="n">status</span><span class="p">,</span> <span class="n">circulation_value</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="p">}</span>
+    <span class="n">inf_flow</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="n">inf_flow</span> <span class="o">+=</span> <span class="n">e</span><span class="p">.</span><span class="n">residual_cap</span><span class="p">();</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">+=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">-=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">mf_status</span><span class="p">,</span> <span class="n">mf_value</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">();</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">-=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">inf_flow</span><span class="p">;</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="n">g</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="n">Status</span><span class="o">::</span><span class="n">OPTIMAL</span><span class="p">,</span> <span class="n">mf_value</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">&gt;</span>
+<span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<pre class='fold_end'></pre>
+
+<h2>使用例</h2>
+
+<h3>Library-Checker: Assignment Problem</h3>
+
+<p>問題は<a href="https://judge.yosupo.jp/problem/assignment">こちら</a></p>
+<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="rouge-code"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">MCF</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">MCF</span> <span class="n">mcf</span><span class="p">;</span>
+  <span class="k">const</span> <span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+  <span class="k">const</span> <span class="k">auto</span> <span class="n">b</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+  <span class="n">vector</span> <span class="n">edges</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">MCF</span><span class="o">::</span><span class="n">EdgePtr</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">a</span><span class="p">)</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_excess</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">b</span><span class="p">)</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_deficit</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cost</span><span class="p">;</span>
+    <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cost</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">const</span> <span class="k">auto</span> <span class="p">[</span><span class="n">status</span><span class="p">,</span> <span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcf</span><span class="p">.</span><span class="n">solve</span><span class="p">();</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">Status</span><span class="o">::</span><span class="n">OPTIMAL</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">value</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">flow</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="sc">'\n'</span> <span class="o">:</span> <span class="sc">' '</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div>
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない.&nbsp;<a href="#fnref1">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+
+      <h3>Tags</h3>
+        <div class='tag'><a href="../../tags/フロー.html">フロー</a></div>
+        <div class='tag'><a href="../../tags/最大流.html">最大流</a></div>
+        <div class='tag'><a href="../../tags/最小費用流.html">最小費用流</a></div>
+  </div>
+  </body>
+</html>
