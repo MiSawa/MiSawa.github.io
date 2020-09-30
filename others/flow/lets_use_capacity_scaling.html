@@ -82,8 +82,8 @@ $$`</div>
 
 <ul>
 <li>最小費用流問題に対する最短路反復法(Successive Shortest Path, SSP)や Primal-Dual 法<sup id="fnref1"><a href="#fn1">1</a></sup>と呼ばれるアルゴリズムは, 少し弄ると弱多項式時間アルゴリズムにできる.</li>
-<li>具体的には, $O(\U \cdot \mathrm{SP_+}(n, m, nC)$ が $O(m \log \U \cdot \mathrm{SP_+}(n, m, nC))$ になる.</li>
-<li>$\mathrm{SP_+}(n, m, nC)$ は$n$ 頂点 $m$ 辺, 費用高々 $nC$ のグラフの一点から全点への最短路問題を解くのにかかる時間. 以下では実装をサボったダイクストラ法なので $O(m \log m)$, $\exists k: m = O(n^k)$ を仮定すると合計 $O(m^2 \log \U \log n)$.</li>
+<li>具体的には, $O(\U \cdot \mathrm{SP_+}(n, m, nC))$ が $O(m \log \U \cdot \mathrm{SP_+}(n, m, nC))$ になる.</li>
+<li>$\mathrm{SP_+}(n, m, nC)$ は$n$ 頂点 $m$ 辺, 費用高々 $nC$ のグラフの一点から全点への最短路問題を解くのにかかる時間. 以下では実装をサボったダイクストラ法なので $O(m \log m)$ だが, $\exists k: m = O(n^k)$ を仮定すると合計 $O(m^2 \log \U \log n)$.</li>
 </ul>
 
 <h2>まえがき</h2>
@@ -121,7 +121,7 @@ $$`</div>
 
 <p>最小費用流問題<sup id="fnref2"><a href="#fn2">2</a></sup>は, その線型計画問題としての表現と強双対性を使うと, 次のような問題と捉えられる;</p>
 
-<p>与えられた有向グラフ $G = (E, V)$ と, $\sum_v b_v = 0$ であるような $\vec{b} = \{b_v\}_{v \in V}$, $\vec{l} = \{l_e\}_{e \in E}$, $\vec{u} = \{u_e\}_{e \in E}$, $\vec{c} = \{c_e\}_{e \in E}$ に対し,
+<p>与えられた有向グラフ $G = (V, E)$ と, $\sum_v b_v = 0$ であるような $\vec{b} = \{b_v\}_{v \in V}$, $l_e \le u_e$ であるような $\vec{l} = \{l_e\}_{e \in E}$ と $\vec{u} = \{u_e\}_{e \in E}$, $\vec{c} = \{c_e\}_{e \in E}$ の組 $(G, \vec{b}, \vec{l}, \vec{u}, \vec{c})$ に対し,
 $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満たすものを求めよ.</p>
 
 <ul>
@@ -150,12 +150,12 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 
 <ul>
 <li>$\vec{f}$ は固定しておき, 相補性条件を保ちつつ $\vec{p}$ を変更することで, 双対目的関数値を改善する.</li>
-<li>$\vec{p}$ は固定しておき, 相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G_\vecf$ 上での $S_\vecf$ 全体から $T_\vecf(v)$ 全体へのカット容量を小さくする.</li>
+<li>$\vec{p}$ は固定しておき, 相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G_\vecf$ 上での $S_\vecf$ 全体から $T_\vecf$ 全体へのカット容量を小さくする.</li>
 </ul>
 
 <h3>相補性条件の緩和</h3>
 
-<p>Primal-Dual 法は相補性条件を常に保っていた. 容量スケーリング法では, 一部を $\Delta$-緩和した, 次の条件を考える.</p>
+<p>Primal-Dual 法は相補性条件を常に保っていた. 容量スケーリング法では, 一部を $\Delta$-緩和した, 次の3つの条件を考える.</p>
 
 <ul>
 <li>$l_e \leq f_e \leq u_e, \quad \forall e \in E$ (容量制約)</li>
@@ -210,8 +210,8 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <li>$\vec{p} = \veczero$, $\vec{f} = \vec{l}$ とする.</li>
 <li>$\Delta = 1$ なら終了し, そうでないならば $\Delta := \Delta / 2$ と更新する.</li>
 <li>$c^\vecp(e) < 0$ な $G^\Delta_\vecf$ の辺に対し, $u_\vecf(e) - \Delta$ より多く $u_\vecf(e)$ 以下だけ, つまり残余容量が $\Delta$ 未満になるように push する.</li>
-<li>&quot;$\Delta$-scaling phase&quot; を行う</li>
-<li>3. に戻る</li>
+<li>&quot;$\Delta$-scaling phase&quot; を行う.</li>
+<li>3. に戻る.</li>
 </ol>
 
 <p>このアルゴリズムは, 次の不変条件を満たす.</p>
@@ -220,10 +220,11 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <li>2. の初期化が終わった時点以降, $\vecf$ は常に容量制約を満たす.</li>
 <li>3. に(2. もしくは 6. から)突入した時点で, $(\vecf, \vecp)$ は $\Delta$-緩和されたカット条件を満たす</li>
 <li>5. の(突入時, 脱出時を含めた)実行中, $(\vecf, \vecp)$ は $\Delta$-緩和された相補性条件を満たす.</li>
+<li>5. の実行中, $S^\Delta_\vecf$, $T^\Delta_\vecf$ に頂点が新たに加わることはない.</li>
 </ul>
 
 <p>例えば, 1. と 2. の初期化が終わった時点で, 任意の辺の残余容量は $\Delta$ 未満だから, この $(\vecf, \vecp)$ は $\Delta$-緩和されたカット条件と $\Delta$-緩和された相補性条件を満たす.
-また, 4. の後 $c^\vecp(e) < 0 \Rightarrow u_\vecf(e) < \Delta$ が満たされるが, これは $\Delta$-緩和された相補性条件の対偶.</p>
+また, 4. の後 $c^\vecp(e) < 0 \Rightarrow u_\vecf(e) < \Delta$ が満たされるが, これは $\Delta$-緩和された相補性条件の対偶である.</p>
 
 <p>$\Delta$-scaling phase は, 次の $\Delta$-scaling dual step と$\Delta$-scaling primal step を, $G^\Delta_\vecf$ に $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが無くなるまで, すなわち $\Delta$-緩和されたカット条件を満たすまで, 交互に行う.</p>
 
@@ -486,21 +487,22 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <li>$A = S^{2\Delta}_{\vecf'} \cap S^\Delta_\vecf$,</li>
 <li>$B = T^{2\Delta}_{\vecf'} \cap T^\Delta_\vecf$,</li>
 <li>$C = S^\Delta_\vecf \setminus (A \cup B)$,</li>
-<li>$D = T^\Delta_\vecf \setminus (A \cup B)$,</li>
+<li>$D = T^\Delta_\vecf \setminus (A \cup B)$</li>
 </ul>
 
 <p>とすると, $F_\Delta$ は $A \cup C$ から $B \cup D$ に流れることになる.</p>
 
-<p>$\Delta$-scaling phase の前処理は $c^\vecp(e) < 0$ な辺の残余容量が無くなるように各辺 $e$ に push するから, $(\vecf', \vecp)$ に対する $2\Delta$-緩和された相補性条件から, 各辺 $e$ で $|f_e - f'_e| < 2 \Delta$ であり, $\sum_v |e_{\vecf'}(v) - e_\vecf(v)| < 4 m \Delta$ である.</p>
+<p>$\Delta$-scaling phase の前処理は $c^\vecp(e) < 0$ な辺の残余容量が無くなるように各辺 $e$ に push するから, $(\vecf', \vecp)$ に対する $2\Delta$-緩和された相補性条件から, 各辺 $e$ で $|f_e - f'_e| < 2 \Delta$ であり, $\sum_v |e_\vecf(v) - e_{\vecf'}(v)| < 4 m \Delta$ である.</p>
 
 <p>また, $s \in C$ に対し, $e_\vecf(s) \ge \Delta > 0$ であるが, $s \not \in S^{2\Delta}_{\vecf'}$, すなわち $e_{\vecf'}(s) < 2 \Delta$ であったから,
 $$|e_\vecf(s)| = e_\vecf(s) = e_\vecf(s) - e_{\vecf'}(s) + e_\vecf'(s) < |e_\vecf(s) - e_{\vecf'}(s)| + 2 \Delta$$
-である. 同様に $t \in D$ に対しても $|e_\vecf(t)| < |e_\vecf(t) - e_{\vecf'}(s)| + 2 \Delta$ であるから, $C$ と $D$ に対する $|e_\vecf(v)|$ の合計は高々 $4 m \Delta + 2 n \Delta = O(m \Delta)$ である.
+である. 同様に $t \in D$ に対しても $|e_\vecf(t)| < |e_\vecf(t) - e_{\vecf'}(t)| + 2 \Delta$ であるから,
+$C$ と $D$ に対する $|e_\vecf(v)|$ の合計は高々 $\sum_v |e_\vecf(v) - e_{\vecf'}(v)| + 2 \Delta |C \cup D| < 4m\Delta + 2n\Delta = O(m \Delta)$ である.
 従って, $A$ から $D$, $C$ から $B$, $C$ から $D$ に流すフロー量の合計は $O(m \Delta)$.</p>
 
-<p>一方, $A$ から $B$ は $G^{2 \Delta}_{\vecf'}$ 上に パスが存在しない.
+<p>一方, $(\vecf', \vecp)$ に対する $2\Delta$-緩和されたカット条件から, $A$ から $B$ は $G^{2 \Delta}_{\vecf'}$ 上に パスが存在しない.
 従って, $G_{\vecf'}$ 上での最小 $A$-$B$ カットの容量は高々 $2 m \Delta$ である.
-$|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ カットの容量も $O(m \Delta)$ であり, $A$ から $B$ に流すフロー量の合計は $O(m \Delta)$.</p>
+$|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ カットの容量も $O(m \Delta)$ であり, $A$ から $B$ に流せるフロー量の合計は $O(m \Delta)$.</p>
 
 <p>以上を纏めて, $F_\Delta = O(m \Delta)$, 従って全フェーズ合わせて $O ( \sum_\Delta (F_\Delta / \Delta) m \log m ) = O(\sum_\Delta m^2 \log m) = O(m^2 \log m \log \U)$ である.</p>
 
@@ -513,8 +515,9 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 そして &quot;In this case, the polynomial running time bound is not proved&quot; とあるので, 上の僕の証明は間違っているかもしれない...
 不備を見つけたら, 連絡をいただけるとありがたいです.</p>
 
-<p>さて, 教科書的な容量スケーリング法では, 任意の頂点対 $(u, v)$ に対し, $u$ から $v$ への充分大きな容量の辺があることを仮定する (これは, 適当な頂点を一つ選び, 任意の頂点との間にコスト $\infty$ の辺を双方向に追加すれば容易に満たせる).
-この仮定の下, 各 $\Delta$-scaling phase は $e_\vecf(v) \ge +\Delta$ となる頂点か $e_\vecf(v) \le -\Delta$ となる頂点が無くなることにより終了する事が示せる.
+<p>さて, 教科書的な容量スケーリング法では, 任意の頂点対 $(u, v)$ に対し, $u$ から $v$ への充分大きな容量のパスがあることを仮定する (これは, 適当な頂点を一つ選び, 任意の頂点との間にコスト $\infty$ の辺を双方向に追加すれば容易に満たせる).
+また, $\Delta$ の倍数しか流さないようにすることが多いようだ.
+充分容量の大きいパスがある仮定の下, 各 $\Delta$-scaling phase は $S^\Delta_\vecf$ か $T^\Delta_\vecf$ が空になることにより終了する事が示せる.
 これを用いると, 上でいう $A$ から $B$ に流れるフローを考える必要がなくなり, 証明がより簡単になる.
 上の証明が正しく無さそうだと思う人は, この前処理を入れるとよいだろう.</p>
 
@@ -1295,7 +1298,7 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 </li>
 
 <li id="fn3">
-<p>一般的にどう呼ばれるか知らないので, ここではカット条件と呼ぶことにする.&nbsp;<a href="#fnref3">&#8617;</a></p>
+<p>一般的にどう呼ばれるか知らないが, ここではカット条件と呼ぶことにする.&nbsp;<a href="#fnref3">&#8617;</a></p>
 </li>
 
 </ol>
