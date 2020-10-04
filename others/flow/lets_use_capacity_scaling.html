@@ -134,7 +134,7 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 <p>このフロー整合性条件は, 主問題が infeasible であった時のことを考慮し, 残余グラフ $G_\vecf$ と余剰量 $e_\vecf(v)$ を用いて次のように書き直しておく.</p>
 
 <ul>
-<li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ な頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref3"><a href="#fn3">3</a></sup>)</li>
+<li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ の頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref3"><a href="#fn3">3</a></sup>)</li>
 </ul>
 
 <p>フロー整合性条件を満たすフローに対しては, 全頂点で $e_\vecf(v) = 0$ だからカット条件は成立する一方, フロー整合性条件を満たさないがカット条件を満たすフローが存在するならば, 主問題が infeasible であることが確かめられる.</p>
@@ -214,7 +214,8 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <li>3. に戻る.</li>
 </ol>
 
-<p>このアルゴリズムは, 次の不変条件を満たす.</p>
+<p>ここで, &quot;push する&quot; は, $f_e$ の値を増やすの意味. これに伴い, 順辺と逆辺残余容量 $u_\vecf$, この辺の端点の余剰量 $e_\vecf$ が変更されることに注意.
+このアルゴリズムは, 次の不変条件を満たす.</p>
 
 <ul>
 <li>2. の初期化が終わった時点以降, $\vecf$ は常に容量制約を満たす.</li>
@@ -242,7 +243,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <p><strong>$\Delta$-scaling primal step:</strong></p>
 
 <ol>
-<li>$S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ な頂点へ $c^\vecp(e) = 0$ な $G^\Delta_\vecf$ の辺からなるパスを一つ取る.</li>
+<li>$S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点へ $c^\vecp(e) = 0$ な $G^\Delta_\vecf$ の辺からなるパスを一つ取る.</li>
 <li>そのパスに沿ってフローを流す. 見つかったのが $s$-$t$ path $P$ であったとすると, $\Delta$ 以上 $\min\{ e_\vecf(s), -e_\vecf(t), \min_{e \in P} u_\vecf(e) \}$ 以下だけ流す.</li>
 </ol>
 
@@ -477,11 +478,11 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <p>さて, $\Delta$ を一つ固定し, $\Delta$-scaling phase の前処理を行う直前 ($2\Delta$-scaling phase の直後又は初回) のフローを $\vecf'$, 前処理の直後のフローを $\vecf$ とし, (前処理でポテンシャルは不変なので両方に)対応するポテンシャルを $\vecp$ とすると,</p>
 
 <ul>
-<li>$G^{2\Delta}_{\vecf'}$ 上に $S^{2\Delta}_{\vecf'}$ の頂点から $T^{2\Delta}_{\vecf'}$ な頂点へのパス($2\Delta$-増大路)が存在しない ($2\Delta$-緩和されたカット条件)</li>
+<li>$G^{2\Delta}_{\vecf'}$ 上に $S^{2\Delta}_{\vecf'}$ の頂点から $T^{2\Delta}_{\vecf'}$ の頂点へのパス($2\Delta$-増大路)が存在しない ($2\Delta$-緩和されたカット条件)</li>
 <li>$c^\vecp(e) < 0 \Rightarrow u_{\vecf'}(e) < 2 \Delta, \quad \forall e = (u, v) \in \exE$ ($2 \Delta$-緩和された相補性条件の対偶)</li>
 </ul>
 
-<p>が成り立つ. 各 primal step では $S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ な頂点にフローを流す. この始点/終点になりうる頂点を4つに分割し,</p>
+<p>が成り立つ. 各 primal step では $S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点にフローを流す. この始点/終点になりうる頂点を4つに分割し,</p>
 
 <ul>
 <li>$A = S^{2\Delta}_{\vecf'} \cap S^\Delta_\vecf$,</li>
