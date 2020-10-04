@@ -509,6 +509,18 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 
 <p>scaling factor を $2$ ではなく $\alpha$ とすると, $O(m^2 \alpha \log m \log_\alpha \U)$ になる.</p>
 
+<h3>別の方針</h3>
+
+<p>実質的な内容は同じであるが, 人によっては次の方針が $A, B, C, D$ への分割を考えるより明瞭に思えるかもしれない.</p>
+
+<ol>
+<li>$\vecf$ に対し, $V \cup \{s, t\}$ を頂点とするグラフ $H_\vecf$ で, $\overleftrightarrow{E}$ に残余容量で辺容量を入れた辺と, $s$ から $v$ に容量 $\max\{0, e_\vecf(v)\}$ の辺, $v$ から $t$ に容量 $\max\{0, -e_\vecf(v)\}$ の辺を持つものを考える.</li>
+<li>$G_\vecf$ 上の $S^\Delta_\vecf$ から $T^\Delta_\vecf$ への $\Delta$-残余パスは $H_\vecf$ 上の $s$ から $t$ への $\Delta$-残余パスと一対一対応し, $F_\Delta$ は $\Delta$-scaling phase 開始時のフロー $\vecf$ に対応する $H_\vecf$ の最大 $s$-$t$ フロー量で上から抑えられる.</li>
+<li>$\Delta$-scaling phase の前処理の直前のフロー $\vecf'$ に対応する $H_{\vecf'}$ の最小カットの容量は ($2\Delta$-カット条件から) $O(m \Delta)$.</li>
+<li>$H_{\vecf'}$ と $H_\vecf$ で, 各辺の容量の差の絶対値の和は $O(m \Delta)$. これは元のグラフの辺容量だけでなく $e_\vecf$ の変化も含むことに注意.</li>
+<li>従って, $H_\vecf$ の最小 $s$-$t$ カット容量も $O(m \Delta)$ で, これを言えばよかった.</li>
+</ol>
+
 <h3>注意</h3>
 
 <p>Z. Király and P. Kovács (2012) の Capacity Scaling (CAS) は恐らく上記のアルゴリズムとほぼ同じであるが,
@@ -535,6 +547,10 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 <li>2. では 10.2 節で扱われている. ちゃんと書いていないが, $\Delta$-scaling phase の終了条件の正当性に Assumption 9.4 (上の注意で言った仮定)が効いている.</li>
 <li>3. で上記の注意が出てくる. &quot;証明されていないが, この実装の方が有意に速かったのでこっちを使った&quot; という旨が書かれている.</li>
 </ul>
+
+<h2>謝辞</h2>
+
+<p><a href="https://twitter.com/tokoharu_sakura">とこはるさん</a> には事前に読んでいただき, 有用なコメントと共に安心感をいただきました. ありがとうございました!</p>
 
 <h2>ソースコード</h2>
 
