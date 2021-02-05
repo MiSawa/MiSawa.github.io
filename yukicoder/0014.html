@@ -74,7 +74,7 @@ ga('send', 'pageview');
 $i = 1, \dots, n-1$ に対し, 次の操作を順に行う.</p>
 
 <ul>
-<li>$a_i$ を今の値で固定し, $a _ {i+1}, \dots, a_n$ を,
+  <li>$a_i$ を今の値で固定し, $a _ {i+1}, \dots, a_n$ を,
 $f _ {a_i}(x) = (\mathop{LCM}(a_i, x), x)$ の辞書順でソートし, 小さい順に番号を付け直す.</li>
 </ul>
 
@@ -90,17 +90,29 @@ $f _ {a_i}(x) = (\mathop{LCM}(a_i, x), x)$ の辞書順でソートし, 小さ�
 従って, 次の操作に対応する何かがあればよい:</p>
 
 <ul>
-<li><p>multiset 的なものを, $a_1, \dots, a_n$ で初期化.</p></li>
-<li><p>t が与えられるので, $f_t(x)$ の最も小さいものを一つ取り除き, 返す.</p></li>
+  <li>
+    <p>multiset 的なものを, $a_1, \dots, a_n$ で初期化.</p>
+  </li>
+  <li>
+    <p>t が与えられるので, $f_t(x)$ の最も小さいものを一つ取り除き, 返す.</p>
+  </li>
 </ul>
 
 <p>これを, 値の範囲が小さい事を利用して, 次のようにして作る.</p>
 
 <ul>
-<li><p>各 $a_i$ に対してその約数を列挙しておく. (下のソースでいう <code>fac</code>)</p></li>
-<li><p>$d$ が与えられた時, $d$ の倍数であるような $a_i$ を小さい順に返す構造を作っておく. (下のソースでいう <code>rev</code>)</p></li>
-<li><p>$t$ が与えられた時, $t$ の各約数 $d$ について, <code>rev[d]</code> に入っている最小値を持ってきて, それを候補し, $d$ に渡る min を取って次の数を決める.</p></li>
-<li><p>あとは削除に対応すればよいが, set を使いたくはないので, 遅延しておく. (下のソースでいう <code>c</code> を使っている所)</p></li>
+  <li>
+    <p>各 $a_i$ に対してその約数を列挙しておく. (下のソースでいう <code>fac</code>)</p>
+  </li>
+  <li>
+    <p>$d$ が与えられた時, $d$ の倍数であるような $a_i$ を小さい順に返す構造を作っておく. (下のソースでいう <code>rev</code>)</p>
+  </li>
+  <li>
+    <p>$t$ が与えられた時, $t$ の各約数 $d$ について, <code>rev[d]</code> に入っている最小値を持ってきて, それを候補し, $d$ に渡る min を取って次の数を決める.</p>
+  </li>
+  <li>
+    <p>あとは削除に対応すればよいが, set を使いたくはないので, 遅延しておく. (下のソースでいう <code>c</code> を使っている所)</p>
+  </li>
 </ul>
 
 <p>計算量は, $D$ を $A$ 以下の数の約数の個数の最大値として $O(N \sqrt{A} + N D)$.</p>
@@ -176,6 +188,7 @@ $f _ {a_i}(x) = (\mathop{LCM}(a_i, x), x)$ の辞書順でソートし, 小さ�
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
     <a href="src/0014.cc">download full source code</a>
 
       <h3>Tags</h3>

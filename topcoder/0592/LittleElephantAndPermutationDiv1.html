@@ -92,65 +92,75 @@ $$
 
 <p>最初は</p>
 
-<table><thead>
-<tr>
-<th style="text-align: center">n</th>
-<th style="text-align: center"></th>
-<th style="text-align: center"></th>
-<th style="text-align: center"></th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center"></td>
-<td style="text-align: center">n</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">n</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
 
 <p>($ 2n $ 得られる)とか</p>
 
-<table><thead>
-<tr>
-<th style="text-align: center">n</th>
-<th style="text-align: center"></th>
-<th style="text-align: center"></th>
-<th style="text-align: center"></th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center">n</td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-<td style="text-align: center"></td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">n</th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">n</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
 
 <p>($ n $ 得られる)みたいなのがある.</p>
 
 <p>その次は,</p>
 
-<table><thead>
-<tr>
-<th style="text-align: center">?</th>
-<th style="text-align: center">n-1</th>
-<th style="text-align: center"></th>
-<th style="text-align: center"></th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center"></td>
-<td style="text-align: center">?</td>
-<td style="text-align: center">n-1</td>
-<td style="text-align: center"></td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">?</th>
+      <th style="text-align: center">n-1</th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">?</td>
+      <td style="text-align: center">n-1</td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
 
 <p>とか, いくつか置き方がある.</p>
 
 <p>とにもかくにも, DP を ($i$ を置く, ペアで埋まっている個数, 残り必要な f の値) ですればいい.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -214,6 +224,7 @@ $$
     <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">K</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

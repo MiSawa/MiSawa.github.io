@@ -91,8 +91,12 @@ $X \bmod 10$ を出力せよ.</p>
 すると, $n = 2^a,\ a \le 1$ または $n = 5^b,\ b \le 0$ と書ける.</p>
 
 <ul>
-<li><p>$n = 2^a$ の時, $m$ を $a$ 回 $2$ で割る事になるが, $\gcd(m, n) = 1$ から $m \equiv 1 \mod 2$ であり, 末尾は $5$ になる.</p></li>
-<li><p>$n = 5^b$ の時, 答えは $m * 2^b \bmod 10$ であるから, $m \bmod 10$ に $2$ を $b$ 回掛ければよい.</p></li>
+  <li>
+    <p>$n = 2^a$ の時, $m$ を $a$ 回 $2$ で割る事になるが, $\gcd(m, n) = 1$ から $m \equiv 1 \mod 2$ であり, 末尾は $5$ になる.</p>
+  </li>
+  <li>
+    <p>$n = 5^b$ の時, 答えは $m * 2^b \bmod 10$ であるから, $m \bmod 10$ に $2$ を $b$ 回掛ければよい.</p>
+  </li>
 </ul>
 
 <p>$n = 2^a$ の時も適当にループを回す事にしてしまうと,
@@ -128,6 +132,7 @@ $m$, $n$ に $5^a$ 又は $2^b$ を掛けて, $n$ を $10^a$ 又は $10^b$ に�
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
     <a href="./src/0025.cc">download full source code</a>
 
       <h3>Tags</h3>

@@ -89,7 +89,6 @@ Bob は $k$ 回までその移動を邪魔し, 指定した辺を辿らせる事
 $c(e) := \mathrm{cost}(e) \le 10^6$.</p>
 
 <h3>解法</h3>
-
 <p><code>long long</code> に注意.</p>
 
 <p>$H$ を $G$ の逆グラフとし,
@@ -97,15 +96,20 @@ Alice が頂点 $u$ に居て, Bob が残り $k$ 回邪魔出来る時の結果�
 
 <p>$\mathrm{dp}[0]$ は, $n-1$ からの $H$ での最短路長の配列である.</p>
 
-<p>$\mathrm{dp}[k-1]$ が定まっている時,
-- $\mathrm{dp}[k][u]$ は $\max_{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.
-- $\mathrm{dp}[k][u]$ は, $\min_{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.
-の二つを満たすよな最小のものを, $\mathrm{dp}[k][u]$ とすればよい.</p>
+<p>$\mathrm{dp}[k-1]$ が定まっている時,</p>
+
+<ul>
+  <li>$\mathrm{dp}[k][u]$ は $\max_{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.</li>
+  <li>$\mathrm{dp}[k][u]$ は, $\min_{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.</li>
+</ul>
+
+<p>の二つを満たすような最小のものを $\mathrm{dp}[k][u]$ とすればよい.</p>
 
 <p>後者が難しいが, 「後者だけで dijkstra 法をしつつ, 今確定する頂点が前者を満たさなければ, 前者を満たすように置き換える」という戦略でよい.
 なぜならば, dijkstra 法で必要なのは, 「今確定する頂点が本当にこれ以降変わらない」という事で, これは満たされるから.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -181,6 +185,7 @@ Alice が頂点 $u$ に居て, Bob が残り $k$ 回邪魔出来る時の結果�
     <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

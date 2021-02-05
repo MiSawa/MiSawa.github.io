@@ -74,11 +74,21 @@ $$`</div>
 <h2>要約</h2>
 
 <ul>
-<li><p>$k$ 階の線型漸化式 (フィボナッチ数列とか) の $N$ 項目を高速に求める.</p></li>
-<li><p>競技プログラミング界隈で Kitamasa 法と呼ばれているやつは, 多項式の冪剰余.</p></li>
-<li><p>高速多項式剰余で殴れば, $O(k \log k \log n)$.</p></li>
-<li><p>実装だけしたいなら, 一番下の擬似コードを見るといいかも.</p></li>
-<li><p>誤字脱字, ミス, ここがわからんとか, もっと綺麗な方法があれば, 教えて下さい.</p></li>
+  <li>
+    <p>$k$ 階の線型漸化式 (フィボナッチ数列とか) の $N$ 項目を高速に求める.</p>
+  </li>
+  <li>
+    <p>競技プログラミング界隈で Kitamasa 法と呼ばれているやつは, 多項式の冪剰余.</p>
+  </li>
+  <li>
+    <p>高速多項式剰余で殴れば, $O(k \log k \log n)$.</p>
+  </li>
+  <li>
+    <p>実装だけしたいなら, 一番下の擬似コードを見るといいかも.</p>
+  </li>
+  <li>
+    <p>誤字脱字, ミス, ここがわからんとか, もっと綺麗な方法があれば, 教えて下さい.</p>
+  </li>
 </ul>
 
 <h2>イントロ</h2>
@@ -113,7 +123,6 @@ $$a_{n+k+1} - a_{n+k} = c_1 (a_{n+k} - a_{n+k-1}) + \dots + c_k (a_{n+1} - a_n) 
 <h2>準備</h2>
 
 <h4>仮定と記法</h4>
-
 <p>以後, 数列の各要素は, 一つ固定した単位元付きの可換環の元で,
 二つの数列 $a = \seq{a_i}_{i=0}^{\infty},\ b = \seq{b_i}_{i=0}^{\infty}$ に対し,
 $$c_n = \sum_{i=0}^{n} a_{i} b_{n-i}$$
@@ -137,7 +146,6 @@ $$c_n = \sum_{i=0}^{n} a_{i} b_{n-i}$$
 <p>さらに, $\seq{a_i}_{i=l}^{r}$ や $\seq{a}_{l}^{r}$ で, $\seq{a_l, a_{l+1}, \dots, a_r}$ なる数列を表すことにする.</p>
 
 <h4>畳込みの基本的な性質</h4>
-
 <p>$a = \seq{a_i}_{i=0}^{\infty},\ b = \seq{b_i}_{i=0}^{\infty}$ を考えよう.</p>
 
 <p>$(a*b)_n = \sum_{i+j = n} a_i b_j$
@@ -406,9 +414,9 @@ r(-\phi^{-1}) &= (-\phi^{-1})^n = (-\phi)^{-n}
 $$\begin{align*}
 r(t)
 &= \phi^n \frac{t + \phi^{-1}}{\phi + \phi^{-1}}
- + (-\phi)^{-n} \frac{t - \phi}{-\phi^{-1} - \phi} \\
++(-\phi)^{-n} \frac{t - \phi}{-\phi^{-1} - \phi} \\
 &= \frac{\phi^n (t + \phi^{-1}) - (-\phi)^{-n} (t - \phi)}{\phi + \phi^{-1}} \\
-&= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}t + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}} \\
+&= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}t + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}}
 \end{align*}$$
 と, $r(t)$ を復元できる.
 従って,
@@ -425,6 +433,7 @@ F_n
 
 <p>メインルーチンは, 次のような感じ.
 $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
+
 <div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -453,6 +462,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
     <span class="k">return</span> <span class="n">result</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <p>余談に書いた前計算をする場合は, 次のようなものを基本にする.</p>
+
 <div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -482,6 +492,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 </pre></td></tr></tbody></table></code></pre></div>
 <p>次に, $\mathrm{multiply\_mod}$ だが, これは式のまま.
 但し, $c'$ は $\mathrm{ic}$ と表記した.</p>
+
 <div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -494,6 +505,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
     <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">2</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <p>最後に, $c'$ の計算も, 式のまま.</p>
+
 <div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -520,23 +532,37 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 <p>二冊の本は, 高速多項式除算の部分を参考にした.</p>
 
 <ol>
-<li><p>R. Crandall, C. Pomerance, 和田秀男 監訳, &quot;素数全書: 計算からのアプローチ&quot;, 朝倉書店, 2010, ISBN978-4-254-11128-6.</p></li>
-<li><p>J. von zur Gathen, J. Gerhard, 山本慎, 三好重明, 原正雄, 谷聖一, 衛藤和文 訳, &quot;コンピュータ代数ハンドブック&quot;, 朝倉書店, 2006, ISBN978-4-254-11106-4.</p></li>
-<li><p>wata_orz, &quot;The First KMCMonthly Contest 解説&quot;, 2015/04/29 閲覧, <a href="http://d.hatena.ne.jp/wata_orz/20090922/1253615708">http://d.hatena.ne.jp/wata_orz/20090922/1253615708</a></p></li>
-<li><p>Takanori MAEHARA, &quot;コンパニオン行列のべき乗&quot;, 2015/04/29 閲覧, <a href="https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf">https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf</a></p></li>
+  <li>
+    <p>R. Crandall, C. Pomerance, 和田秀男 監訳, &quot;素数全書: 計算からのアプローチ&quot;, 朝倉書店, 2010, ISBN978-4-254-11128-6.</p>
+  </li>
+  <li>
+    <p>J. von zur Gathen, J. Gerhard, 山本慎, 三好重明, 原正雄, 谷聖一, 衛藤和文 訳, &quot;コンピュータ代数ハンドブック&quot;, 朝倉書店, 2006, ISBN978-4-254-11106-4.</p>
+  </li>
+  <li>
+    <p>wata_orz, &quot;The First KMCMonthly Contest 解説&quot;, 2015/04/29 閲覧, <a href="http://d.hatena.ne.jp/wata_orz/20090922/1253615708">http://d.hatena.ne.jp/wata_orz/20090922/1253615708</a></p>
+  </li>
+  <li>
+    <p>Takanori MAEHARA, &quot;コンパニオン行列のべき乗&quot;, 2015/04/29 閲覧, <a href="https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf">https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf</a></p>
+  </li>
 </ol>
 
 <h2>関連問題</h2>
-
 <p>一つ目は, 一般の法で求めるための準備に.
 二つ目は $O(k^2 \log n)$ でも通る.
 三つ目は $O(k \log k \log n)$ が想定されているようである.</p>
 
 <ol>
-<li><p><a href="http://yukicoder.me/problems/448">yukicoder No.187 中華風 (Hard)</a></p></li>
-<li><p><a href="http://tdpc.contest.atcoder.jp/tasks/tdpc_fibonacci">Typical DP Contest T フィボナッチ</a></p></li>
-<li><p><a href="http://www.codechef.com/problems/RNG">CODECHEF Random Number Generator</a></p></li>
+  <li>
+    <p><a href="http://yukicoder.me/problems/448">yukicoder No.187 中華風 (Hard)</a></p>
+  </li>
+  <li>
+    <p><a href="http://tdpc.contest.atcoder.jp/tasks/tdpc_fibonacci">Typical DP Contest T フィボナッチ</a></p>
+  </li>
+  <li>
+    <p><a href="http://www.codechef.com/problems/RNG">CODECHEF Random Number Generator</a></p>
+  </li>
 </ol>
+
 
 
       <h3>Tags</h3>

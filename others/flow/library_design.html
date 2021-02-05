@@ -71,7 +71,6 @@ ga('send', 'pageview');
 $$`</div>
 
 <h1>ぼくの考えたさいきょうのフローライブラリ</h1>
-
 <h2>要約</h2>
 
 <p>&quot;最小費用流&quot; のライブラリを &quot;最小費用最大流&quot; ではなく &quot;最小費用 $\vecb$-フロー&quot; の形で書くことについて.
@@ -82,7 +81,7 @@ $$`</div>
 <h2>イントロ</h2>
 
 <p>最小費用流問題と呼ばれる問題を解く際, 競技プログラミングでは, <a href="https://book.mynavi.jp/ec/products/detail/id=22672" title="プログラミングコンテストチャレンジブック">蟻本</a> に記載のものをはじめ多くの場合, 最小費用最大流を解くライブラリ,
-特に最短路反復法や Primal-Dual 法 <sup id="fnref1"><a href="#fn1">1</a></sup> と呼ばれる実装が用いられる.
+特に最短路反復法や Primal-Dual 法 <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> と呼ばれる実装が用いられる.
 これらのアルゴリズムを使う際, 辺コストが負になりうる場合, 負サイクルがある場合, 最小流量制約がある場合, 頂点吸込みや湧出しがある場合などは, Bellman-Ford 法や SPFA 等で追加処理を行ったり,
 ネットワークの変形をすることで, 同値な最小費用最大流問題への還元を行うことになる.
 しかし, これらは単に煩雑でバグの温床になるだけでなく, 解の復元も面倒になるなど, デメリットが多い.</p>
@@ -91,12 +90,12 @@ $$`</div>
 より具体的には, 次の機能をサポートすることを目指す.</p>
 
 <ul>
-<li><code>void add_edge(from, to, lower bound, upper bound, cost)</code><strong>:</strong> 流量上下限制約のついた辺を追加する.</li>
-<li><code>void add_supply(vertex, amount)</code><strong>:</strong> 頂点に湧出しを追加する.</li>
-<li><code>void add_demand(vertex, amount)</code><strong>:</strong> 頂点に吸込みを追加する.</li>
-<li><code>Result&lt;Cost&gt; solve()</code><strong>:</strong> 最小費用 $\vecb$-フロー問題を解き, 最小費用を返すか, 問題が infeasible であることを報告する.</li>
-<li><code>Result&lt;(Flow, Cost)&gt; solve(source, sink)</code><strong>:</strong> 最小費用最大流問題に対応する. $f \ge 0$ を <code>add_supply(source, f)</code> と <code>add_demand(sink, f)</code> をした後の制約を満たすフローが存在するような最大の $f$ とし, この $f$ に加えてその時の最小費用を返す.</li>
-<li>最適解の各辺の流量の復元が簡単にできる.</li>
+  <li><code>void add_edge(from, to, lower bound, upper bound, cost)</code><strong>:</strong> 流量上下限制約のついた辺を追加する.</li>
+  <li><code>void add_supply(vertex, amount)</code><strong>:</strong> 頂点に湧出しを追加する.</li>
+  <li><code>void add_demand(vertex, amount)</code><strong>:</strong> 頂点に吸込みを追加する.</li>
+  <li><code>Result&amp;lt;Cost&amp;gt; solve()</code><strong>:</strong> 最小費用 $\vecb$-フロー問題を解き, 最小費用を返すか, 問題が infeasible であることを報告する.</li>
+  <li><code>Result&amp;lt;(Flow, Cost)&amp;gt; solve(source, sink)</code><strong>:</strong> 最小費用最大流問題に対応する. $f \ge 0$ を <code>add_supply(source, f)</code> と <code>add_demand(sink, f)</code> をした後の制約を満たすフローが存在するような最大の $f$ とし, この $f$ に加えてその時の最小費用を返す.</li>
+  <li>最適解の各辺の流量の復元が簡単にできる.</li>
 </ul>
 
 <p>一方で, 速いライブラリを書くことは, この記事の目標ではないことに注意されたい.
@@ -104,10 +103,10 @@ $$`</div>
 具体的には, &quot;以下の絶対値の和を $F$ として...&quot; のようになる.</p>
 
 <ul>
-<li>各頂点の湧出し/吸込み</li>
-<li>コスト正の辺の流量下限</li>
-<li>コスト負の辺の流量上限</li>
-<li>($s$-$t$ 最大流量を求める場合) $s$-$t$ 最大流量</li>
+  <li>各頂点の湧出し/吸込み</li>
+  <li>コスト正の辺の流量下限</li>
+  <li>コスト負の辺の流量上限</li>
+  <li>($s$-$t$ 最大流量を求める場合) $s$-$t$ 最大流量</li>
 </ul>
 
 <p>速いライブラリを書くならば, そもそも最短路反復法や Primal-Dual 法を脱するべきである.
@@ -119,10 +118,11 @@ $$`</div>
 <h2>概形</h2>
 
 <p>最大化問題を解きたいときにライブラリへの入出力全てを $-1$ 倍するのは面倒なので, 適当にテンプレート引数にしておいた.
-<code>MinCostFlow<Flow, Cost></code> で最小化, <code>MaxGainFlow<Flow, Cost></code> で最大化問題になる.
+<code>MinCostFlow&lt;Flow, Cost&gt;</code> で最小化, <code>MaxGainFlow&lt;Flow, Cost&gt;</code> で最大化問題になる.
 ついでに, <code>auto</code> と structured bindings で返り値を受けるのも楽になったので, 結果が infeasible であったかを enum で同時に返すようにした.</p>
 
 <p>また, <code>add_edge</code> で, 最適解で流れたフロー量などにアクセスできるようにする為のポインタのようなものを返すようにした. <code>MinCostFlow</code> 自体の destruct 後はもちろん invalid なので注意.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -199,8 +199,8 @@ $$`</div>
 <span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <h2>データの持ち方</h2>
+<p>簡単のため, 単に <code>std::vector&lt;std::vector&lt;Edge&gt;&gt;</code> で隣接リストを持つ方式にした. <code>Edge</code> 構造体の定義はもう少し後で.</p>
 
-<p>簡単のため, 単に <code>std::vector<std::vector<Edge>></code> で隣接リストを持つ方式にした. <code>Edge</code> 構造体の定義はもう少し後で.</p>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -211,13 +211,13 @@ $$`</div>
   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Flow</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <h2>入力部</h2>
-
 <h3>頂点まわり</h3>
 
 <p>フローの問題の場合, <code>add_edge(i + n, j + n + m ...)</code> のようなオフセットが大量に登場しがちで間違えやすいため,
 頂点数を陽に指定せず, <code>add_vertex()</code> や <code>add_vertices(size_t)</code> で頂点を追加し, その返り値を使う造りにしている.</p>
 
 <p>例えば,</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -227,6 +227,7 @@ $$`</div>
 </pre></td></tr></tbody></table></code></pre></div>
 <p>などのように, 頂点は常に <code>add_vertex</code> / <code>add_vertices</code> の返り値を使う. 本来はこれをラップする構造体を用意して, 不用意に <code>int</code> などを渡せないようにすべきだろうが,
 そうしないことによる利便性もあり, とりあえずこのまま使えるようにしている.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -279,6 +280,7 @@ $$`</div>
 
 <p>これを使って流量下限制約を入れると, 最大流量を $\mathrm{upper}-\mathrm{lower}$ に変形する方法に比べ, 流量の復元が非常に簡単になる.
 $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満たさないことに注意.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -337,10 +339,10 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
   <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <h2>計算部</h2>
-
 <h3>途中で使う変数と便利関数たち</h3>
 
 <p>一つの関数内で使用が簡潔する <code>priority_queue</code> なども, その関数を度々呼ぶなら, 使いまわしたほうが速度的に少々お得.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -381,6 +383,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 これら2つの条件は, この前処理以後, 常に保つ.</p>
 
 <p>また, 小手先の高速化として, $\vecb$ が正である頂点と負である頂点を保持することにした. これはなくとも正しくは動くが, 特に最小費用最大流を求める際などに強めに影響すると考えられる.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -421,6 +424,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 一方 <code>primal()</code> は双対問題の解(ポテンシャル)は更新せず, そのポテンシャルとの相補性条件を保ちつつ, 主問題の解(フロー)を変更することで, $\vecb$ が $\veczero$ に近づくようにする.</p>
 
 <p>最適値の復元では, 単に $\vec{f} \cdot \vec{c}$ を取ると, 順辺に対する $f_e c_e$ と逆辺に対する $f_{e'} c_{e'} = (- f_e) (- c_e) = f_e c_e$ で倍になる為, 最後に $2$ で割ることに注意.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -461,6 +465,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 <p>また, primal step で使うために, 最短経路森を保存しておく.
 今回は, 頂点毎に, その点に入ってくる時に使う辺へのポインタを持つ形にした.
 primal step では簡約コストが $0$ な辺のみを使って増大路を計算することで, 最短経路森の部分をサボることも出来る.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -535,6 +540,7 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 <h3>primal step</h3>
 
 <p>dual step で計算した最短経路森に従い, フローを流すだけ.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -577,12 +583,11 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
     <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <h3>最大流量への対応</h3>
-
 <p>最大流量に対応するには, 次の2つのステップを踏む.</p>
 
 <ol>
-<li>$s$-$t$ 間に最大流量を流さなくともよい場合の問題の解を求める.</li>
-<li>$s$-$t$ 間の流量が最大となるよう, 解を変形する.</li>
+  <li>$s$-$t$ 間に最大流量を流さなくともよい場合の問題の解を求める.</li>
+  <li>$s$-$t$ 間の流量が最大となるよう, 解を変形する.</li>
 </ol>
 
 <p>ステップ 1 は, $s$-$t$ 間にどれだけフローが流れていてもよいという条件を加えた最小費用 $\vecb$-フロー問題であるから, $t$ から $s$ へコスト $0$, 容量 $\infty$ の辺を追加して <code>solve()</code> を呼べばよい.</p>
@@ -591,13 +596,14 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 実際にこれが正しく動くことは, 次のようにしてわかる.</p>
 
 <ul>
-<li>ステップ 1 で, 内部状態は, 流量制約と相補性条件を満たすようになる.</li>
-<li>従って, ステップ 2 の <code>solve()</code> 時の前処理で <code>push</code> すべき辺は無く, $s$, $t$ の他に新たな吸込み/湧出しが出来ることはない.</li>
-<li><code>primal()</code> も <code>dual()</code> も吸込み/湧出しを増やさない.</li>
-<li>アルゴリズムが停止する時, 湧出しから吸込みへの残余パスは存在しない. 従って, $s$-$t$ 流量が最大化されている.</li>
+  <li>ステップ 1 で, 内部状態は, 流量制約と相補性条件を満たすようになる.</li>
+  <li>従って, ステップ 2 の <code>solve()</code> 時の前処理で <code>push</code> すべき辺は無く, $s$, $t$ の他に新たな吸込み/湧出しが出来ることはない.</li>
+  <li><code>primal()</code> も <code>dual()</code> も吸込み/湧出しを増やさない.</li>
+  <li>アルゴリズムが停止する時, 湧出しから吸込みへの残余パスは存在しない. 従って, $s$-$t$ 流量が最大化されている.</li>
 </ul>
 
 <p>容量 $\infty$ は, 実際には $s$ 周りの容量を使った.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -649,9 +655,9 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 </pre></td></tr></tbody></table></code></pre></div>
 <h2>ソースコード</h2>
 
-<pre class='fold_button'>長いので折りたたみ</pre>
+<pre class="fold_button">長いので折りたたみ</pre>
+<pre class="fold_begin"></pre>
 
-<pre class='fold_begin'></pre>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1156,14 +1162,13 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">&gt;</span>
 <span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
-</pre></td></tr></tbody></table></code></pre></div>
-<pre class='fold_end'></pre>
+</pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
 
 <h2>使用例</h2>
 
 <h3>Library-Checker: Assignment Problem</h3>
-
 <p>問題は<a href="https://judge.yosupo.jp/problem/assignment">こちら</a></p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1210,14 +1215,11 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <div class="footnotes">
-<hr>
-<ol>
-
-<li id="fn1">
-<p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない.&nbsp;<a href="#fnref1">&#8617;</a></p>
-</li>
-
-</ol>
+  <ol>
+    <li id="fn:1">
+      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
 </div>
 
 

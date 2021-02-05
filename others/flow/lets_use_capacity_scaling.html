@@ -81,13 +81,12 @@ $$`</div>
 <h2>要約</h2>
 
 <ul>
-<li>最小費用流問題に対する最短路反復法(Successive Shortest Path, SSP)や Primal-Dual 法<sup id="fnref1"><a href="#fn1">1</a></sup>と呼ばれるアルゴリズムは, 少し弄ると弱多項式時間アルゴリズムにできる.</li>
-<li>具体的には, $O(\U \cdot \mathrm{SP_+}(n, m, nC))$ が $O(m \log \U \cdot \mathrm{SP_+}(n, m, nC))$ になる.</li>
-<li>$\mathrm{SP_+}(n, m, nC)$ は$n$ 頂点 $m$ 辺, 費用高々 $nC$ のグラフの一点から全点への最短路問題を解くのにかかる時間. 以下では実装をサボったダイクストラ法なので $O(m \log m)$ だが, $\exists k: m = O(n^k)$ を仮定すると合計 $O(m^2 \log \U \log n)$.</li>
+  <li>最小費用流問題に対する最短路反復法(Successive Shortest Path, SSP)や Primal-Dual 法<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>と呼ばれるアルゴリズムは, 少し弄ると弱多項式時間アルゴリズムにできる.</li>
+  <li>具体的には, $O(\U \cdot \mathrm{SP_+}(n, m, nC))$ が $O(m \log \U \cdot \mathrm{SP_+}(n, m, nC))$ になる.</li>
+  <li>$\mathrm{SP_+}(n, m, nC)$ は$n$ 頂点 $m$ 辺, 費用高々 $nC$ のグラフの一点から全点への最短路問題を解くのにかかる時間. 以下では実装をサボったダイクストラ法なので $O(m \log m)$ だが, $\exists k: m = O(n^k)$ を仮定すると合計 $O(m^2 \log \U \log n)$.</li>
 </ul>
 
 <h2>まえがき</h2>
-
 <p><a href="library_design.html">ぼくの考えたさいきょうのフローライブラリ</a> では, その速さは特に追求せず, SSP を用いたライブラリの設計例を紹介した.
 この記事では, 前回完成したライブラリを少し変更することで, 計算量を改善する.</p>
 
@@ -99,44 +98,41 @@ $$`</div>
 <p>実装のみを知りたい方は, 前半の章は読み飛ばして下さい.</p>
 
 <h2>背景知識</h2>
-
 <p>計算量解析で必要なものの準備を兼ねて, LP と容量スケーリング法のかかわりと, 容量スケーリング法の invariant を見る.</p>
 
 <h3>記号の準備</h3>
-
 <p>問題の定義すらまだだけれど, 先においておいた方が後で見やすいと思うので.</p>
 
 <ul>
-<li>$\exE$ は $E$ に逆辺を追加した集合</li>
-<li>$u_\vecf(e)$ は残余容量 (順辺に対しては $u_\vecf(e) := u_e - f_e$, 逆辺については $u_\vecf(\reve) := f_e - l_e$)</li>
-<li>$c^\vecp(e)$ は簡約コスト(順辺 $e = (u, v)$ に対しては $c^\vecp(e) := c_e + p_u - p_v$, 逆辺については $c^\vecp(\reve) := -c^\vecp(e)$)</li>
-<li>$G_\vecf$ は $\vecf$ に関する残余グラフ ($\exE$ のうち $u_\vecf(e) > 0$ なものを集めたもの. 容量は $u_\vecf(e)$.)</li>
-<li>$G^\Delta_\vecf$ は $G_\vecf$ のうち容量が $\Delta$ 以上のもののみからなるグラフ</li>
-<li>$\U := \max_e \{ u_e - l_e \}$</li>
-<li>$\delta^+(v)$ は $v$ から出る $G$ の辺全体の集合, $\delta^-(v)$ は $v$ へ入る $G$ の辺全体の集合.</li>
-<li>$e_\vecf(v) := b_v - (\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e)$ (余剰量)</li>
-<li>$S_\vecf := \{ v | e_\vecf(v) > 0 \}$, $T_\vecf := \{ v | e_\vecf(v) < 0 \}$</li>
-<li>$S^\Delta_\vecf := \{ v | e_\vecf(v) \ge +\Delta \}$, $T^\Delta_\vecf := \{ v | e_\vecf(v) \le -\Delta \}$</li>
+  <li>$\exE$ は $E$ に逆辺を追加した集合</li>
+  <li>$u_\vecf(e)$ は残余容量 (順辺に対しては $u_\vecf(e) := u_e - f_e$, 逆辺については $u_\vecf(\reve) := f_e - l_e$)</li>
+  <li>$c^\vecp(e)$ は簡約コスト(順辺 $e = (u, v)$ に対しては $c^\vecp(e) := c_e + p_u - p_v$, 逆辺については $c^\vecp(\reve) := -c^\vecp(e)$)</li>
+  <li>$G_\vecf$ は $\vecf$ に関する残余グラフ ($\exE$ のうち $u_\vecf(e) > 0$ なものを集めたもの. 容量は $u_\vecf(e)$.)</li>
+  <li>$G^\Delta_\vecf$ は $G_\vecf$ のうち容量が $\Delta$ 以上のもののみからなるグラフ</li>
+  <li>$\U := \max_e \{ u_e - l_e \}$</li>
+  <li>$\delta^+(v)$ は $v$ から出る $G$ の辺全体の集合, $\delta^-(v)$ は $v$ へ入る $G$ の辺全体の集合.</li>
+  <li>$e_\vecf(v) := b_v - (\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e)$ (余剰量)</li>
+  <li>$S_\vecf := \{ v | e_\vecf(v) > 0 \}$, $T_\vecf := \{ v | e_\vecf(v) < 0 \}$</li>
+  <li>$S^\Delta_\vecf := \{ v | e_\vecf(v) \ge +\Delta \}$, $T^\Delta_\vecf := \{ v | e_\vecf(v) \le -\Delta \}$</li>
 </ul>
 
 <h3>LP と Primal-Dual 法</h3>
-
-<p>最小費用流問題<sup id="fnref2"><a href="#fn2">2</a></sup>は, その線型計画問題としての表現と強双対性を使うと, 次のような問題と捉えられる;</p>
+<p>最小費用流問題<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>は, その線型計画問題としての表現と強双対性を使うと, 次のような問題と捉えられる;</p>
 
 <p>与えられた有向グラフ $G = (V, E)$ と, $\sum_v b_v = 0$ であるような $\vec{b} = \{b_v\}_{v \in V}$, $l_e \le u_e$ であるような $\vec{l} = \{l_e\}_{e \in E}$ と $\vec{u} = \{u_e\}_{e \in E}$, $\vec{c} = \{c_e\}_{e \in E}$ の組 $(G, \vec{b}, \vec{l}, \vec{u}, \vec{c})$ に対し,
 $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満たすものを求めよ.</p>
 
 <ul>
-<li>$l_e \leq f_e \leq u_e, \quad \forall e \in E$ (容量制約)</li>
-<li>$\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e = b_v, \quad \forall v \in V$ (フロー整合性条件)</li>
-<li>$f_e > l_e \Rightarrow c_e + p_u - p_v \leq 0, \quad \forall e = (u, v) \in E$ (相補性条件)</li>
-<li>$f_e < u_e \Rightarrow c_e + p_u - p_v \geq 0, \quad \forall e = (u, v) \in E$ (相補性条件)</li>
+  <li>$l_e \leq f_e \leq u_e, \quad \forall e \in E$ (容量制約)</li>
+  <li>$\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e = b_v, \quad \forall v \in V$ (フロー整合性条件)</li>
+  <li>$f_e > l_e \Rightarrow c_e + p_u - p_v \leq 0, \quad \forall e = (u, v) \in E$ (相補性条件)</li>
+  <li>$f_e < u_e \Rightarrow c_e + p_u - p_v \geq 0, \quad \forall e = (u, v) \in E$ (相補性条件)</li>
 </ul>
 
 <p>このフロー整合性条件は, 主問題が infeasible であった時のことを考慮し, 残余グラフ $G_\vecf$ と余剰量 $e_\vecf(v)$ を用いて次のように書き直しておく.</p>
 
 <ul>
-<li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ の頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref3"><a href="#fn3">3</a></sup>)</li>
+  <li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ の頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>)</li>
 </ul>
 
 <p>フロー整合性条件を満たすフローに対しては, 全頂点で $e_\vecf(v) = 0$ だからカット条件は成立する一方, フロー整合性条件を満たさないがカット条件を満たすフローが存在するならば, 主問題が infeasible であることが確かめられる.</p>
@@ -144,15 +140,15 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 <p>また, 残余容量 $u_\vecf(e)$ と簡約コスト $c^\vecp(e)$, 逆辺を追加した辺集合 $\exE$ を用いると, 相補性条件は次の一つの式で表せる.</p>
 
 <ul>
-<li>$u_\vecf(e) > 0 \Rightarrow c^\vecp(e) \geq 0, \quad \forall e = (u, v) \in \exE$ (相補性条件)</li>
+  <li>$u_\vecf(e) > 0 \Rightarrow c^\vecp(e) \geq 0, \quad \forall e = (u, v) \in \exE$ (相補性条件)</li>
 </ul>
 
 <p>Primal-Dual 法は, 容量制約と相補性条件を満たす主双対ペア $(\vec{f}, \vec{p})$ を持ち, カット条件が満たされるまで解を改善するアルゴリズムである.
 具体的には, 初期解を得た後, 次の2つのステップを交互に繰り返すアルゴリズムである.</p>
 
 <ul>
-<li>$\vec{f}$ は固定しておき, 相補性条件を保ちつつ $\vec{p}$ を変更することで, 双対目的関数値を改善する.</li>
-<li>$\vec{p}$ は固定しておき, 相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G_\vecf$ 上での $S_\vecf$ 全体から $T_\vecf$ 全体へのカット容量を小さくする.</li>
+  <li>$\vec{f}$ は固定しておき, 相補性条件を保ちつつ $\vec{p}$ を変更することで, 双対目的関数値を改善する.</li>
+  <li>$\vec{p}$ は固定しておき, 相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G_\vecf$ 上での $S_\vecf$ 全体から $T_\vecf$ 全体へのカット容量を小さくする.</li>
 </ul>
 
 <h3>相補性条件の緩和</h3>
@@ -160,9 +156,9 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 <p>Primal-Dual 法は相補性条件を常に保っていた. 容量スケーリング法では, 一部を $\Delta$-緩和した, 次の3つの条件を考える.</p>
 
 <ul>
-<li>$l_e \leq f_e \leq u_e, \quad \forall e \in E$ (容量制約)</li>
-<li>$G^\Delta_\vecf$ 上に $S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点へのパス($\Delta$-増大路)が存在しない ($\Delta$-緩和されたカット条件)</li>
-<li>$u_\vecf(e) \geq \Delta \Rightarrow c^\vecp(e) \geq 0, \quad \forall e = (u, v) \in \exE$ ($\Delta$-緩和された相補性条件)</li>
+  <li>$l_e \leq f_e \leq u_e, \quad \forall e \in E$ (容量制約)</li>
+  <li>$G^\Delta_\vecf$ 上に $S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点へのパス($\Delta$-増大路)が存在しない ($\Delta$-緩和されたカット条件)</li>
+  <li>$u_\vecf(e) \geq \Delta \Rightarrow c^\vecp(e) \geq 0, \quad \forall e = (u, v) \in \exE$ ($\Delta$-緩和された相補性条件)</li>
 </ul>
 
 <p>ここで, $G^\Delta_\vecf$ は $G_\vecf$ から容量が $\Delta$ 未満の辺を削除したものである.</p>
@@ -173,8 +169,8 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 $\Delta$-緩和された問題の初期解が与えられた時, これを解くアルゴリズムは, Primal-Dual 法と同様, 次の2つのステップを交互に繰り返す. これを $\Delta$-scaling phase と呼ぶ.</p>
 
 <ul>
-<li>$\vec{f}$ は固定しておき, 緩和された相補性条件を保ちつつ $\vec{p}$ を変更することで, 双対目的関数値を改善する.</li>
-<li>$\vec{p}$ は固定しておき, 緩和された相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G^\Delta_\vecf$ 上での $S^\Delta_\vecf$ 全体から $T^\Delta_\vecf$ 全体へのカット容量を小さくする.</li>
+  <li>$\vec{f}$ は固定しておき, 緩和された相補性条件を保ちつつ $\vec{p}$ を変更することで, 双対目的関数値を改善する.</li>
+  <li>$\vec{p}$ は固定しておき, 緩和された相補性条件を保ちつつ $\vec{f}$ を変更することで, フローをより整合させる. すなわち $G^\Delta_\vecf$ 上での $S^\Delta_\vecf$ 全体から $T^\Delta_\vecf$ 全体へのカット容量を小さくする.</li>
 </ul>
 
 <h3>補足</h3>
@@ -182,7 +178,7 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <p>上では主問題側の制約を $\Delta$-緩和した. 一方で双対問題側の制約を $\varepsilon$-緩和すると, 例えば</p>
 
 <ul>
-<li>$u_\vecf(e) > 0 \Rightarrow c^\vecp(e) \geq -\varepsilon, \quad \forall e = (u, v) \in \exE$ ($\varepsilon$-緩和された相補性条件)</li>
+  <li>$u_\vecf(e) > 0 \Rightarrow c^\vecp(e) \geq -\varepsilon, \quad \forall e = (u, v) \in \exE$ ($\varepsilon$-緩和された相補性条件)</li>
 </ul>
 
 <p>となる. これを用いると, コストスケーリング法 (Cost Scaling Algorithm) や平均長最小負閉路解消法 (Minimum Mean Cycle Cancel Algorithm) などが得られる.</p>
@@ -192,15 +188,15 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <p>引き続き, 以下の記号を使う.</p>
 
 <ul>
-<li>$\exE$ は $E$ に逆辺を追加した集合</li>
-<li>$u_\vecf(e)$ は残余容量 (順辺に対しては $u_\vecf(e) := u_e - f_e$, 逆辺については $u_\vecf(\reve) := f_e - l_e$)</li>
-<li>$c^\vecp(e)$ は簡約コスト(順辺 $e = (u, v)$ に対しては $c^\vecp(e) := c_e + p_u - p_v$, 逆辺については $c^\vecp(\reve) := -c^\vecp(e)$)</li>
-<li>$G_\vecf$ は $\vecf$ に関する残余グラフ ($\exE$ のうち $u_\vecf(e) > 0$ なものを集めたもの. 容量は $u_\vecf(e)$.)</li>
-<li>$G^\Delta_\vecf$ は $G_\vecf$ のうち容量が $\Delta$ 以上のもののみからなるグラフ</li>
-<li>$\U := \max_e \{ u_e - l_e \}$</li>
-<li>$e_\vecf(v) := b_v - (\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e)$ (余剰量)</li>
-<li>$S_\vecf := \{ v | e_\vecf(v) > 0 \}$, $T_\vecf := \{ v | e_\vecf(v) < 0 \}$</li>
-<li>$S^\Delta_\vecf := \{ v | e_\vecf(v) \ge +\Delta \}$, $T^\Delta_\vecf := \{ v | e_\vecf(v) \le -\Delta \}$</li>
+  <li>$\exE$ は $E$ に逆辺を追加した集合</li>
+  <li>$u_\vecf(e)$ は残余容量 (順辺に対しては $u_\vecf(e) := u_e - f_e$, 逆辺については $u_\vecf(\reve) := f_e - l_e$)</li>
+  <li>$c^\vecp(e)$ は簡約コスト(順辺 $e = (u, v)$ に対しては $c^\vecp(e) := c_e + p_u - p_v$, 逆辺については $c^\vecp(\reve) := -c^\vecp(e)$)</li>
+  <li>$G_\vecf$ は $\vecf$ に関する残余グラフ ($\exE$ のうち $u_\vecf(e) > 0$ なものを集めたもの. 容量は $u_\vecf(e)$.)</li>
+  <li>$G^\Delta_\vecf$ は $G_\vecf$ のうち容量が $\Delta$ 以上のもののみからなるグラフ</li>
+  <li>$\U := \max_e \{ u_e - l_e \}$</li>
+  <li>$e_\vecf(v) := b_v - (\sum_{e \in \delta^+(v)} f_e - \sum_{e \in \delta^-(v)} f_e)$ (余剰量)</li>
+  <li>$S_\vecf := \{ v | e_\vecf(v) > 0 \}$, $T_\vecf := \{ v | e_\vecf(v) < 0 \}$</li>
+  <li>$S^\Delta_\vecf := \{ v | e_\vecf(v) \ge +\Delta \}$, $T^\Delta_\vecf := \{ v | e_\vecf(v) \le -\Delta \}$</li>
 </ul>
 
 <p>今回紹介する容量スケーリング法は, 次のようなアルゴリズムである.</p>
@@ -208,22 +204,22 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <p><strong>容量スケーリング法:</strong></p>
 
 <ol>
-<li>$\Delta = 2^{\floor{\log_2 \U} + 1}$ とする.</li>
-<li>$\vec{p} = \veczero$, $\vec{f} = \vec{l}$ とする.</li>
-<li>$\Delta = 1$ なら終了し, そうでないならば $\Delta := \Delta / 2$ と更新する.</li>
-<li>$c^\vecp(e) < 0$ な $G^\Delta_\vecf$ の辺に対し, $u_\vecf(e) - \Delta$ より多く $u_\vecf(e)$ 以下だけ, つまり残余容量が $\Delta$ 未満になるように push する.</li>
-<li>&quot;$\Delta$-scaling phase&quot; を行う.</li>
-<li>3. に戻る.</li>
+  <li>$\Delta = 2^{\floor{\log_2 \U} + 1}$ とする.</li>
+  <li>$\vec{p} = \veczero$, $\vec{f} = \vec{l}$ とする.</li>
+  <li>$\Delta = 1$ なら終了し, そうでないならば $\Delta := \Delta / 2$ と更新する.</li>
+  <li>$c^\vecp(e) < 0$ な $G^\Delta_\vecf$ の辺に対し, $u_\vecf(e) - \Delta$ より多く $u_\vecf(e)$ 以下だけ, つまり残余容量が $\Delta$ 未満になるように push する.</li>
+  <li>&quot;$\Delta$-scaling phase&quot; を行う.</li>
+  <li>3.に戻る.</li>
 </ol>
 
 <p>ここで, &quot;push する&quot; は, $f_e$ の値を増やすの意味. これに伴い, 順辺と逆辺残余容量 $u_\vecf$, この辺の端点の余剰量 $e_\vecf$ が変更されることに注意.
 このアルゴリズムは, 次の不変条件を満たす.</p>
 
 <ul>
-<li>2. の初期化が終わった時点以降, $\vecf$ は常に容量制約を満たす.</li>
-<li>3. に(2. もしくは 6. から)突入した時点で, $(\vecf, \vecp)$ は $\Delta$-緩和されたカット条件を満たす</li>
-<li>5. の(突入時, 脱出時を含めた)実行中, $(\vecf, \vecp)$ は $\Delta$-緩和された相補性条件を満たす.</li>
-<li>5. の実行中, $S^\Delta_\vecf$, $T^\Delta_\vecf$ に頂点が新たに加わることはない.</li>
+  <li>2.の初期化が終わった時点以降, $\vecf$ は常に容量制約を満たす.</li>
+  <li>3.に(2. もしくは 6. から)突入した時点で, $(\vecf, \vecp)$ は $\Delta$-緩和されたカット条件を満たす</li>
+  <li>5.の(突入時, 脱出時を含めた)実行中, $(\vecf, \vecp)$ は $\Delta$-緩和された相補性条件を満たす.</li>
+  <li>5.の実行中, $S^\Delta_\vecf$, $T^\Delta_\vecf$ に頂点が新たに加わることはない.</li>
 </ul>
 
 <p>例えば, 1. と 2. の初期化が終わった時点で, 任意の辺の残余容量は $\Delta$ 未満だから, この $(\vecf, \vecp)$ は $\Delta$-緩和されたカット条件と $\Delta$-緩和された相補性条件を満たす.
@@ -234,8 +230,8 @@ $\Delta$-緩和された問題の初期解が与えられた時, これを解く
 <p><strong>$\Delta$-scaling dual step:</strong></p>
 
 <ol>
-<li>$G^\Delta_\vecf$ 上で $S^\Delta_\vecf$ から全点へのコスト $c^\vecp(e)$ による (多始点)最短路長 $\vec{d}$ を求める.</li>
-<li>$\vecp := \vecp + \vec{d}$ と更新する.</li>
+  <li>$G^\Delta_\vecf$ 上で $S^\Delta_\vecf$ から全点へのコスト $c^\vecp(e)$ による (多始点)最短路長 $\vec{d}$ を求める.</li>
+  <li>$\vecp := \vecp + \vec{d}$ と更新する.</li>
 </ol>
 
 <p>これにより, $G^\Delta_\vecf$ 上での $S^\Delta_\vecf$ からの最短経路に入りうる辺全体で $c^\vecp(e) = 0$ となる.
@@ -245,20 +241,20 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <p><strong>$\Delta$-scaling primal step:</strong></p>
 
 <ol>
-<li>$S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点へ $c^\vecp(e) = 0$ な $G^\Delta_\vecf$ の辺からなるパスを一つ取る.</li>
-<li>そのパスに沿ってフローを流す. 見つかったのが $s$-$t$ path $P$ であったとすると, $\Delta$ 以上 $\min\{ e_\vecf(s), -e_\vecf(t), \min_{e \in P} u_\vecf(e) \}$ 以下だけ流す.</li>
+  <li>$S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点へ $c^\vecp(e) = 0$ な $G^\Delta_\vecf$ の辺からなるパスを一つ取る.</li>
+  <li>そのパスに沿ってフローを流す. 見つかったのが $s$-$t$ path $P$ であったとすると, $\Delta$ 以上 $\min\{ e_\vecf(s), -e_\vecf(t), \min_{e \in P} u_\vecf(e) \}$ 以下だけ流す.</li>
 </ol>
 
 <p>この更新は $c^\vecp(e) = 0$ な辺上で行われるから, $\Delta$-緩和された相補性条件を保存する.
 また, この更新により $S^\Delta_\vecf$ と $T^\Delta_\vecf$ に頂点が新たに加わることはない.</p>
 
 <h2>実装</h2>
-
 <p><a href="library_design.html">ぼくの考えたさいきょうのフローライブラリ</a> から, 前処理, メインループ, primal step, dual step を変更する.</p>
 
 <h3>新しい前処理</h3>
 
 <p>前処理では, 容量制約を守る $\vecf$ を一つとり, $\Delta$ の初期値を決める.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -297,6 +293,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <h3>メインループと各フェーズの前処理</h3>
 
 <p>メインループは次のようになる.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -307,6 +304,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
     <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <p>ここで, <code>saturate_negative</code> は次のような関数である.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -341,8 +339,8 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
   <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
 <h3>dual step</h3>
-
 <p>ほぼ, Primal-Dual におけるフロー型の <code>0</code> との比較を $\Delta$ との比較に変えただけ.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -417,6 +415,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <h3>primal step</h3>
 
 <p>こちらも同様. $\Delta$ 以上しか流さないようにしていることに注意.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -473,24 +472,24 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <p>大雑把に言うと, 次の2つを示す:</p>
 
 <ul>
-<li>フェーズの前処理で追加されるフローの不整合度は $O(m \Delta)$ である.</li>
-<li>前のフェーズから残っているフローの不整合度のうち, 解決出来るのは $O(m \Delta)$ である.</li>
+  <li>フェーズの前処理で追加されるフローの不整合度は $O(m \Delta)$ である.</li>
+  <li>前のフェーズから残っているフローの不整合度のうち, 解決出来るのは $O(m \Delta)$ である.</li>
 </ul>
 
 <p>さて, $\Delta$ を一つ固定し, $\Delta$-scaling phase の前処理を行う直前 ($2\Delta$-scaling phase の直後又は初回) のフローを $\vecf'$, 前処理の直後のフローを $\vecf$ とし, (前処理でポテンシャルは不変なので両方に)対応するポテンシャルを $\vecp$ とすると,</p>
 
 <ul>
-<li>$G^{2\Delta}_{\vecf'}$ 上に $S^{2\Delta}_{\vecf'}$ の頂点から $T^{2\Delta}_{\vecf'}$ の頂点へのパス($2\Delta$-増大路)が存在しない ($2\Delta$-緩和されたカット条件)</li>
-<li>$c^\vecp(e) < 0 \Rightarrow u_{\vecf'}(e) < 2 \Delta, \quad \forall e = (u, v) \in \exE$ ($2 \Delta$-緩和された相補性条件の対偶)</li>
+  <li>$G^{2\Delta}_{\vecf'}$ 上に $S^{2\Delta}_{\vecf'}$ の頂点から $T^{2\Delta}_{\vecf'}$ の頂点へのパス($2\Delta$-増大路)が存在しない ($2\Delta$-緩和されたカット条件)</li>
+  <li>$c^\vecp(e) < 0 \Rightarrow u_{\vecf'}(e) < 2 \Delta, \quad \forall e = (u, v) \in \exE$ ($2 \Delta$-緩和された相補性条件の対偶)</li>
 </ul>
 
 <p>が成り立つ. 各 primal step では $S^\Delta_\vecf$ の頂点から $T^\Delta_\vecf$ の頂点にフローを流す. この始点/終点になりうる頂点を4つに分割し,</p>
 
 <ul>
-<li>$A = S^{2\Delta}_{\vecf'} \cap S^\Delta_\vecf$,</li>
-<li>$B = T^{2\Delta}_{\vecf'} \cap T^\Delta_\vecf$,</li>
-<li>$C = S^\Delta_\vecf \setminus (A \cup B)$,</li>
-<li>$D = T^\Delta_\vecf \setminus (A \cup B)$</li>
+  <li>$A = S^{2\Delta}_{\vecf'} \cap S^\Delta_\vecf$,</li>
+  <li>$B = T^{2\Delta}_{\vecf'} \cap T^\Delta_\vecf$,</li>
+  <li>$C = S^\Delta_\vecf \setminus (A \cup B)$,</li>
+  <li>$D = T^\Delta_\vecf \setminus (A \cup B)$</li>
 </ul>
 
 <p>とすると, $F_\Delta$ は $A \cup C$ から $B \cup D$ に流れることになる.</p>
@@ -516,15 +515,14 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 <p>実質的な内容は同じであるが, 人によっては次の方針が $A, B, C, D$ への分割を考えるより明瞭に思えるかもしれない.</p>
 
 <ol>
-<li>$\vecf$ に対し, $V \cup \{s, t\}$ を頂点とするグラフ $H_\vecf$ で, $\overleftrightarrow{E}$ に残余容量で辺容量を入れた辺と, $s$ から $v$ に容量 $\max\{0, e_\vecf(v)\}$ の辺, $v$ から $t$ に容量 $\max\{0, -e_\vecf(v)\}$ の辺を持つものを考える.</li>
-<li>$G_\vecf$ 上の $S^\Delta_\vecf$ から $T^\Delta_\vecf$ への $\Delta$-残余パスは $H_\vecf$ 上の $s$ から $t$ への $\Delta$-残余パスと一対一対応し, $F_\Delta$ は $\Delta$-scaling phase 開始時のフロー $\vecf$ に対応する $H_\vecf$ の最大 $s$-$t$ フロー量で上から抑えられる.</li>
-<li>$\Delta$-scaling phase の前処理の直前のフロー $\vecf'$ に対応する $H_{\vecf'}$ の最小カットの容量は ($2\Delta$-カット条件から) $O(m \Delta)$.</li>
-<li>$H_{\vecf'}$ と $H_\vecf$ で, 各辺の容量の差の絶対値の和は $O(m \Delta)$. これは元のグラフの辺容量だけでなく $e_\vecf$ の変化も含むことに注意.</li>
-<li>従って, $H_\vecf$ の最小 $s$-$t$ カット容量も $O(m \Delta)$ で, これを言えばよかった.</li>
+  <li>$\vecf$ に対し, $V \cup \{s, t\}$ を頂点とするグラフ $H_\vecf$ で, $\overleftrightarrow{E}$ に残余容量で辺容量を入れた辺と, $s$ から $v$ に容量 $\max\{0, e_\vecf(v)\}$ の辺, $v$ から $t$ に容量 $\max\{0, -e_\vecf(v)\}$ の辺を持つものを考える.</li>
+  <li>$G_\vecf$ 上の $S^\Delta_\vecf$ から $T^\Delta_\vecf$ への $\Delta$-残余パスは $H_\vecf$ 上の $s$ から $t$ への $\Delta$-残余パスと一対一対応し, $F_\Delta$ は $\Delta$-scaling phase 開始時のフロー $\vecf$ に対応する $H_\vecf$ の最大 $s$-$t$ フロー量で上から抑えられる.</li>
+  <li>$\Delta$-scaling phase の前処理の直前のフロー $\vecf'$ に対応する $H_{\vecf'}$ の最小カットの容量は ($2\Delta$-カット条件から) $O(m \Delta)$.</li>
+  <li>$H_{\vecf'}$ と $H_\vecf$ で, 各辺の容量の差の絶対値の和は $O(m \Delta)$. これは元のグラフの辺容量だけでなく $e_\vecf$ の変化も含むことに注意.</li>
+  <li>従って, $H_\vecf$ の最小 $s$-$t$ カット容量も $O(m \Delta)$ で, これを言えばよかった.</li>
 </ol>
 
 <h3>注意</h3>
-
 <p>Z. Király and P. Kovács (2012) の Capacity Scaling (CAS) は恐らく上記のアルゴリズムとほぼ同じであるが,
 これはよく知られた Capacity Scaling Algorithm から前処理を少し削っている.
 そして &quot;In this case, the polynomial running time bound is not proved&quot; とあるので, 上の僕の証明は間違っているかもしれない...
@@ -539,15 +537,15 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 <h2>参考文献</h2>
 
 <ol>
-<li><a href="https://doi.org/10.1145/62212.62249">J.B.Orlin, &quot;A faster strongly polynomial minimum cost flow algorithm&quot;, Oper. Res. 41 (1993) 338-350.</a></li>
-<li><a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">R.K.Ahuja, T.L.Magnanti, J.B.Orlin, &quot;Network Flows: Theory, Algorithms, and Applications&quot;, Prentice-Hall, Inc., 1993.</a></li>
-<li><a href="https://arxiv.org/abs/1207.6381">Z. Király, P. Kovács, &quot;Efficient implementations of minimum-cost flow algorithms&quot;, Acta Universitatis Sapientiae, Informatica, 4, 1 (2012) 67-118.</a></li>
+  <li><a href="https://doi.org/10.1145/62212.62249">J.B.Orlin, &quot;A faster strongly polynomial minimum cost flow algorithm&quot;, Oper. Res. 41 (1993) 338-350.</a></li>
+  <li><a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">R.K.Ahuja, T.L.Magnanti, J.B.Orlin, &quot;Network Flows: Theory, Algorithms, and Applications&quot;, Prentice-Hall, Inc., 1993.</a></li>
+  <li><a href="https://arxiv.org/abs/1207.6381">Z. Király, P. Kovács, &quot;Efficient implementations of minimum-cost flow algorithms&quot;, Acta Universitatis Sapientiae, Informatica, 4, 1 (2012) 67-118.</a></li>
 </ol>
 
 <ul>
-<li>1. はちゃんと読んでいないが, 容量 $\infty$ なものについて扱い, その後輸送問題への変形を使って有限容量に対応しているようだ.</li>
-<li>2. では 10.2 節で扱われている. ちゃんと書いていないが, $\Delta$-scaling phase の終了条件の正当性に Assumption 9.4 (上の注意で言った仮定)が効いている.</li>
-<li>3. で上記の注意が出てくる. &quot;証明されていないが, この実装の方が有意に速かったのでこっちを使った&quot; という旨が書かれている.</li>
+  <li>1.はちゃんと読んでいないが, 容量 $\infty$ なものについて扱い, その後輸送問題への変形を使って有限容量に対応しているようだ.</li>
+  <li>2.では 10.2 節で扱われている. ちゃんと書いていないが, $\Delta$-scaling phase の終了条件の正当性に Assumption 9.4 (上の注意で言った仮定)が効いている.</li>
+  <li>3.で上記の注意が出てくる. &quot;証明されていないが, この実装の方が有意に速かったのでこっちを使った&quot; という旨が書かれている.</li>
 </ul>
 
 <h2>謝辞</h2>
@@ -556,9 +554,8 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 
 <h2>ソースコード</h2>
 
-<pre class='fold_button'>長いので折りたたみ</pre>
-
-<pre class='fold_begin'></pre>
+<pre class="fold_button">長いので折りたたみ</pre>
+<pre class="fold_begin"></pre>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1053,18 +1050,15 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">&gt;</span>
 <span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
-</pre></td></tr></tbody></table></code></pre></div>
-<pre class='fold_end'></pre>
+</pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
 
 <h2>使用例</h2>
 
 <h3>Library-Checker: Minimum cost b-flow</h3>
-
 <p>問題は<a href="https://judge.yosupo.jp/problem/min_cost_b_flow">こちら</a></p>
 
-<pre class='fold_button'>長いので折りたたみ</pre>
-
-<pre class='fold_begin'></pre>
+<pre class="fold_button">長いので折りたたみ</pre>
+<pre class="fold_begin"></pre>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1301,26 +1295,19 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div>
-<pre class='fold_end'></pre>
-
+</pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
 <div class="footnotes">
-<hr>
-<ol>
-
-<li id="fn1">
-<p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない.&nbsp;<a href="#fnref1">&#8617;</a></p>
-</li>
-
-<li id="fn2">
-<p>ここでは最小費用 $\vecb$-フロー問題を採用する.&nbsp;<a href="#fnref2">&#8617;</a></p>
-</li>
-
-<li id="fn3">
-<p>一般的にどう呼ばれるか知らないが, ここではカット条件と呼ぶことにする.&nbsp;<a href="#fnref3">&#8617;</a></p>
-</li>
-
-</ol>
+  <ol>
+    <li id="fn:1">
+      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>ここでは最小費用 $\vecb$-フロー問題を採用する. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>一般的にどう呼ばれるか知らないが, ここではカット条件と呼ぶことにする. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
 </div>
 
 

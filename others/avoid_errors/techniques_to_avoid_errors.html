@@ -67,7 +67,6 @@ ga('send', 'pageview');
         <div style="display:none">`$$
 \newcommand{\floor}[1]{\lfloor\,#1\,\rfloor}
 $$`</div>
-
 <h1>誤差と戦う小手先のテク</h1>
 
 <p>この記事は, <a href="http://www.adventar.org/calendars/1165">Competitive Programming （その2） Advent Calendar 2015</a> の 12/16 の記事として書かれました.</p>
@@ -85,8 +84,8 @@ $$`</div>
 <p>具体的には,</p>
 
 <ul>
-<li>誤差が辛い問題かの判定や, 誤差が出ると辛い場所を見つけるときの, 自分の基本的な思考経路,</li>
-<li>誤差が辛そうなとき, それをどうやって克服するか</li>
+  <li>誤差が辛い問題かの判定や, 誤差が出ると辛い場所を見つけるときの, 自分の基本的な思考経路,</li>
+  <li>誤差が辛そうなとき, それをどうやって克服するか</li>
 </ul>
 
 <p>の二点について書きました.</p>
@@ -155,6 +154,7 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 <p>これはもちろん, &quot;あまりに近い数は無い&quot; 場合や, &quot;非常に近い場合はどんな結果を返してもよい&quot; 場合にしか使えない.</p>
 
 <p>ちなみに, よくこれで比較するのを数カ所忘れたりするが, それを防止するのに, 次のような関数を定義し, いつもこれを利用して比較するようにするとよい.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -185,47 +185,50 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 <p>基本的な道具とその特徴を, 表に纏めた.
 それぞれ, 表そうとするもの(例えば実数全体 $\mathbb{R}$ )があり, それを妥協(有限精度)している.</p>
 
-<table><thead>
-<tr>
-<th style="text-align: center">道具</th>
-<th style="text-align: center">何を表すか</th>
-<th style="text-align: center">妥協したところ</th>
-<th style="text-align: center">出来ない/難しいこと</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center">浮動小数点数</td>
-<td style="text-align: center">実数</td>
-<td style="text-align: center">精度</td>
-<td style="text-align: center">一致判定, 大小比較</td>
-</tr>
-<tr>
-<td style="text-align: center">整数型</td>
-<td style="text-align: center">整数</td>
-<td style="text-align: center">オーバーフロー</td>
-<td style="text-align: center">除算, 他</td>
-</tr>
-<tr>
-<td style="text-align: center">有理数型</td>
-<td style="text-align: center">有理数</td>
-<td style="text-align: center">分母子のオーバーフロー</td>
-<td style="text-align: center">平方根, 三角関数, 他</td>
-</tr>
-<tr>
-<td style="text-align: center">$\bmod p$</td>
-<td style="text-align: center">$\mathbb{F}_p$</td>
-<td style="text-align: center">なし</td>
-<td style="text-align: center">大小比較, 平方根, 三角関数, 他</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">道具</th>
+      <th style="text-align: center">何を表すか</th>
+      <th style="text-align: center">妥協したところ</th>
+      <th style="text-align: center">出来ない/難しいこと</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">浮動小数点数</td>
+      <td style="text-align: center">実数</td>
+      <td style="text-align: center">精度</td>
+      <td style="text-align: center">一致判定, 大小比較</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">整数型</td>
+      <td style="text-align: center">整数</td>
+      <td style="text-align: center">オーバーフロー</td>
+      <td style="text-align: center">除算, 他</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">有理数型</td>
+      <td style="text-align: center">有理数</td>
+      <td style="text-align: center">分母子のオーバーフロー</td>
+      <td style="text-align: center">平方根, 三角関数, 他</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">$\bmod p$</td>
+      <td style="text-align: center">$\mathbb{F}_p$</td>
+      <td style="text-align: center">なし</td>
+      <td style="text-align: center">大小比較, 平方根, 三角関数, 他</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>だいたい, このうち一つを使うか, 浮動小数点数ともう一つを組み合わせて使うことが多い.</p>
 
 <p>組み合わせて使う場合も,</p>
 
 <ul>
-<li>クリティカルな場所だけ他の型を使う,</li>
-<li>同じことを複数の型で計算する</li>
+  <li>クリティカルな場所だけ他の型を使う,</li>
+  <li>同じことを複数の型で計算する</li>
 </ul>
 
 <p>の二通りがある.</p>
@@ -275,15 +278,17 @@ $p$ で割り切れない数での割り算までなら出来る.</p>
 
 <p>問題文は<a href="http://jag2015autumn.contest.atcoder.jp/tasks/icpc2015autumn_i">こちら</a>.</p>
 
-<pre class='fold_button'>ネタバレを含むので折りたたみ</pre>
-
-<pre class='fold_begin'></pre>
-
+<pre class="fold_button">ネタバレを含むので折りたたみ</pre>
+<pre class="fold_begin"></pre>
 <p>この問題は, 大雑把にいうと二つのパートにわかれる.</p>
 
 <ol>
-<li><p>橋の長さが最も短くなるような橋の候補を列挙する.</p></li>
-<li><p>上で列挙した各橋について, 始点から橋の西側, 橋の東側から終点の最短距離をそれぞれ求め, その和の最小値を求める.</p></li>
+  <li>
+    <p>橋の長さが最も短くなるような橋の候補を列挙する.</p>
+  </li>
+  <li>
+    <p>上で列挙した各橋について, 始点から橋の西側, 橋の東側から終点の最短距離をそれぞれ求め, その和の最小値を求める.</p>
+  </li>
 </ol>
 
 <p>前半パートは, &quot;橋の長さの最小値&quot; ではなく, &quot;橋の長さが最小となるような橋を列挙せよ&quot; というタイプである.
@@ -300,12 +305,13 @@ $p$ で割り切れない数での割り算までなら出来る.</p>
 
 <p>今回の場合, &quot;大小比較&quot; が出来なければならず, 除算もあるから, 有理数で扱うとよい.</p>
 
-<p>少し計算すればわかるが, これは分母子を 64 bit の整数型で表した有理数型で扱える範囲の数になる.
-<pre class='fold_end'></pre></p>
+<p>少し計算すればわかるが, これは分母子を 64 bit の整数型で表した有理数型で扱える範囲の数になる.</p>
+<pre class="fold_end"></pre>
 
 <h2>おわり</h2>
 
 <p>12/15 の記事は iwashi31 さんの <a href="http://iwashi31.hatenablog.com/entry/2015/12/15/235026">ゲームAIコンテストのすすめ</a> で, 12/17 の記事は Respect2D さんの <a href="http://itohjam.hatenablog.com/entry/2015/12/17/035829">AtCoderでのコンテスト主催者向けのツール紹介</a> です.</p>
+
 
 
       <h3>Tags</h3>

@@ -82,6 +82,7 @@ $$`</div>
 <p>そこで, 有理数の分母分子自体はオーバーフローしていないときに, 有理数同士の比較を, なるべくオーバーフローさせずに行う方法を見る.</p>
 
 <p>つまり, 次のような <code>sgn</code> 関数を作りたい.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -193,6 +194,7 @@ $$
 である. ここで, $a \bmod b$ は $0 \le (a \bmod b) < b$ となるように取る.</p>
 
 <p>したがって, $0 \le \text{分子} < \text{分母} \le \sqrt{M}$ であるような二つの有理数の比較に帰着でき, これは単に $ad$ と $bc$ を比較すればよい.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -229,6 +231,7 @@ $$
 <p>これを用いて再帰すれば, いつか $a' = 0$ か $c' = 0$ になり, 終了する.</p>
 
 <p>連分数展開を知っているひとは, 有理数の連分数展開を行なっていると思ったほうがわかりやすいかもしれない.</p>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -292,6 +295,7 @@ $$
 
 <p>引数が $(a, b), (c, d)$ から $(d, c \bmod d), (b, a \bmod b)$ に変わっている.
 これは, $(a, b)$ と $(c,d)$ に, 同時にユークリッドの互除法をしながら, 商の大小関係を見ているのと同じで, $O(\log M)$ で出来る.</p>
+
 
 
       <h3>Tags</h3>

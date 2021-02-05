@@ -82,7 +82,6 @@ ga('send', 'pageview');
 <p>$2 \le \mathit{A.size()}, \mathit{A[0].size()} \le 14$</p>
 
 <h3>解法</h3>
-
 <p>$\binom{14}{14/2}=3432$ なのはわかったが, $\binom{n}{n/2}^2 * n^2$ くらいのしか思いつかなかった.
 どっちかだけ決めて DP とかも考えたけど, 上手くいかなかった.</p>
 
@@ -96,6 +95,7 @@ $(0, m-1)$ のそれぞれを使う/使わないの $4$ 通りに対して, そ�
 あとは, DP で $\mathit{columnCount}$ 個以上になるようにがんばる.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -181,6 +181,7 @@ $(0, m-1)$ のそれぞれを使う/使わないの $4$ 通りに対して, そ�
     <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
 <span class="p">}</span><span class="c1">//}}}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

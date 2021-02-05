@@ -70,7 +70,7 @@ ga('send', 'pageview');
     <a href="http://community.topcoder.com/stat?c=problem_statement&amp;pm=12779&amp;rd=15705">問題文</a>
     <h3>概要</h3>
 
-<p>長さ $ n $ の数列 $ \{ A_i \} $ と $ \{ B_i \} $ が与えられる.
+<p>長さ $ n $ の数列 $\{ A_i \}$ と $\{B_i\}$ が与えられる.
 これらの index を $ S $ と $ T $ に分割し,</p>
 
 <p>$$
@@ -94,8 +94,8 @@ $$</p>
 <p>DP をする.</p>
 
 <ul>
-<li>$i$ を $U$ に加えると, $ f(U) $ は $ +B_i $ される.</li>
-<li>$i$ を $U^c$ に加えると, $ f(U) $ は $ -A_i $ される.</li>
+  <li>$i$ を $U$ に加えると, $ f(U) $ は $ +B_i $ される.</li>
+  <li>$i$ を $U^c$ に加えると, $ f(U) $ は $ -A_i $ される.</li>
 </ul>
 
 <p>よって, 各 $i$ について, ありうる $ f(U) $ を列挙する DP をすればよい.</p>
@@ -105,8 +105,8 @@ $$</p>
 <p>すると,</p>
 
 <ul>
-<li>$i$ を $U$ に加えると, $ g(U) $ は $ + A_i + B_i $ される.</li>
-<li>$i$ を $U^c$ に加えると, $ g(U) $ は $ \pm 0 $ される.</li>
+  <li>$i$ を $U$ に加えると, $ g(U) $ は $ + A_i + B_i $ される.</li>
+  <li>$i$ を $U^c$ に加えると, $ g(U) $ は $ \pm 0 $ される.</li>
 </ul>
 
 <p>これにより, 配列を一つだけ持って $0$-$1$ knapsack のように DP 出来る.</p>
@@ -114,6 +114,7 @@ $$</p>
 <p>最初, set を使って TLE したり, <code>(obj+1)/2</code> の $+1$ を忘れる off-by-one error を出して, submit debug のようになってしまった.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -173,6 +174,7 @@ $$</p>
     <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

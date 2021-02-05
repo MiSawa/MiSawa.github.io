@@ -80,10 +80,10 @@ ga('send', 'pageview');
 <h3>解法</h3>
 
 <ul>
-<li>多重辺, 自己ループを除去.</li>
-<li>次数 $4$ の頂点を見て, 全ての頂点が次数 $3$ 以下になるような, $3$ 本以下の辺の取り除き方を全パターン試す.</li>
-<li>各パターンに対し, 根を一つ固定する.</li>
-<li>根の次数が $1$ なら弾き, $3$ なら一本除くパターンを全て試す.</li>
+  <li>多重辺, 自己ループを除去.</li>
+  <li>次数 $4$ の頂点を見て, 全ての頂点が次数 $3$ 以下になるような, $3$ 本以下の辺の取り除き方を全パターン試す.</li>
+  <li>各パターンに対し, 根を一つ固定する.</li>
+  <li>根の次数が $1$ なら弾き, $3$ なら一本除くパターンを全て試す.</li>
 </ul>
 
 <p>ここまでやると, 答えが YES で実際の根が固定したやつと一致していたならば, 根から距離 $h-2$ までの頂点が高さ $h-1$ の完全二分木で,
@@ -91,6 +91,7 @@ ga('send', 'pageview');
 あとは, 実際にそうなっているか試すだけ.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -218,6 +219,7 @@ ga('send', 'pageview');
     <span class="k">return</span> <span class="s">"Incorrect"</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>

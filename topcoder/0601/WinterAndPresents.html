@@ -91,16 +91,27 @@ ga('send', 'pageview');
 <p>この各 $ X $ に対し,</p>
 
 <ol>
-<li><p>$ a_i + b_i = X $ だから, 目一杯 $ a_i $ を小さくすると, $ a_i \le \max(0, x - \mathit{orange}_i) $.</p></li>
-<li><p>従って, $ \sum \mathit{apple}_i $ は, 少なくとも $ \sum \max(0, (x - \mathit{orange}_i)) $.</p></li>
-<li><p>同様に, $ \sum \mathit{orange}_i $ の下限もわかる.</p></li>
-<li><p>これらは二つの下限は, 実際に達成可能.</p></li>
-<li><p>一つずつ $ \mathit{++}a_i, \mathit{--}b_i $ のようなことをすれば, その間の全てが達成可能なことがわかる.</p></li>
+  <li>
+    <p>$ a_i + b_i = X $ だから, 目一杯 $ a_i $ を小さくすると, $ a_i \le \max(0, x - \mathit{orange}_i) $.</p>
+  </li>
+  <li>
+    <p>従って, $ \sum \mathit{apple}_i $ は, 少なくとも $ \sum \max(0, (x - \mathit{orange}_i)) $.</p>
+  </li>
+  <li>
+    <p>同様に, $ \sum \mathit{orange}_i $ の下限もわかる.</p>
+  </li>
+  <li>
+    <p>これらは二つの下限は, 実際に達成可能.</p>
+  </li>
+  <li>
+    <p>一つずつ $ \mathit{++}a_i, \mathit{--}b_i $ のようなことをすれば, その間の全てが達成可能なことがわかる.</p>
+  </li>
 </ol>
 
 <p>あとは足すだけ.</p>
 
 <h3>ソースコード</h3>
+
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -134,6 +145,7 @@ ga('send', 'pageview');
     <span class="k">return</span> <span class="n">res</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
+
 
       <h3>Tags</h3>
         <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
