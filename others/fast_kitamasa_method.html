@@ -65,8 +65,8 @@ ga('send', 'pageview');
     </span>
 
         <div style="display:none">`$$
-\newcommand{\seq}[1]{\left(\,#1\,\right)}
-\newcommand{\pos}[2]{\stackrel{#1}{\stackrel{\smile}{#2}}}
+\gdef\seq#1{\left(\,#1\,\right)}
+\gdef\pos#1#2{\stackrel{#1}{\stackrel{\smile}{#2}}}
 $$`</div>
 
 <h1>高速 Kitamasa 法</h1>
@@ -178,13 +178,13 @@ $$ a_{n+m} = \sum_{i=0}^{k-1} b_{m,k-1-i} a_{n+i} $$
 ここで, 漸化式を $n=0$ で用い, $a_k$ を消去すれば, $a_{m+1} = \sum_{i=0}^{k-1} b_{m+1, k-1-i} a_i$ のように, $b_{m+1}$ を $O(k)$ で求められる.</p>
 
 <p>一方, $n = m$ とすれば,
-$$\begin{align*}
+$$\begin{aligned}
 a_{2m}
 &= \sum_{i=0}^{k-1} b_{m,k-1-i} a_{m+i} \\
 &= \sum_{i=0}^{k-1} b_{m,k-1-i} \sum_{j=0}^{k-1} b_{m,k-j-1} a_{i+j} \\
 &= \sum_{s=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} b_{m,i} b_{m,j} \\
 &= \sum_{s=0}^{2k-2} a_{s} (b_m * b_m)_{2k-2-s}
-\end{align*}$$
+\end{aligned}$$
 となる.
 この $b_m$ と $b_m$ の畳込みを $\beta$ とおく.
 これは, ナイーブには $O(k^2)$ だが, $O(k \log k)$ で計算できることを仮定していた.</p>
@@ -203,11 +203,11 @@ $$\sum_{i=0}^{k} c_{k-i} a_{n+i} = 0,\quad \forall n \ge 0$$
 と表せる.</p>
 
 <p>さて, $t$ を不定元とし,
-$$\begin{align*}
+$$\begin{aligned}
 g(t)
 &= \sum_{i=0}^k c_{k-i} t^i \\
 &= -t^k + c_1 t^{k-1} + \dots + c_k t^0
-\end{align*}$$
+\end{aligned}$$
 なる多項式 (符号を逆にした $-g(t)$ は特性多項式と呼ばれる) を考えよう.</p>
 
 <p>$g(t)$ による剰余をとることは,
@@ -237,58 +237,58 @@ $$
 <p>この $c'$ の計算方法は後で紹介することにして, 今は, 既に求めたものとして話を進めよう.</p>
 
 <p>Kitamasa 法のボトルネックは,
-$$\begin{align}
-a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s} \label{eq:A}
-\end{align}$$
+$$\begin{aligned}
+a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s} \tag{eq:A}
+\end{aligned}$$
 の形から, $a_{2m} = \sum_{i=0}^{k-1} a_i b_{2m, k-1-i}$ となるような $b_{2m}$ を求める部分であった.</p>
 
 <p>一方, 漸化式は,
 $$\sum_{i=0}^{k} c_{k-i} a_{n+i} = 0,\quad \forall n \ge 0$$
 の形である.</p>
 
-<p>この式を, $n = j,\ 0 \le j \le k-2$ に対して $q_{k-2-j}$ 倍して足し合わせると,
-$$\begin{align}
+<p>この式を, $n = j,\ 0 \le j \le k-2$ に対して, 具体的な値は後に決める $q_{k-2-j}$ 倍して足し合わせると,
+$$\begin{aligned}
 0
-&= \sum_{j=0}^{k-2} q_{k-2-j} \sum_{i=0}^{k} c_{k-i} a_{j+i} \notag \\
-&= \sum_{j=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} q_i c_j \notag \\
-&= \sum_{j=0}^{2k-2} a_{s} (q * c)_{2k-2-s} \label{eq:B}
-\end{align}$$
+&= \sum_{j=0}^{k-2} q_{k-2-j} \sum_{i=0}^{k} c_{k-i} a_{j+i} \\
+&= \sum_{j=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} q_i c_j \\
+&= \sum_{j=0}^{2k-2} a_{s} (q * c)_{2k-2-s} \tag{eq:B}
+\end{aligned}$$
 となる.</p>
 
-<p>この $\seq{q}_{0}^{k-2}$ が, $\eqref{eq:A}$ の &quot;剰余算&quot; 操作の &quot;商&quot; になるように取る.
+<p>この $\seq{q}_{0}^{k-2}$ が, 式 $\text{eq:A}$ の &quot;剰余算&quot; 操作の &quot;商&quot; になるように取る.
 すなわち, $\beta$ から $b_{2m}$ を求める際の係数になるように取る.
-すると, 式 $\eqref{eq:A}$ と $\eqref{eq:B}$ の差は
+すると, 式 $(\text{eq:A})$ と $(\text{eq:B})$ の差は
 $$
-\eqref{eq:A} - \eqref{eq:B} = \sum_{s=0}^{k-1} a_s r_{2k-2-s}
+(\text{eq:A}) - (\text{eq:B}) = \sum_{s=0}^{k-1} a_s r_{2k-2-s}
 $$
 と $a_k$ 以降がキャンセルし,
 $r = (0, \dots, 0, r_{k-1}, \dots, r_{2k-2}) = (0, \dots, 0, b_{2m, 0}, \dots, b_{2m, k-1})$
 となる.</p>
 
-<p>ここで, 式 $\eqref{eq:A}$ の $a$ の係数列と, $c'$ の畳込みの $k-2$ 項目までを見ると,
-$$\begin{align*}
+<p>ここで, 式 $(\text{eq:A})$ の $a$ の係数列と, $c'$ の畳込みの $k-2$ 項目までを見ると,
+$$\begin{aligned}
 \seq{c' * \beta}_{0}^{k-2}
 &= \seq{c' * (r + (q * c))}_{0}^{k-2} \\
 &= \seq{c' * r + q * (c * c')}_{0}^{k-2} \\
 &= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\
 &\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2}
-\end{align*}$$
+\end{aligned}$$
 となるが, 畳込みの $k-2$ 項目までを求めるには $k-2$ 項目までしか必要無いことを考えれば,
-$$\begin{align*}
+$$\begin{aligned}
 \seq{c' * \beta}_{0}^{k-2}
 &= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\
 &\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2} \\
 &= 0 - \seq{q}_{0}^{k-2} \\
 &= - \seq{q}_{0}^{k-2}
-\end{align*}$$
+\end{aligned}$$
 となり, $q$ を復元することが出来る.</p>
 
 <p>これを使えば,
-$$\begin{align*}
+$$\begin{aligned}
 r
 &= \beta - q * c \\
 &= \beta + c * \seq{c' * \beta}_{0}^{k-2}
-\end{align*}$$
+\end{aligned}$$
 と, $r$, 従って $b_{2m}$ を求めることが出来る.</p>
 
 <p>あとは, 通常の Kitamasa 法と同様である.</p>
@@ -306,24 +306,24 @@ $$
 
 <p>これを求めるのには, ニュートン法を用いる.</p>
 
-<p>$$\begin{align*}
+<p>$$\begin{aligned}
 c * c'
 &= (-1, 0, \dots, 0, \pos{t}{*}, *, \dots ) \\
 &= (-1, 0, \dots) + \gamma
-\end{align*}$$
+\end{aligned}$$
 となる $c'$ が求まっているとしよう.
 従って, $i < t$ に対しては $\gamma_i = 0$ である.
 もちろん, $c' = (1, 0, \dots)$ はこれを $t = 1$ で満たすので, 初期値としてこれを取れる.</p>
 
 <p>すると,
-$$\begin{align*}
+$$\begin{aligned}
 c * c' * \left( (2, 0, \dots ) + c * c' \right)
 &= c * c' * \left( (1, 0, \dots ) + \gamma \right) \\
 &=  \left( (-1, 0, \dots ) + \gamma \right) * \left( (1, 0, \dots ) + \gamma \right) \\
 &= (-1, 0, \dots) * (1, 0, \dots) + \gamma * \gamma \\
 &\quad + (-1, 0, \dots) * \gamma + ( 1, 0, \dots) * \gamma \\
 &= (-1, 0, \dots) + \gamma * \gamma
-\end{align*}$$
+\end{aligned}$$
 となるが, $\gamma * \gamma$ は $(0, \dots, 0, \pos{2t}{*}, *, \dots)$ の形をしているから, $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ の変換で &quot;精度&quot; が倍に増えたことになる.</p>
 
 <p>また, この計算中, $c$ は $2t-1$ までしか見なくてよく, 変換後の $c'$ も $2t-1$ より後ろを削ってよい.</p>
@@ -391,12 +391,12 @@ $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ は,
 但し, ここでは, $F = (0, 1, 1, 2, 3, 5, \dots)$ と, $F_0 = 0$ にしておく.</p>
 
 <p>$c = (-1, 1, 1)$ であるから, $\phi = (1 + \sqrt{5}) / 2$ とすれば,
-$$\begin{align*}
+$$\begin{aligned}
 g(t)
 &= -t^2 + t + 1 \\
 &= - \left(t - (1 + \sqrt{5}) / 2\right) \left(t - (1 - \sqrt{5}) / 2\right) \\
 &= - (t - \phi)(t + \phi^{-1}) \\
-\end{align*}$$
+\end{aligned}$$
 となる.</p>
 
 <p>求めたいのは $t^n \bmod g(t)$,
@@ -405,26 +405,26 @@ $$ r(t) + q(t) g(t) = t^n,\ \deg r < 2 $$
 となるような $r$ であった.</p>
 
 <p>$g(\phi) = g(-\phi^{-1}) = 0$ であることに注意すると,
-$$\begin{align*}
+$$\begin{aligned}
 r(\phi) &= \phi^n, \\
 r(-\phi^{-1}) &= (-\phi^{-1})^n = (-\phi)^{-n}
-\end{align*}$$
+\end{aligned}$$
 である.
 これを用いてラグランジュ補完すれば,
-$$\begin{align*}
+$$\begin{aligned}
 r(t)
 &= \phi^n \frac{t + \phi^{-1}}{\phi + \phi^{-1}}
 +(-\phi)^{-n} \frac{t - \phi}{-\phi^{-1} - \phi} \\
 &= \frac{\phi^n (t + \phi^{-1}) - (-\phi)^{-n} (t - \phi)}{\phi + \phi^{-1}} \\
 &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}t + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}}
-\end{align*}$$
+\end{aligned}$$
 と, $r(t)$ を復元できる.
 従って,
-$$\begin{align*}
+$$\begin{aligned}
 F_n
 &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}} F_1 + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}} F_0 \\
 &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}
-\end{align*}$$
+\end{aligned}$$
 と, 一般項が求まった.</p>
 
 <h2>擬似コード</h2>

@@ -65,10 +65,10 @@ ga('send', 'pageview');
     </span>
 
         <div style="display:none">`$$
-\def\epsilon{\varepsilon}
-\newcommand{\floor}[1]{\lfloor {#1} \rfloor}
-\newcommand{\ceil}[1]{\lceil {#1} \rceil}
-\newcommand{\epsceil}[1]{\lceil {#1} \rceil_\epsilon}
+\gdef\epsilon{\varepsilon}
+\gdef\floor#1{\lfloor {#1} \rfloor}
+\gdef\ceil#1{\lceil {#1} \rceil}
+\gdef\epsceil#1{\lceil {#1} \rceil_\epsilon}
 $$`</div>
 
 <h1>最短経路問題に対するコストスケーリング法</h1>
@@ -129,23 +129,23 @@ $l$ の最大値が $\sqrt{n}$ 以上であるとき, 最大値をとる頂点�
 
 <p>任意の $s$-$t$ パス $P$ と閉路 $C$ に対し,
 $$
-\begin{align*}
+\begin{aligned}
 c(P) &:= \sum_{e \in P} c(e),
 &c^\pi(P) &:= \sum_{e \in P} c^\pi(e), \\
 c(C) &:= \sum_{e \in C} c(e),
 &c^\pi(C) &:= \sum_{e \in C} c^\pi(e)
-\end{align*}
+\end{aligned}
 $$
 とすると, $c^\pi$ の定義から,
 $$
-\begin{align*}
+\begin{aligned}
 c^\pi(P)
 &= \sum_{(u, v) \in P} \left( c((u, v)) + \pi(u) - \pi(v) \right) \\
 &= c(P) + \pi(s) - \pi(t), \\ \\
 c^\pi(C)
 &= \sum_{(u, v) \in C} \left( c((u, v)) + \pi(u) - \pi(v) \right) \\
 &= c(C)
-\end{align*}
+\end{aligned}
 $$
 である.
 従って, 閉路の被約費用はポテンシャルのとり方に依らない. また, パスの被約費用は, そのパス自体の費用, 始点と終点でのポテンシャルの値のみに依存する.
@@ -260,7 +260,7 @@ $$
 任意の辺 $e = (u, v)$ を取る.
 $d$ の最適性から $c'(e) + d(u) - d(v) \ge 0$ であるから,
 $$
-\begin{align*}
+\begin{aligned}
 c^{\pi'}(e)
 &= c(e) + \pi'(u) - \pi'(v) \\
 &= c(e) + (\pi(u) + d(u) - n \epsilon) - (\pi(v) + d(v) - n \epsilon) \\
@@ -268,7 +268,7 @@ c^{\pi'}(e)
 &= \left( c'(e) + d(u) - d(v) \right) + \left(c^\pi(e) - c'(e) \right) \\
 &\ge c^\pi(e) - c'(e) \\
 &= c^\pi(e) - \max\set{0, c^\pi_\epsilon(e)}
-\end{align*}
+\end{aligned}
 $$
 となる. $e$ がもともと $\epsilon$-improvable であるとき
 $c^\pi(e) - \max\set{0, c^\pi_\epsilon(e)} = c^\pi(e) - 0 > - 2 \epsilon$
@@ -299,14 +299,14 @@ $$</p>
 
     <p>$R$ 上で $s$ の次に訪れる頂点を $w$ とすると, 仮定から $w \neq v$ であり,
 $$
-\begin{align*}
+\begin{aligned}
 c^\pi(R_{w,v})
 & \leq c'(R_{w,v}) &\qquad (\because c^\pi \leq c') \\
 & = c'(R) - c'((s, w)) &\\
 &= c'(R) - (\rho(w) + n \epsilon) &\\
 &\leq (\rho(v) + n \epsilon - \epsilon) - (\rho(w) + n \epsilon) &\qquad (\because \text{上の不等式})\\
 &= \rho(v) - \rho(w) - \epsilon.&
-\end{align*}
+\end{aligned}
 $$
 一方, $c'$ の非負性と上の不等式(の2番目と最後)から
 $0 \le c'(R_{w,v}) < \rho(v) - \rho(w)$
@@ -314,21 +314,21 @@ $0 \le c'(R_{w,v}) < \rho(v) - \rho(w)$
 $\rho$ の定義から $w$ は $P$ に含まれ, 更に $\rho$ の単調性から, $w$ は $v$ 以降の位置にある.</p>
 
     <p>$$
-\begin{align*}
+\begin{aligned}
 c^\pi(P_{v,w})
 &\le c^\pi_\epsilon(P_{v,w}) \\
 &= c^\pi_\epsilon(P_w) - c^\pi_\epsilon(P_v) \\
 &= \rho(w) - \rho(v)
-\end{align*}
+\end{aligned}
 $$
 であるから, $C$ を $R_{w,v}$ と $P_{v,w}$ をつなげた閉路とすると
 $$
-\begin{align*}
+\begin{aligned}
 c^\pi(C)
 &= c^\pi(R_{w,v}) + c^\pi(P_{v,w}) \\
 &\le (\rho(v) - \rho(w) - \epsilon) + (\rho(w) - \rho(v)) \\
 &< 0,
-\end{align*}
+\end{aligned}
 $$
 つまり $C$ は負閉路である.∎</p>
   </div>
@@ -353,38 +353,38 @@ $\pi'$ で新たに $\epsilon$-improvable になる辺は無いから, $\pi'$ �
     <p>$Q$ を $s$ から $u$ への $c'$-最短パスとし, $Q$ で $s$ の次の頂点を $w$ とする.</p>
 
     <p>$$
-\begin{align*}
+\begin{aligned}
 -\epsilon
 &\ge c^{\pi'}(e) &\qquad (\because e \text{は} \pi' \text{で} \epsilon\text{-improvable}) \\
 &= c(e) + \pi'(u) - \pi'(v) &\\
 &= c(e) + (\pi(u) + d(u) - n \epsilon) - (\pi(v) + d(v) - n \epsilon) &\\
 &= c^\pi(e) + d(u) - d(v) &
-\end{align*}
+\end{aligned}
 $$
 であるが, $c^\pi(e) > -2 \epsilon$ であるから,
 $$
-\begin{align*}
+\begin{aligned}
 d(u) - d(v)
 &= c^{\pi'}(e) - c^\pi(e) \\
 &\le - \epsilon - c^\pi(e) \\
 &< -\epsilon + 2 \epsilon \\
 &= \epsilon
-\end{align*}
+\end{aligned}
 $$
 であり, $d$ は $\epsilon$ の整数倍であったから, $d(u) \le d(v)$.</p>
 
     <p>さて, $P$ 上で $v$ の一つ前の辺が $\epsilon$-improvable であった. この辺を $(x, v)$ とすると,
 $$
-\begin{align*}
+\begin{aligned}
 \rho(v) - \rho(x)
 &= c^\pi_\epsilon(P_v) - c^\pi_\epsilon(P_x) \\
 &= c^\pi_\epsilon((x, v)) \\
 &\le - \epsilon
-\end{align*}
+\end{aligned}
 $$
 である. 従って,
 $$
-\begin{align*}
+\begin{aligned}
 \rho(w)
 &= c'((s, w)) - n \epsilon &\qquad (\because c' \text{の定義})\\
 &= c'(Q) - c'(Q_{w, u}) - n \epsilon &\\
@@ -395,7 +395,7 @@ $$
 &= \rho(v) &\qquad (\because \text{補題1}) \\
 &\le \rho(x) - \epsilon &\qquad (\because \text{上の不等式}) \\
 &\le - \epsilon &\qquad (\because \rho \text{は非正})
-\end{align*}
+\end{aligned}
 $$
 であるから, $\rho(w) \le \rho(v) < \rho(x) \le 0$ である.
 この不等式と $\rho$ の定義から, $w \in P$ であり,
@@ -403,7 +403,7 @@ $\rho$ の単調性から $w$ は $P$ 内で $v$ 以降に出現する.</p>
 
     <p>補題1から
 $$
-\begin{align*}
+\begin{aligned}
 c^{\pi'}(P_{v,w})
 &= c(P_{v,w}) + \pi'(v) - \pi'(w) \\
 &= c(P_{v,w}) + (\pi(v) + \rho(v)) - (\pi(w) + \rho(w)) \\
@@ -411,25 +411,25 @@ c^{\pi'}(P_{v,w})
 &= c^\pi(P_{v,w}) + c^\pi_\epsilon(P_v) - c^\pi_\epsilon(P_w) \\
 &= c^\pi(P_{v,w}) - c^\pi_\epsilon(P_{v,w}) \\
 &\le 0
-\end{align*}
+\end{aligned}
 $$
 となる. 一方,
 $$
-\begin{align*}
+\begin{aligned}
 c^{\pi'}(Q_{w,u})
 &= c^\pi(Q_{w,u}) + d(w) - d(u) &\qquad (\because \pi'\text{の定義}) \\
 &\le c'(Q_{w,u}) + d(w) - d(u) &\qquad (\because c^\pi \le c') \\
 &= 0 &\qquad (\because Q_{w,u} \text{は最短路, } d \text{は最短路長})
-\end{align*}
+\end{aligned}
 $$
 であり, これと $c^{\pi'}(e) \le -\epsilon$ から, $P_{v,w}$, $Q_{w,u}$, $e$ を繋げた閉路 $C$ は
 $$
-\begin{align*}
+\begin{aligned}
 c^{\pi'}(C)
 &= c^{\pi'}(P_{v,w}) + c^{\pi'}(Q_{w,u}) + c^{\pi'}(e) \\
 &\le 0 + 0 - \epsilon \\
 &< 0,
-\end{align*}
+\end{aligned}
 $$
 すなわち負閉路である. ∎</p>
   </div>
