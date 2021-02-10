@@ -86,7 +86,7 @@ $$`</div>
       <li>最大流を $F$ とすると, $O(F m)$ でもある.</li>
       <li>辺容量が高々 $k$ のとき, $O(k m^{3/2})$ でもある.</li>
       <li>辺容量が高々 $k$ で多重辺が無いとき, $O(k n^{2/3}m)$ でもある.</li>
-      <li>各頂点を通れるフロー量が高々 $k$, すなわち $k \ge \max_v \min(\sum_{e \in \delta^+(v)} u_e, \sum_{e \in \delta^-(v)} u_e)$ なとき, 計算量は $O(k \sqrt{n} m)$ でもある.<sup id="fnref:delta"><a href="#fn:delta" class="footnote">1</a></sup></li>
+      <li>各頂点を通れるフロー量が高々 $k$, すなわち $k \ge \max_v \min(\sum_{e \in \delta^+(v)} u_e, \sum_{e \in \delta^-(v)} u_e)$ なとき, 計算量は $O(k \sqrt{n} m)$ でもある.<sup id="fnref:delta" role="doc-noteref"><a href="#fn:delta" class="footnote">1</a></sup></li>
       <li>二部マッチングのときは, 上が $k = 1$ で成立し, $O(\sqrt{n} m)$.</li>
       <li>容量が整数は必須だけれど, 他の条件は高々定数個の例外があっても OK.</li>
     </ul>
@@ -113,12 +113,12 @@ $$`</div>
 
 <p>Dinic 法は, 暫定解であるフロー $\vecf$ を持ち, 次の2つを $s$ から $t$ への残余パスが無くなるまで繰り返すアルゴリズムである.</p>
 
-<p><strong>dual step</strong>:<sup id="fnref:whydual"><a href="#fn:whydual" class="footnote">2</a></sup></p>
+<p><strong>dual step</strong>:<sup id="fnref:whydual" role="doc-noteref"><a href="#fn:whydual" class="footnote">2</a></sup></p>
 
 <p>残余ネットワーク $G_\vecf$ 上で, $s$ から $t$ への最短経路 DAG, すなわち最短 $s$-$t$ パスに含まれうる頂点/辺のみからなるグラフを求める.
 ここで, 各辺のコストは <code>1</code>, つまり通る辺の個数を最小化する経路を求めるものとする.</p>
 
-<p><strong>primal step</strong><sup id="fnref:whyprimal"><a href="#fn:whyprimal" class="footnote">3</a></sup>,<sup id="fnref:blocking"><a href="#fn:blocking" class="footnote">4</a></sup></p>
+<p><strong>primal step</strong><sup id="fnref:whyprimal" role="doc-noteref"><a href="#fn:whyprimal" class="footnote">3</a></sup>,<sup id="fnref:blocking" role="doc-noteref"><a href="#fn:blocking" class="footnote">4</a></sup></p>
 
 <p>$H$ を前回の dual step で求めた DAG で初期化し, $H$ が空グラフになるまで, 次を繰り返す.</p>
 
@@ -182,7 +182,7 @@ Admissible であり, $s$ から辿りつける始点と $t$ に辿り着ける�
 この $\ce$ を用いて, 概要の節の $H$ 上のパスを一つ求めるアルゴリズムは, 次のように実現できる.</p>
 
 <ol>
-  <li>$i = 0, v_0 = s$ とする.<sup id="fnref:fromt"><a href="#fn:fromt" class="footnote">5</a></sup></li>
+  <li>$i = 0, v_0 = s$ とする.<sup id="fnref:fromt" role="doc-noteref"><a href="#fn:fromt" class="footnote">5</a></sup></li>
   <li>$\ce(v_i) \neq \bot$ だが $\ce(v_i)$ が admissible でないとき:
     <ol>
       <li>$\ce(v_i)$ を $\ne(\ce(v_i))$ で更新する.</li>
@@ -232,11 +232,11 @@ Admissible であり, $s$ から辿りつける始点と $t$ に辿り着ける�
 
 <p>から, このアルゴリズムの計算量は, 最終的に報告するパスの長さと $\ce(\cdot)$ を変更した回数の和に関する線形時間である.</p>
 
-<p>さて, このアルゴリズムで報告されたパスに対して, 含まれる辺の残余容量の最小値と同じだけフローを $\vecf$ に追加し, これによって残余容量が $0$ となった辺 $e=(u, v)$ に対し, $\ce(u)$ を $\ne(e)$ で更新する.<sup id="fnref:updateisunnecessary"><a href="#fn:updateisunnecessary" class="footnote">6</a></sup>
+<p>さて, このアルゴリズムで報告されたパスに対して, 含まれる辺の残余容量の最小値と同じだけフローを $\vecf$ に追加し, これによって残余容量が $0$ となった辺 $e=(u, v)$ に対し, $\ce(u)$ を $\ne(e)$ で更新する.<sup id="fnref:updateisunnecessary" role="doc-noteref"><a href="#fn:updateisunnecessary" class="footnote">6</a></sup>
 すると, 次のパスを探索する際は, 上のアルゴリズムを $\ce(\cdot)$ を再度初期化することなく適用することができる.
 このことの正しさは, やはり不変条件が保たれることからわかる.</p>
 
-<p>Admissible な辺からなる $s$-$t$ パスが無くなるまでこれを実行すると, $\ce(\cdot)$ は合計高々 $m$ 回変更される<sup id="fnref:whyOm"><a href="#fn:whyOm" class="footnote">7</a></sup>が, 6.1. によってパスを得る度に一度変更するから, このアルゴリズムが実行されるのは高々 $m+1$ 回である. また, 各実行で $O(n)$ に加えて $\ce(\cdot)$ の変更回数に関する線形時間かかるから, 合計 $O(m n + m) = O(nm)$ かかる.</p>
+<p>Admissible な辺からなる $s$-$t$ パスが無くなるまでこれを実行すると, $\ce(\cdot)$ は合計高々 $m$ 回変更される<sup id="fnref:whyOm" role="doc-noteref"><a href="#fn:whyOm" class="footnote">7</a></sup>が, 6.1. によってパスを得る度に一度変更するから, このアルゴリズムが実行されるのは高々 $m+1$ 回である. また, 各実行で $O(n)$ に加えて $\ce(\cdot)$ の変更回数に関する線形時間かかるから, 合計 $O(m n + m) = O(nm)$ かかる.</p>
 
 <p>dual-primal step が高々 $n-1$ 回なのは前の解析と変わらないから, 合計 $O(n^2 m)$ である.</p>
 
@@ -287,7 +287,7 @@ primal step, dual step はそれぞれ $s$ 側と $t$ 側から出来るため, 
 <p>この節は読み飛ばしても差支えない.</p>
 
 <p>前節の $\ce(\cdot)$ は, $s$ を葉の一つ, $\ce(v) = \bot$ な頂点を根とする内向き森になっている.
-この森を GetRoot, GetLastEdgeInPath<sup id="fnref:GetLastEdgeInPath"><a href="#fn:GetLastEdgeInPath" class="footnote">8</a></sup>, Link, Cut, GetValue<sup id="fnref:GetValue"><a href="#fn:GetValue" class="footnote">9</a></sup>, AddToPath<sup id="fnref:AddToPath"><a href="#fn:AddToPath" class="footnote">10</a></sup>, MinNodeOfPath<sup id="fnref:MinNodeOfPath"><a href="#fn:MinNodeOfPath" class="footnote">11</a></sup> を $O(\log n)$ でサポートする動的木, 例えば Sleator-Tarjan Link/Cut tree で管理すると, $O(\log n)$ について一度 $\ce(\cdot)$ を更新する(Link/Cut)か admissible なパスにフローを流す(MinNodeOfPath + AddToPath)ことができる.</p>
+この森を GetRoot, GetLastEdgeInPath<sup id="fnref:GetLastEdgeInPath" role="doc-noteref"><a href="#fn:GetLastEdgeInPath" class="footnote">8</a></sup>, Link, Cut, GetValue<sup id="fnref:GetValue" role="doc-noteref"><a href="#fn:GetValue" class="footnote">9</a></sup>, AddToPath<sup id="fnref:AddToPath" role="doc-noteref"><a href="#fn:AddToPath" class="footnote">10</a></sup>, MinNodeOfPath<sup id="fnref:MinNodeOfPath" role="doc-noteref"><a href="#fn:MinNodeOfPath" class="footnote">11</a></sup> を $O(\log n)$ でサポートする動的木, 例えば Sleator-Tarjan Link/Cut tree で管理すると, $O(\log n)$ について一度 $\ce(\cdot)$ を更新する(Link/Cut)か admissible なパスにフローを流す(MinNodeOfPath + AddToPath)ことができる.</p>
 
 <p>具体的には, 動的木を辺数 $0$ で初期化し, 各頂点には開始時点の残余容量で値を付与した後, 次を行う.</p>
 
@@ -391,7 +391,7 @@ $U = W_{i-1} \cup A$ とすると, $U$ の残余カット容量は, $A$ から�
 <h3>余談</h3>
 
 <p>上の証明を見ていればわかるように, 多くのフローが序盤の dual-primal step で流れる事が期待される.
-簡単なインスタンス, 例えばランダムグラフは, 経験的に, この性質を強くもつものが多い. <sup id="fnref:myimpression"><a href="#fn:myimpression" class="footnote">12</a></sup>
+簡単なインスタンス, 例えばランダムグラフは, 経験的に, この性質を強くもつものが多い. <sup id="fnref:myimpression" role="doc-noteref"><a href="#fn:myimpression" class="footnote">12</a></sup>
 一方で, 計算量には, パスが見つかった際に流すフローで, そのパスのどれだけの辺を消滅させられるかも関わってくる.
 こちらは, 上の容量が高々定数な場合のように, フロー空間が縮退しているインスタンスが簡単になる.</p>
 
@@ -401,43 +401,43 @@ $U = W_{i-1} \cup A$ とすると, $U$ の残余カット容量は, $A$ から�
   <li><a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">R.K.Ahuja, T.L.Magnanti, J.B.Orlin, &quot;Network Flows: Theory, Algorithms, and Applications&quot;, Prentice-Hall, Inc., 1993.</a></li>
 </ul>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:delta">
-      <p>$\delta^+(v)$: $v$ から出る辺全体の集合, $\delta^-(v)$: $v$ へ入る辺全体の集合. <a href="#fnref:delta" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:delta" role="doc-endnote">
+      <p>$\delta^+(v)$: $v$ から出る辺全体の集合, $\delta^-(v)$: $v$ へ入る辺全体の集合. <a href="#fnref:delta" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:whydual">
-      <p>これが dual step と呼ばれているのを見たことはない. しかし, 線形計画問題として定式化したときの双対の $\varepsilon$ 緩和を考え, 主の解を更新せずに双対の解を更新することで, なるべく小さい $\varepsilon$ に対する $\varepsilon$-optimality を満たすようにする操作である. <a href="#fnref:whydual" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:whydual" role="doc-endnote">
+      <p>これが dual step と呼ばれているのを見たことはない. しかし, 線形計画問題として定式化したときの双対の $\varepsilon$ 緩和を考え, 主の解を更新せずに双対の解を更新することで, なるべく小さい $\varepsilon$ に対する $\varepsilon$-optimality を満たすようにする操作である. <a href="#fnref:whydual" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:whyprimal">
-      <p>dual step に対応し, こちらは $\varepsilon$-optimality を保ちつつ主問題の目的関数値を増大させている. <a href="#fnref:whyprimal" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:whyprimal" role="doc-endnote">
+      <p>dual step に対応し, こちらは $\varepsilon$-optimality を保ちつつ主問題の目的関数値を増大させている. <a href="#fnref:whyprimal" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:blocking">
-      <p>これは dual step で求めた DAG の上でブロッキングフローを求める操作である. <a href="#fnref:blocking" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:blocking" role="doc-endnote">
+      <p>これは dual step で求めた DAG の上でブロッキングフローを求める操作である. <a href="#fnref:blocking" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:fromt">
-      <p>今回は $s$ から出発するようにしたが, $t$ から始めてもよい. その場合さまざまなものが逆転する. <a href="#fnref:fromt" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:fromt" role="doc-endnote">
+      <p>今回は $s$ から出発するようにしたが, $t$ から始めてもよい. その場合さまざまなものが逆転する. <a href="#fnref:fromt" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:updateisunnecessary">
-      <p>$\ce(u)$ は更新しなくても, 計算量は変わらない. ここでは, 計算量解析の簡単さを優先した. <a href="#fnref:updateisunnecessary" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:updateisunnecessary" role="doc-endnote">
+      <p>$\ce(u)$ は更新しなくても, 計算量は変わらない. ここでは, 計算量解析の簡単さを優先した. <a href="#fnref:updateisunnecessary" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:whyOm">
-      <p>$\ce(\cdot)$ は辺のイテレータで, 各辺一度しか出てこない. <a href="#fnref:whyOm" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:whyOm" role="doc-endnote">
+      <p>$\ce(\cdot)$ は辺のイテレータで, 各辺一度しか出てこない. <a href="#fnref:whyOm" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:GetLastEdgeInPath">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる辺で, 最も根に近いもの. <a href="#fnref:GetLastEdgeInPath" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:GetLastEdgeInPath" role="doc-endnote">
+      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる辺で, 最も根に近いもの. <a href="#fnref:GetLastEdgeInPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:GetValue">
-      <p>各頂点には値(具体的には $\ce(v)$ の残余容量)が付与されている. $v$ に対し, この付与された値を返す. <a href="#fnref:GetValue" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:GetValue" role="doc-endnote">
+      <p>各頂点には値(具体的には $\ce(v)$ の残余容量)が付与されている. $v$ に対し, この付与された値を返す. <a href="#fnref:GetValue" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:AddToPath">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点に付与された値に $x$ を足し込む. <a href="#fnref:AddToPath" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:AddToPath" role="doc-endnote">
+      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点に付与された値に $x$ を足し込む. <a href="#fnref:AddToPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:MinNodeOfPath">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点のうち, 付与された値が最も小さいものを返す. 複数あるならば, 最も根に近いものを返す. <a href="#fnref:MinNodeOfPath" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:MinNodeOfPath" role="doc-endnote">
+      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点のうち, 付与された値が最も小さいものを返す. 複数あるならば, 最も根に近いものを返す. <a href="#fnref:MinNodeOfPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:myimpression">
-      <p>個人の感想です. <a href="#fnref:myimpression" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:myimpression" role="doc-endnote">
+      <p>個人の感想です. <a href="#fnref:myimpression" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>

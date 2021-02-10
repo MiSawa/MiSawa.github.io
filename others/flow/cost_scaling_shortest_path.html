@@ -96,7 +96,7 @@ $$`</div>
 <p><strong>定理1</strong>:</p>
 
 <blockquote>
-  <p>任意の $n$ 頂点の DAG $G$ に対し, $G$ の chain 又は antichain で要素数が $\sqrt{n}$ 以上のものが存在する.<sup id="fnref:Dilworth"><a href="#fn:Dilworth" class="footnote">1</a></sup></p>
+  <p>任意の $n$ 頂点の DAG $G$ に対し, $G$ の chain 又は antichain で要素数が $\sqrt{n}$ 以上のものが存在する.<sup id="fnref:Dilworth" role="doc-noteref"><a href="#fn:Dilworth" class="footnote">1</a></sup></p>
 </blockquote>
 
 <p><strong>証明</strong>:</p>
@@ -104,7 +104,7 @@ $$`</div>
 <blockquote>
   <p>$G$ に新たに頂点 $s$ を加え, $s$ から他の全ての頂点へ辺を張る.
 すると, $G$ は DAG のままであり, $s$ でない任意の頂点 $v$ に対し $s \succ v$ となる.
-$G$ の各頂点 $v$ に対し, $s$ からの最<em>長</em>経路長を $l_v$ とする.<sup id="fnref:longest_path"><a href="#fn:longest_path" class="footnote">2</a></sup>
+$G$ の各頂点 $v$ に対し, $s$ からの最<em>長</em>経路長を $l_v$ とする.<sup id="fnref:longest_path" role="doc-noteref"><a href="#fn:longest_path" class="footnote">2</a></sup>
 $l$ の最大値が $\sqrt{n}$ 以上であるとき, 最大値をとる頂点の一つを $v$ とすると, $s$ から $v$ へのパスで頂点数が $\sqrt{n}+1$ 以上のものが存在し, その頂点集合から $s$ を除いたものが元の DAG の chain になっている.
 一方 $l$ の最大値が $\sqrt{n}$ 未満であるとき, $s$ を除く頂点での値は $1, 2, \dots, \sqrt{n}-1$ の高々 $\sqrt{n}-1$ 通りである.
 鳩ノ巣原理から, $l$ の値が等しくなる $\lceil n / (\sqrt{n}-1) \rceil \ge \sqrt{n}$ 個の($s$ でない)頂点が存在し, これは元の DAG の antichain になる.
@@ -116,15 +116,15 @@ $l$ の最大値が $\sqrt{n}$ 以上であるとき, 最大値をとる頂点�
 <blockquote>
   <p>例えば, 相異なる $n$ 個の要素を持つ数列 $a_1, \dots, a_n$ に対し, $1, \dots, n$ を頂点とし $i < j$ かつ $a_i < a_j$ な $(i, j)$ を辺とする DAG を考える.
 すると, 数列 $\{a_i\}$ の単調増加部分列と chain, 単調減少部分列と antichain が一対一対応する.
-従って, $\sqrt{n}$ 個以上の要素を持つ部分列であって, 単調増加または単調減少なものが存在することがわかる. <sup id="fnref:ErdosSzekeres"><a href="#fn:ErdosSzekeres" class="footnote">3</a></sup></p>
+従って, $\sqrt{n}$ 個以上の要素を持つ部分列であって, 単調増加または単調減少なものが存在することがわかる. <sup id="fnref:ErdosSzekeres" role="doc-noteref"><a href="#fn:ErdosSzekeres" class="footnote">3</a></sup></p>
 </blockquote>
 
 <h2>問題設定と用語の準備</h2>
 <p>この辺りのことは <a href="https://qiita.com/ngtkana/items/d7fc4463e56b966d1ebf">ながたかなさんの記事</a> にも詳しく書かれているので, ポテンシャルや被約費用を扱ったことがない人は一読するとよいだろう.</p>
 
-<p>$n$ 頂点 $m$ 辺の単純<sup id="fnref:simple"><a href="#fn:simple" class="footnote">4</a></sup>有向グラフ $G = (V, E)$ と, 辺費用 $c(e) \in \Z$ が与えられる.
+<p>$n$ 頂点 $m$ 辺の単純<sup id="fnref:simple" role="doc-noteref"><a href="#fn:simple" class="footnote">4</a></sup>有向グラフ $G = (V, E)$ と, 辺費用 $c(e) \in \Z$ が与えられる.
 頂点から実数への関数 $\pi: V \to \R$ をポテンシャルと呼ぶ.
-ポテンシャル $\pi$ に対し, $c^\pi((u, v)) := c((u, v)) + \pi(u) - \pi(v)$ を <strong>被約費用 (又は簡約費用, reduced cost)</strong> と呼ぶ.<sup id="fnref:reduced_cost_sign"><a href="#fn:reduced_cost_sign" class="footnote">5</a></sup>
+ポテンシャル $\pi$ に対し, $c^\pi((u, v)) := c((u, v)) + \pi(u) - \pi(v)$ を <strong>被約費用 (又は簡約費用, reduced cost)</strong> と呼ぶ.<sup id="fnref:reduced_cost_sign" role="doc-noteref"><a href="#fn:reduced_cost_sign" class="footnote">5</a></sup>
 任意の辺に対して被約費用が非負であるとき, そのポテンシャルは<strong>feasible (実行可能)</strong> であると言う.</p>
 
 <p>任意の $s$-$t$ パス $P$ と閉路 $C$ に対し,
@@ -156,7 +156,7 @@ $$
 
 <p>上の議論では, feasible なポテンシャルの存在については言及していなかった.
 例えば負閉路, すなわち $c(C) < 0$ となる閉路 $C$ があるとき, 任意のポテンシャル $\pi$ には, $c(C) = c^\pi(C) = \sum_{e \in C} c^\pi(e) < 0$ であるから $c^\pi(e) < 0$ となる辺が存在し, feasible でない.
-しかし, この時はそもそも最短経路が存在しない<sup id="fnref:shortest_path_existence"><a href="#fn:shortest_path_existence" class="footnote">6</a></sup>.
+しかし, この時はそもそも最短経路が存在しない<sup id="fnref:shortest_path_existence" role="doc-noteref"><a href="#fn:shortest_path_existence" class="footnote">6</a></sup>.
 一方, 負閉路が無ければ feasible なポテンシャルが存在する.
 実際, $G$ に頂点 $s$ を加え, $s$ 以外の任意の頂点へ $s$ から費用 $0$ の辺を張ったグラフを考える. $s$ から $v$ への最短距離を $\pi(v)$ とすると, 任意の $G$ の辺 $e = (u, v)$ に対し, $\pi$ の最適性から $\pi(v) \le c(e) + \pi(u)$ であるが, これは $\pi$ が feasible なポテンシャルであることに他ならない.</p>
 
@@ -165,13 +165,13 @@ $$
 <h2>緩和とスケーリング法</h2>
 
 <p>feasible なポテンシャルの定義は $\forall e \in E, c^\pi(e) \ge 0$ であった.
-$\epsilon > 0$ でこれを緩和した $\forall e \in E,\ c^\pi(e) > -\epsilon$ を満たすポテンシャル $\pi$ を <strong>$\epsilon$-feasible ($\epsilon$-実行可能)</strong> であるという. <sup id="fnref:eps_feasibility_def"><a href="#fn:eps_feasibility_def" class="footnote">7</a></sup>
-また, $c^\pi(e) \le 0$ である辺を <strong>admissible (使用可能, 又は許容)</strong> であると言い, $c^\pi(e) \le -\epsilon$ である辺を <strong>$\epsilon$-improvable な辺</strong> であると言う. <sup id="fnref:admissible_def"><a href="#fn:admissible_def" class="footnote">8</a></sup> また, $\epsilon$-improvable な辺 $(u, v)$ が存在するような頂点 $v$ を <strong>$\epsilon$-improvable な頂点</strong> であると言う.</p>
+$\epsilon > 0$ でこれを緩和した $\forall e \in E,\ c^\pi(e) > -\epsilon$ を満たすポテンシャル $\pi$ を <strong>$\epsilon$-feasible ($\epsilon$-実行可能)</strong> であるという. <sup id="fnref:eps_feasibility_def" role="doc-noteref"><a href="#fn:eps_feasibility_def" class="footnote">7</a></sup>
+また, $c^\pi(e) \le 0$ である辺を <strong>admissible (使用可能, 又は許容)</strong> であると言い, $c^\pi(e) \le -\epsilon$ である辺を <strong>$\epsilon$-improvable な辺</strong> であると言う. <sup id="fnref:admissible_def" role="doc-noteref"><a href="#fn:admissible_def" class="footnote">8</a></sup> また, $\epsilon$-improvable な辺 $(u, v)$ が存在するような頂点 $v$ を <strong>$\epsilon$-improvable な頂点</strong> であると言う.</p>
 
 <p>入力の整数性と前節の feasible なポテンシャルの構成から, feasible なポテンシャルが存在することと feasible な整数ポテンシャルが存在することは同値であるから, 以下補足の節まで, ポテンシャルは整数ポテンシャルのみを考える.
 すると, $\epsilon = 1$ のとき, $\epsilon$-feasible なポテンシャル $\pi$ は $c^\pi((u, v)) = c((u, v)) + \pi(u) - \pi(v) > -1$ を満たすが, 左辺は整数であるから $c^\pi(e) \ge 0$, つまり feasible である.</p>
 
-<p>さて, $C = \max(2, \max_e(-c_e))$ とする. 従って, $c_e \ge -C$ かつ $\log C > 0$ である<sup id="fnref:log_base"><a href="#fn:log_base" class="footnote">9</a></sup>.
+<p>さて, $C = \max(2, \max_e(-c_e))$ とする. 従って, $c_e \ge -C$ かつ $\log C > 0$ である<sup id="fnref:log_base" role="doc-noteref"><a href="#fn:log_base" class="footnote">9</a></sup>.
 $\epsilon = 2^{\floor{\log C} + 1}$ とすると, $c_e = c_e + 0 - 0 \ge -C > -\epsilon$ であるから, ゼロポテンシャル $\pi(\cdot) = 0$ は $\epsilon$-feasible である.
 コストスケーリング法は, この $\epsilon$ とゼロポテンシャルを初期値とし, より小さい $\epsilon$ に対する $\epsilon$-feasibility を満たすよう $\pi$ を変更していく, 次のようなアルゴリズムである.</p>
 
@@ -193,8 +193,8 @@ $\epsilon = 2^{\floor{\log C} + 1}$ とすると, $c_e = c_e + 0 - 0 \ge -C > -\
 
 <p>一方, そのような辺が存在しない場合を考える.
 両端点が同じ強連結成分に含まれる辺全体の集合を $S$ とする.
-$G$ をもとにし, 強連結成分たちを縮約したグラフ $H$ を考えると<sup id="fnref:decycle_details"><a href="#fn:decycle_details" class="footnote">10</a></sup>, $H$ 上のポテンシャル $\rho$ と $G$ 上の $S$ に含まれる辺の被約費用が $0$ であるようなポテンシャル $\rho'$ は, その整数性, feasibility や $\epsilon$-feasibility を保ったまま 1:1 対応し, $H$ の $\pi$ に対応するポテンシャルでの admissible graph は DAG になる.
-従って, 必要ならば強連結成分分解をすることで, admissible graph は DAG であるとしてよい. この操作を decycle と呼ぶ. <sup id="fnref:decycle_not_needed"><a href="#fn:decycle_not_needed" class="footnote">11</a></sup></p>
+$G$ をもとにし, 強連結成分たちを縮約したグラフ $H$ を考えると<sup id="fnref:decycle_details" role="doc-noteref"><a href="#fn:decycle_details" class="footnote">10</a></sup>, $H$ 上のポテンシャル $\rho$ と $G$ 上の $S$ に含まれる辺の被約費用が $0$ であるようなポテンシャル $\rho'$ は, その整数性, feasibility や $\epsilon$-feasibility を保ったまま 1:1 対応し, $H$ の $\pi$ に対応するポテンシャルでの admissible graph は DAG になる.
+従って, 必要ならば強連結成分分解をすることで, admissible graph は DAG であるとしてよい. この操作を decycle と呼ぶ. <sup id="fnref:decycle_not_needed" role="doc-noteref"><a href="#fn:decycle_not_needed" class="footnote">11</a></sup></p>
 
 <h2>Cut-Relabel</h2>
 <p>さて, $(2\epsilon)$-feasible なポテンシャル $\pi$ と, (必要ならば decycleし) 付随する DAG である admissible graph $G^\pi$ を考える.
@@ -225,7 +225,7 @@ $\epsilon$-Improvable な頂点の発見や $\operatorname{CUT\_RELABEL(\overlin
 
 <h2>Eliminate-Chain</h2>
 <p>ポテンシャル $\pi$ は $2 \epsilon$-feasible であり, その値は $\epsilon$ の整数倍であるとする.
-任意の $x$ に対し, $x$ 以上の最小の $\epsilon$ の整数倍を $\epsceil{x}$ で表す. すなわち, $\epsceil{x}=\ceil{x/\epsilon}\epsilon$ とする. <sup id="fnref:epsceil"><a href="#fn:epsceil" class="footnote">12</a></sup>
+任意の $x$ に対し, $x$ 以上の最小の $\epsilon$ の整数倍を $\epsceil{x}$ で表す. すなわち, $\epsceil{x}=\ceil{x/\epsilon}\epsilon$ とする. <sup id="fnref:epsceil" role="doc-noteref"><a href="#fn:epsceil" class="footnote">12</a></sup>
 また, $c^\pi_\epsilon(e) = \epsceil{c^\pi(e)}$ とする. 例えば $c^\pi_\epsilon(P) = \sum_{e \in P} \epsceil{c^\pi(e)}$ である.</p>
 
 <p>$P$ を $G^\pi$ のパスとする.
@@ -253,7 +253,7 @@ $$
 <p>天下り的に定義したが, これは $P$ に含まれる $\epsilon$-improvable な辺の終点について順に $\operatorname{CUT\_RELABEL}(\overline{\set{x}})$ を行った結果を求めていると考えてよい.
 実際 $c^\pi_\epsilon(P_v)$ は $P$ の始点から順に $\epsilon$-improvable な辺を通るごとに $-\epsilon$ され, $c'((s,v))$ はこれを表している. また, $u$ が $\max\set{0, c^\pi_\epsilon((u,v)) / \epsilon}$ 回 relabel されると辺 $(u, v)$ は admissible になり, それ以降 $u$ を relabel する度に $v$ も relabel されることを $c'(u, v)$ は表している.</p>
 
-<p>さて, $c'$ は $\epsilon$ の整数倍であり, 最短経路長は $d(v) \le c'((s, v)) = \rho(v) + n \epsilon \le n \epsilon$ を満たすから, Dial の方法<sup id="fnref:dials_impl"><a href="#fn:dials_impl" class="footnote">13</a></sup>による Dijkstra 法を実行することにより $O(m)$ で計算可能である.
+<p>さて, $c'$ は $\epsilon$ の整数倍であり, 最短経路長は $d(v) \le c'((s, v)) = \rho(v) + n \epsilon \le n \epsilon$ を満たすから, Dial の方法<sup id="fnref:dials_impl" role="doc-noteref"><a href="#fn:dials_impl" class="footnote">13</a></sup>による Dijkstra 法を実行することにより $O(m)$ で計算可能である.
 また, $\pi$, $c'$ は $\epsilon$ の整数倍であるから, $d$, 従って $\pi'$ も $\epsilon$ の整数倍である.</p>
 
 <p>次に, $\pi'$ は $(2\epsilon)$-feasible であり, 新たに $\epsilon$-improvable な辺が作られないことを示す.
@@ -456,7 +456,7 @@ $$
 <p>$G^\pi$ が DAG であったから $H$ も DAG であり, 定理1 から $H$ の chain 又は antichain で要素数が $\sqrt{k}$ 以上のものが存在する.
 $H$ の chain $S \subset U$ は, $S$ を含む $G$ のパス $P$ で, $S$ へ入る辺が $\epsilon$-improvable なものへ展開することができる.
 一方 $H$ の anti chain $T \subset V$ は, どの二頂点間にも最後に $\epsilon$-improvable な辺を通るパスが存在しない.
-従って, $H$ の chain で要素数が $\sqrt{k}$ 以上のものがあればそれに Eliminate-Chain, そうでなければ $H$ の antichain で要素数が $\sqrt{k}$ 以上のものに Cut-Relabel を適用することにより, $O(m)$ で<sup id="fnref:actually_linear"><a href="#fn:actually_linear" class="footnote">14</a></sup>少なくとも $\sqrt{k}$ 個の $\epsilon$-improvable な頂点を $\epsilon$-improvable でなくすことが出来る.</p>
+従って, $H$ の chain で要素数が $\sqrt{k}$ 以上のものがあればそれに Eliminate-Chain, そうでなければ $H$ の antichain で要素数が $\sqrt{k}$ 以上のものに Cut-Relabel を適用することにより, $O(m)$ で<sup id="fnref:actually_linear" role="doc-noteref"><a href="#fn:actually_linear" class="footnote">14</a></sup>少なくとも $\sqrt{k}$ 個の $\epsilon$-improvable な頂点を $\epsilon$-improvable でなくすことが出来る.</p>
 
 <p>これを $i$ 回繰り返した後の $\epsilon$-improvable な頂点の数を $k_i$ とする.
 $k_i \ge k_0/2$ である間 $k_i - k_{i+1} \ge \sqrt{k_0 / 2}$ であるから, このような $i$ は高々 $(k_0 / 2) / \sqrt{k_0 / 2} = \sqrt{k_0 / 2}$ 回しかない.
@@ -499,49 +499,49 @@ $$
   <li><a href="https://dl.acm.org/doi/10.5555/313559.313756">Andrew V. Goldberg, 1993, &quot;Scaling Algorithms for the Shortest Paths Problem&quot;, Proceedings of the fourth annual ACM-SIAM symposium on Discrete algorithms. Society for Industrial and Applied Mathematics, USA, 222-231.</a></li>
 </ul>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:Dilworth">
-      <p>これは <a href="https://en.wikipedia.org/wiki/Dilworth%27s_theorem">Dilworth の定理</a>や <a href="https://en.wikipedia.org/wiki/Mirsky%27s_theorem">Mirsky の定理</a>からも導ける. <a href="#fnref:Dilworth" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:Dilworth" role="doc-endnote">
+      <p>これは <a href="https://en.wikipedia.org/wiki/Dilworth%27s_theorem">Dilworth の定理</a>や <a href="https://en.wikipedia.org/wiki/Mirsky%27s_theorem">Mirsky の定理</a>からも導ける. <a href="#fnref:Dilworth" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:longest_path">
-      <p>$s \succ v$ だから経路が存在し, $G$ が DAG だから経路は有限通りで最長のものが取れる. <a href="#fnref:longest_path" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:longest_path" role="doc-endnote">
+      <p>$s \succ v$ だから経路が存在し, $G$ が DAG だから経路は有限通りで最長のものが取れる. <a href="#fnref:longest_path" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:ErdosSzekeres">
-      <p>これをもう少し精細にしたものが <a href="https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Szekeres_theorem">Erdős–Szekereの定理</a> である. <a href="#fnref:ErdosSzekeres" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:ErdosSzekeres" role="doc-endnote">
+      <p>これをもう少し精細にしたものが <a href="https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Szekeres_theorem">Erdős–Szekereの定理</a> である. <a href="#fnref:ErdosSzekeres" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:simple">
-      <p>辺を $(u, v)$ と簡便に表記したいだけで, 本質的な要請ではない. <a href="#fnref:simple" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:simple" role="doc-endnote">
+      <p>辺を $(u, v)$ と簡便に表記したいだけで, 本質的な要請ではない. <a href="#fnref:simple" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:reduced_cost_sign">
-      <p>文献によっては, $c^\pi((u, v)) := c((u, v)) - \pi(u) + \pi(v)$ としていることもある. そちらに合わせたい場合は, ポテンシャルに関する符号を全て逆転させて読みかえればよい. <a href="#fnref:reduced_cost_sign" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:reduced_cost_sign" role="doc-endnote">
+      <p>文献によっては, $c^\pi((u, v)) := c((u, v)) - \pi(u) + \pi(v)$ としていることもある. そちらに合わせたい場合は, ポテンシャルに関する符号を全て逆転させて読みかえればよい. <a href="#fnref:reduced_cost_sign" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:shortest_path_existence">
-      <p>正確には, $s$ から到達可能かつ $t$ へ到達可能な負閉路があるとき, $s$-$t$ 最短経路が存在しない. この条件は, 例えば前処理としてグラフを強連結成分分解し, 各強連結成分で負閉路の存在判定をした後, 負閉路のない成分のみを残したグラフを考えることで落とすことが出来る. <a href="#fnref:shortest_path_existence" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:shortest_path_existence" role="doc-endnote">
+      <p>正確には, $s$ から到達可能かつ $t$ へ到達可能な負閉路があるとき, $s$-$t$ 最短経路が存在しない. この条件は, 例えば前処理としてグラフを強連結成分分解し, 各強連結成分で負閉路の存在判定をした後, 負閉路のない成分のみを残したグラフを考えることで落とすことが出来る. <a href="#fnref:shortest_path_existence" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:eps_feasibility_def">
-      <p>$c^\pi(e) \ge -\epsilon$ で定義する場合もあり, 後の議論が変わる. 詳細は補足の節で見る. <a href="#fnref:eps_feasibility_def" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:eps_feasibility_def" role="doc-endnote">
+      <p>$c^\pi(e) \ge -\epsilon$ で定義する場合もあり, 後の議論が変わる. 詳細は補足の節で見る. <a href="#fnref:eps_feasibility_def" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:admissible_def">
-      <p>$c^\pi(e) \ge -\epsilon$ で $\epsilon$-feasibility を定義した場合は, admissible edge は $c^\pi(e) < 0$, improvable edge は $c^\pi(e) < -\epsilon$ で定める. <a href="#fnref:admissible_def" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:admissible_def" role="doc-endnote">
+      <p>$c^\pi(e) \ge -\epsilon$ で $\epsilon$-feasibility を定義した場合は, admissible edge は $c^\pi(e) < 0$, improvable edge は $c^\pi(e) < -\epsilon$ で定める. <a href="#fnref:admissible_def" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:log_base">
-      <p>$\mathrm{log}$ の底は $2$ とする. <a href="#fnref:log_base" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:log_base" role="doc-endnote">
+      <p>$\mathrm{log}$ の底は $2$ とする. <a href="#fnref:log_base" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:decycle_details">
-      <p>辺の費用などは適切に調節する. LP 的には, この強連結成分は, 双対の制約式で組み合わせることで等号が成立することがわかる集合 (例えば $x-y \le 0$ と $y-x \le 0$ など) に対応している. この等式を使って変数を削ぎ落としていくのが decycle である. <a href="#fnref:decycle_details" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:decycle_details" role="doc-endnote">
+      <p>辺の費用などは適切に調節する. LP 的には, この強連結成分は, 双対の制約式で組み合わせることで等号が成立することがわかる集合 (例えば $x-y \le 0$ と $y-x \le 0$ など) に対応している. この等式を使って変数を削ぎ落としていくのが decycle である. <a href="#fnref:decycle_details" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:decycle_not_needed">
-      <p>$\epsilon$-feasibility の定義を変えると, decycle が必要なくなる一方で, 別の面倒が発生する. 詳しくは補足の節で. <a href="#fnref:decycle_not_needed" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:decycle_not_needed" role="doc-endnote">
+      <p>$\epsilon$-feasibility の定義を変えると, decycle が必要なくなる一方で, 別の面倒が発生する. 詳しくは補足の節で. <a href="#fnref:decycle_not_needed" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:epsceil">
-      <p>標準的な記法をご存知の方, 教えてください!! <a href="#fnref:epsceil" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:epsceil" role="doc-endnote">
+      <p>標準的な記法をご存知の方, 教えてください!! <a href="#fnref:epsceil" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:dials_impl">
-      <p>ヒープの代わりに, priority をキーとするバケットに突っ込む方法. $0$-$1$ BFS を知っている人は $0$-$\cdots$-$n$ BFS と思ってもよい. <a href="#fnref:dials_impl" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:dials_impl" role="doc-endnote">
+      <p>ヒープの代わりに, priority をキーとするバケットに突っ込む方法. $0$-$1$ BFS を知っている人は $0$-$\cdots$-$n$ BFS と思ってもよい. <a href="#fnref:dials_impl" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:actually_linear">
-      <p>$H$ の構築と chain/antichain の発見に時間がかかりそうに見えるが, 実は陽に構築しないでも, $G$ に超始点を加えたグラフで, $\epsilon$-improvable な辺を通る回数の意味での最長経路長を計算し, 定理1と同様に最長のパスか最大のバケットを取ればよい. <a href="#fnref:actually_linear" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:actually_linear" role="doc-endnote">
+      <p>$H$ の構築と chain/antichain の発見に時間がかかりそうに見えるが, 実は陽に構築しないでも, $G$ に超始点を加えたグラフで, $\epsilon$-improvable な辺を通る回数の意味での最長経路長を計算し, 定理1と同様に最長のパスか最大のバケットを取ればよい. <a href="#fnref:actually_linear" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>

@@ -81,7 +81,7 @@ $$`</div>
 <h2>要約</h2>
 
 <ul>
-  <li>最小費用流問題に対する最短路反復法(Successive Shortest Path, SSP)や Primal-Dual 法<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>と呼ばれるアルゴリズムは, 少し弄ると弱多項式時間アルゴリズムにできる.</li>
+  <li>最小費用流問題に対する最短路反復法(Successive Shortest Path, SSP)や Primal-Dual 法<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>と呼ばれるアルゴリズムは, 少し弄ると弱多項式時間アルゴリズムにできる.</li>
   <li>具体的には, $O(\U \cdot \mathrm{SP_+}(n, m, nC))$ が $O(m \log \U \cdot \mathrm{SP_+}(n, m, nC))$ になる.</li>
   <li>$\mathrm{SP_+}(n, m, nC)$ は$n$ 頂点 $m$ 辺, 費用高々 $nC$ のグラフの一点から全点への最短路問題を解くのにかかる時間. 以下では実装をサボったダイクストラ法なので $O(m \log m)$ だが, $\exists k: m = O(n^k)$ を仮定すると合計 $O(m^2 \log \U \log n)$.</li>
 </ul>
@@ -117,7 +117,7 @@ $$`</div>
 </ul>
 
 <h3>LP と Primal-Dual 法</h3>
-<p>最小費用流問題<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>は, その線型計画問題としての表現と強双対性を使うと, 次のような問題と捉えられる;</p>
+<p>最小費用流問題<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote">2</a></sup>は, その線型計画問題としての表現と強双対性を使うと, 次のような問題と捉えられる;</p>
 
 <p>与えられた有向グラフ $G = (V, E)$ と, $\sum_v b_v = 0$ であるような $\vec{b} = \{b_v\}_{v \in V}$, $l_e \le u_e$ であるような $\vec{l} = \{l_e\}_{e \in E}$ と $\vec{u} = \{u_e\}_{e \in E}$, $\vec{c} = \{c_e\}_{e \in E}$ の組 $(G, \vec{b}, \vec{l}, \vec{u}, \vec{c})$ に対し,
 $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満たすものを求めよ.</p>
@@ -132,7 +132,7 @@ $\vec{f} = \{f_e\}_{e \in E}$, $\vec{p} = \{p_v\}_{v \in V}$ で, 次を満た�
 <p>このフロー整合性条件は, 主問題が infeasible であった時のことを考慮し, 残余グラフ $G_\vecf$ と余剰量 $e_\vecf(v)$ を用いて次のように書き直しておく.</p>
 
 <ul>
-  <li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ の頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>)</li>
+  <li>$G_\vecf$ 上に $S_\vecf$ の頂点から $T_\vecf$ の頂点へのパス(増大路)が存在しない. (カット条件<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote">3</a></sup>)</li>
 </ul>
 
 <p>フロー整合性条件を満たすフローに対しては, 全頂点で $e_\vecf(v) = 0$ だからカット条件は成立する一方, フロー整合性条件を満たさないがカット条件を満たすフローが存在するならば, 主問題が infeasible であることが確かめられる.</p>
@@ -1296,16 +1296,16 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:1">
-      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:1" role="doc-endnote">
+      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:2">
-      <p>ここでは最小費用 $\vecb$-フロー問題を採用する. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:2" role="doc-endnote">
+      <p>ここでは最小費用 $\vecb$-フロー問題を採用する. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:3">
-      <p>一般的にどう呼ばれるか知らないが, ここではカット条件と呼ぶことにする. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:3" role="doc-endnote">
+      <p>一般的にどう呼ばれるか知らないが, ここではカット条件と呼ぶことにする. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>

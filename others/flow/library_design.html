@@ -81,7 +81,7 @@ $$`</div>
 <h2>イントロ</h2>
 
 <p>最小費用流問題と呼ばれる問題を解く際, 競技プログラミングでは, <a href="https://book.mynavi.jp/ec/products/detail/id=22672" title="プログラミングコンテストチャレンジブック">蟻本</a> に記載のものをはじめ多くの場合, 最小費用最大流を解くライブラリ,
-特に最短路反復法や Primal-Dual 法 <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> と呼ばれる実装が用いられる.
+特に最短路反復法や Primal-Dual 法 <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup> と呼ばれる実装が用いられる.
 これらのアルゴリズムを使う際, 辺コストが負になりうる場合, 負サイクルがある場合, 最小流量制約がある場合, 頂点吸込みや湧出しがある場合などは, Bellman-Ford 法や SPFA 等で追加処理を行ったり,
 ネットワークの変形をすることで, 同値な最小費用最大流問題への還元を行うことになる.
 しかし, これらは単に煩雑でバグの温床になるだけでなく, 解の復元も面倒になるなど, デメリットが多い.</p>
@@ -1214,10 +1214,10 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></div>
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:1">
-      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:1" role="doc-endnote">
+      <p>厳密にはこの2つは異なる(例えば<a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">蜘蛛の巣本</a>)が, この記事では深く言及しない. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
