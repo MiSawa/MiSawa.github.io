@@ -93,8 +93,8 @@ $$`</div>
   <li><code>void add_edge(from, to, lower bound, upper bound, cost)</code><strong>:</strong> 流量上下限制約のついた辺を追加する.</li>
   <li><code>void add_supply(vertex, amount)</code><strong>:</strong> 頂点に湧出しを追加する.</li>
   <li><code>void add_demand(vertex, amount)</code><strong>:</strong> 頂点に吸込みを追加する.</li>
-  <li><code>Result&amp;lt;Cost&amp;gt; solve()</code><strong>:</strong> 最小費用 $\vecb$-フロー問題を解き, 最小費用を返すか, 問題が infeasible であることを報告する.</li>
-  <li><code>Result&amp;lt;(Flow, Cost)&amp;gt; solve(source, sink)</code><strong>:</strong> 最小費用最大流問題に対応する. $f \ge 0$ を <code>add_supply(source, f)</code> と <code>add_demand(sink, f)</code> をした後の制約を満たすフローが存在するような最大の $f$ とし, この $f$ に加えてその時の最小費用を返す.</li>
+  <li><code>Result&lt;Cost&gt; solve()</code><strong>:</strong> 最小費用 $\vecb$-フロー問題を解き, 最小費用を返すか, 問題が infeasible であることを報告する.</li>
+  <li><code>Result&lt;(Flow, Cost)&gt; solve(source, sink)</code><strong>:</strong> 最小費用最大流問題に対応する. $f \ge 0$ を <code>add_supply(source, f)</code> と <code>add_demand(sink, f)</code> をした後の制約を満たすフローが存在するような最大の $f$ とし, この $f$ に加えてその時の最小費用を返す.</li>
   <li>最適解の各辺の流量の復元が簡単にできる.</li>
 </ul>
 
