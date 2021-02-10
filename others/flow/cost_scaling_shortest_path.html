@@ -95,13 +95,13 @@ $$`</div>
 
 <p><strong>定理1</strong>:</p>
 
-<blockquote>
+<div class="indent">
   <p>任意の $n$ 頂点の DAG $G$ に対し, $G$ の chain 又は antichain で要素数が $\sqrt{n}$ 以上のものが存在する.<sup id="fnref:Dilworth" role="doc-noteref"><a href="#fn:Dilworth" class="footnote">1</a></sup></p>
-</blockquote>
+</div>
 
 <p><strong>証明</strong>:</p>
 
-<blockquote>
+<div class="indent">
   <p>$G$ に新たに頂点 $s$ を加え, $s$ から他の全ての頂点へ辺を張る.
 すると, $G$ は DAG のままであり, $s$ でない任意の頂点 $v$ に対し $s \succ v$ となる.
 $G$ の各頂点 $v$ に対し, $s$ からの最<em>長</em>経路長を $l_v$ とする.<sup id="fnref:longest_path" role="doc-noteref"><a href="#fn:longest_path" class="footnote">2</a></sup>
@@ -109,15 +109,15 @@ $l$ の最大値が $\sqrt{n}$ 以上であるとき, 最大値をとる頂点�
 一方 $l$ の最大値が $\sqrt{n}$ 未満であるとき, $s$ を除く頂点での値は $1, 2, \dots, \sqrt{n}-1$ の高々 $\sqrt{n}-1$ 通りである.
 鳩ノ巣原理から, $l$ の値が等しくなる $\lceil n / (\sqrt{n}-1) \rceil \ge \sqrt{n}$ 個の($s$ でない)頂点が存在し, これは元の DAG の antichain になる.
 実際, $u \succ v$ であるならば, $s$ から $u$ へ任意のパスに対して $u$ から $v$ へのパスを繋げることで $s$ から $v$ へのパスを作れるから $l_u < l_v$ であり, この対偶を用いて $l_u = l_v$ なら $u \not\succ v$ かつ $v \not\succ u$ であることが示される. ∎</p>
-</blockquote>
+</div>
 
 <p><strong>応用</strong></p>
 
-<blockquote>
+<div class="indent">
   <p>例えば, 相異なる $n$ 個の要素を持つ数列 $a_1, \dots, a_n$ に対し, $1, \dots, n$ を頂点とし $i < j$ かつ $a_i < a_j$ な $(i, j)$ を辺とする DAG を考える.
 すると, 数列 $\{a_i\}$ の単調増加部分列と chain, 単調減少部分列と antichain が一対一対応する.
 従って, $\sqrt{n}$ 個以上の要素を持つ部分列であって, 単調増加または単調減少なものが存在することがわかる. <sup id="fnref:ErdosSzekeres" role="doc-noteref"><a href="#fn:ErdosSzekeres" class="footnote">3</a></sup></p>
-</blockquote>
+</div>
 
 <h2>問題設定と用語の準備</h2>
 <p>この辺りのことは <a href="https://qiita.com/ngtkana/items/d7fc4463e56b966d1ebf">ながたかなさんの記事</a> にも詳しく書かれているので, ポテンシャルや被約費用を扱ったことがない人は一読するとよいだろう.</p>
