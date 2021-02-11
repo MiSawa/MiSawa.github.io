@@ -6,18 +6,19 @@
 
     <!-- Always force latest IE rendering engine or request Chrome Frame -->
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <!-- Use title if it's in the page YAML frontmatter -->
     <title>TopCoder TCO2015R1A - みさわめも</title>
 
-    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-6cce8c99.css" rel="stylesheet" /><link href="../../stylesheets/rouge-93b1dc1e.css" rel="stylesheet" />
+    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-ff12e555.css" rel="stylesheet" /><link href="../../stylesheets/rouge-93b1dc1e.css" rel="stylesheet" />
     <script src="../../javascripts/base-da7c2074.js"></script>
       <script type="text/javascript" src="https://s.hatena.ne.jp/js/HatenaStar.js"></script>
 <script type="text/javascript">
 Hatena.Star.Token = 'bd3a38c3b5f80b3ffb7ac27a6d10b8a144d8a948';
 Hatena.Star.SiteConfig = {
   entryNodes: {
-    'div#main' : {
+    'main' : {
       uri: 'document.location',
       title: 'document.title',
       container: 'span.hatena_star'
@@ -41,31 +42,47 @@ ga('send', 'pageview');
   </head>
 
   <body class='topcoder topcoder_TCO2015R1A topcoder_TCO2015R1A_index'>
-  <div id='menu'>
-    <ul>
-      <li> <a href="../../index.html">top</a> </li>
-      <li> <a href="../../atcoder/index.html">atcoder</a> </li>
-      <li> <a href="../index.html">topcoder</a> </li>
-      <li> <a href="../../yukicoder/index.html">yukicoder</a> </li>
-      <li> <a href="../../aoj/index.html">aoj</a> </li>
-      <li> <a href="../../tags/index.html">tags</a> </li>
-      <li> <a href="../../others/index.html">others</a> </li>
-    </ul>
-  </div>
+    <header>
+      <input id='nav-hamburger-checkbox' type='checkbox' />
+      <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
+        <svg id="menu-toggle-icon" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" height="32px" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title>Icon to toggle menu</title>
+          <g class='hamburger' fill="none" stroke="black" stroke-width="4">
+            <path stroke-linecap="round" d="M4,8h24"/>
+            <path stroke-linecap="round" d="M4,16h24"/>
+            <path stroke-linecap="round" d="M4,24h24"/>
+          </g>
+          <g class='close' fill="none" stroke="black" stroke-width="4">
+            <path stroke-linecap="round" d="M8,8l16,16"/>
+            <path stroke-linecap="round" d="M8,24l16,-16"/>
+          </g>
+      </label>
+      <nav>
+        <ul>
+            <li> <a href="../../index.html">Top</a> </li>
+            <li> <a href="../../contests.html">Contests</a> </li>
+            <li> <a href="../../others/index.html">Articles</a> </li>
+            <li> <a href="../../tags/index.html">Tags</a> </li>
+            <li> <a href="../../about.html">About</a> </li>
+      </nav>
+    </header>
 
-  <div id='main'>
-    <span class="social_button_box">
-        <span class="social_button" style="">
-          <span class="hatena_star"></span>
+    <main>
+      <!--
+      <span class="social_button_box">
+          <span class="social_button" style="">
+            <span class="hatena_star"></span>
 
-        </span>
-        <span class="social_button" style="">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-via="Mi_Sawa" data-dnt="true">Tweet</a>
+          </span>
+          <span class="social_button" style="">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="Mi_Sawa" data-dnt="true">Tweet</a>
 
-        </span>
-    </span>
+          </span>
+      </span>
+      -->
 
-        <h2> TopCoder TCO2015R1A </h2>
+      <article>
+            <h2> TopCoder TCO2015R1A </h2>
     <h3>結果</h3>
 <p><a href="https://www.topcoder.com/stat?c=coder_room_stats&amp;rd=16432&amp;cr=22924869">room 18</a></p>
 
@@ -104,9 +121,12 @@ ga('send', 'pageview');
 
 
 
-      <h3>Tags</h3>
-        <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
-        <div class='tag'><a href="../../tags/tco.html">TCO</a></div>
-  </div>
+          <footer>
+            <h3>Tags</h3>
+              <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
+              <div class='tag'><a href="../../tags/tco.html">TCO</a></div>
+          </footer>
+      </article>
+    </main>
   </body>
 </html>
