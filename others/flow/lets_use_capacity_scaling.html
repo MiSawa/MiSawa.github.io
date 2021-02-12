@@ -11,7 +11,7 @@
     <title>容量スケーリング法のすゝめ - みさわめも</title>
 
     <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-b4a5f50d.css" rel="stylesheet" /><link href="../../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
-    <script src="../../javascripts/base-da7c2074.js"></script>
+    <script src="../../javascripts/base-be7d429d.js"></script>
       <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -543,8 +543,9 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 
 <h2>ソースコード</h2>
 
-<pre class="fold_button">長いので折りたたみ</pre>
-<pre class="fold_begin"></pre>
+<details>
+  <summary>
+長いので折りたたみ  </summary>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1039,15 +1040,16 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Flow</span><span class="p">,</span> <span class="k">class</span> <span class="nc">Cost</span><span class="p">&gt;</span>
 <span class="k">using</span> <span class="n">MaxGainFlow</span> <span class="o">=</span> <span class="n">MinCostFlow</span><span class="o">&lt;</span><span class="n">Flow</span><span class="p">,</span> <span class="n">Cost</span><span class="p">,</span> <span class="n">Objective</span><span class="o">::</span><span class="n">MAXIMIZE</span><span class="o">&gt;</span><span class="p">;</span>
-</pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
+</pre></td></tr></tbody></table></code></pre></div></details>
 
 <h2>使用例</h2>
 
 <h3>Library-Checker: Minimum cost b-flow</h3>
 <p>問題は<a href="https://judge.yosupo.jp/problem/min_cost_b_flow">こちら</a></p>
 
-<pre class="fold_button">長いので折りたたみ</pre>
-<pre class="fold_begin"></pre>
+<details>
+  <summary>
+長いので折りたたみ  </summary>
 <div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -1284,7 +1286,7 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div><pre class="fold_end"></pre>
+</pre></td></tr></tbody></table></code></pre></div></details>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
