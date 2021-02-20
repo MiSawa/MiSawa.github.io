@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <title>高速 Kitamasa 法 - みさわめも</title>
 <meta name="description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
@@ -224,12 +224,12 @@ a_{2m}
 \end{aligned}$$
 となる.
 この $b_m$ と $b_m$ の畳込みを $\beta$ とおく.
-これは, ナイーブには $O(k^2)$ だが, $O(k \log k)$ で計算できることを仮定していた.</p>
+これは, ナイーブには $O(k^2)$ で実現可能である. $O(k \log k)$ で計算できることを仮定していたが, これは漸化式が疎である場合に, 高速化に繋がる.</p>
 
 <p>これで, $a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s}$ と, $a_{2m}$ を $a_{0}, \dots, a_{2k-2}$ の線型結合で表せた.
-あとは, 再び漸化式を $n = k-2, \dots, 0$ で用い, $a_{2k-2}, \dots, a_k$ を消去すれば, $a_{2m} = \sum_{i=0}^{k-1} a_i b_{2m, k-1-i}$ と, $b_{2m}$ が $O(k^2)$ で求まる.</p>
+あとは, 再び漸化式を $n = k-2, \dots, 0$ で用い, $a_{2k-2}, \dots, a_k$ を消去すれば, $a_{2m} = \sum_{i=0}^{k-1} a_i b_{2m, k-1-i}$ と, $b_{2m}$ が $O(k^2)$, 漸化式が疎な場合は $O(k)$ で求まる.</p>
 
-<p>あとは, 繰り返し自乗法を用いれば, $\seq{b_{N,i}}_{i=0}^{k-1}$ を $O(k^2 \log N)$ で計算できる.</p>
+<p>あとは, 繰り返し自乗法を用いれば, $\seq{b_{N,i}}_{i=0}^{k-1}$ を $O(k^2 \log N)$, 漸化式が疎な場合は $O(k \log k \log N)$ で計算できる.</p>
 
 <h2>Kitamasa 法と多項式剰余</h2>
 
