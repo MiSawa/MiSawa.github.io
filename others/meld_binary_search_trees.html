@@ -222,9 +222,30 @@ $c$ 内で $a$ の要素と $b$ の要素が切り換わる隣接ペアの, $c$ 
   <li>Codeforces の <a href="https://codeforces.com/profile/TLE">TLE</a> によるブログ記事 <a href="https://codeforces.com/blog/entry/49446" title="using merging segment tree to solve problems about sorted list">using merging segment tree to solve problems about sorted list</a></li>
 </ol>
 
-<h2>追記</h2>
+<h2>追記 2024/04/29: 先行研究</h2>
 
 <p><a href="https://twitter.com/noshi91/status/1549076545154990080">先行研究</a>を<a href="https://twitter.com/noshi91/status/1784855285984866613">教えてもらいました</a>. さすが熨斗袋さん.</p>
+
+<h2>追記 2024/04/30: binary trie を経由しない計算量解析</h2>
+
+<p>最小元と最大元の番兵を考慮している集合に追加し, それらを含む 0-origin のソート順で考える.
+ソート列 $\{a_i\}_{i=1}^{k}$ に対するポテンシャルを, $a_0 = 0$, $a_{k+1} = n$ として $\sum_{i=0}^k \log_2 (a_{k+1} - a_k)$ で定義すると, ポテンシャルの合計は <code>new</code>, <code>insert</code>, <code>split</code> で高々 $2 w$ 増え, <code>concat</code>, <code>min</code> で増えることはない.</p>
+
+<p>$c = \meld(a, b)$ を実行すると, $a$, $b$ の差分のうち間にもう一方が入るものが消え, $c$ の差分のうち両端点が異なるほうから来たものが増える. より具体的に, $a$ に番兵を追加したものの隣接要素で作られる区間の集合($[0, n]$ の $a$ による細分)のうち $b$ の要素を含むものと, $b$ に番兵を追加したものの隣接要素で作られる区間の集合のうち $a$ の要素を含むものの和集合を左端点が小さい順に並べ, その幅を $\{x_i\}_{i=0}^k$ とする. また, $c$ に番兵を追加したものの隣接要素で作られる区間のうち端点が $a$ と $b$ の異なる方から来ているものを左端点が小さい順に並べ, その幅を $\{y_i\}_{i=1}^{k}$ とすると, ポテンシャルの合計は $\sum_{i=0}^k \log_2(x_i) - \sum_{i=1}^k \log_2(y_i)$ だけ減る.
+また, $1 \le i \le k-1$ な $i$ に対し, $x_i \ge y_i + y_{i+1}$ である.</p>
+
+<p><img width="60%" height="auto" style="display: block; margin: auto;" src="meld_binary_search_tree_potential_diff-d2885cd1.jpg" alt="n が 8, aが2, 4, 5, 7, bが1, 3, 6 のとき, k は 5, x は 2, 2, 2, 3, 2, 2 で y は 1, 1, 1, 1, 1 になることを示した図" /></p>
+
+<p>各 $i (1 \le i \le k-1)$ で $x_i \ge 2 y_i$ と $x_i \ge 2 y_{i+1}$ の少なくとも一方が成りたつから, (そうでない場合は $x$ と $y$ を両方反転し)半数以上で $x_i \ge 2 y_i$ が成立するとしてよい. すると,
+$$\begin{aligned}
+&\sum_{i=0}^k \log_2(x_i) - \sum_{i=1}^k \log_2(y_i) \\
+&= \log_2 x_0 + \sum_{i=1}^k \log_2 \frac{x_i}{y_i} \\
+&\ge \lfloor \frac{k}{2} \rfloor \log_2 2 \\
+&= \lfloor \frac{k}{2} \rfloor
+\end{aligned}$$
+となるから, <code>meld</code> でポテンシャルの合計が少なくとも $\lfloor \cnt(a, b) / 2 \rfloor$ 小さくなり, binary trie での議論と同様の結果が成立する.</p>
+
+<p>ところでこのポテンシャルって splay tree の dynamic finger theorem の計算量に出てくるんですが, う〜ん...</p>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
