@@ -1,75 +1,64 @@
-
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>TopCoder SRM585 Div1 Med 500 LISNumber - みさわめも</title>
-<meta itemprop="name" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>TopCoder SRM585 Div1 Med 500 LISNumber - みさわめも</title>
 
-    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TopCoder SRM585 Div1 Med 500 LISNumber" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
   </head>
-
-  <body class='topcoder topcoder_0585 topcoder_0585_LISNumber'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -87,52 +76,35 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../../index.html">Top</a> </li>
-            <li> <a href="../../contests.html">Contests</a> </li>
-            <li> <a href="../../others/index.html">Articles</a> </li>
-            <li> <a href="../../tags/index.html">Tags</a> </li>
-            <li> <a href="../../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-            <h2> TopCoder SRM585 Div1 Med 500 LISNumber </h2>
-    <a href="http://community.topcoder.com/stat?c=problem_statement&amp;pm=12419&amp;rd=15697">問題文</a>
-    <h3>概要</h3>
-
+      <article><h2>TopCoder SRM585 Div1 Med 500 LISNumber</h2>
+    <a href="http://community.topcoder.com/stat?c=problem_statement&pm=12419&rd=15697">問題文</a><h3>概要</h3>
 <p>数列に対し, それを分割し, strictly increasing sequence の連結として表す.
-それに必要な分割の最小値を &quot;LIS-number&quot; と呼ぶことにする.</p>
-
+それに必要な分割の最小値を "LIS-number" と呼ぶことにする.</p>
 <p>$ i $ が書いてあるカードがそれぞれ $ \mathit{cardsnum}[i] $ 枚ある.</p>
-
 <p>これを並べ替え, LIS-number が $ K $ であるようにする.
 このようなパターン数を $ \bmod 10^9 + 7 $ で求めよ.</p>
-
 <h4>制約</h4>
-
 <p>$ 1 \le n \le 36,\ 1 \le \mathit{cardsnum}_i \le 36 $.</p>
-
 <h3>解法</h3>
-
 <p>小さい方から, 入れる場所を考える.</p>
-
 <p>$ \mathit{dp}_i[k] $ を, $ i $ まで入れて, 現在の LIS-number が $ k $ であるようなパターン数とする.</p>
-
 <p>今の数を突っ込むとき,</p>
-
 <ul>
-  <li>&quot;既にある IS の最後に挿入する&quot; と, LIS-number は $ +0 $,</li>
-  <li>そうでない所に挿入すると, LIS-number は $ +1 $,</li>
-  <li>&quot;既に一個挿入した直後に挿入する&quot; と LIS-number は $ +1$,</li>
+<li>"既にある IS の最後に挿入する" と, LIS-number は $ +0 $,</li>
+<li>そうでない所に挿入すると, LIS-number は $ +1 $,</li>
+<li>"既に一個挿入した直後に挿入する" と LIS-number は $ +1$,</li>
 </ul>
-
-<p>あとは, &quot;既にある IS の最後に挿入する&quot; をいくつやるか固定して, 他の部分は重複組合せする.</p>
-
+<p>あとは, "既にある IS の最後に挿入する" をいくつやるか固定して, 他の部分は重複組合せする.</p>
 <h3>ソースコード</h3>
-
-<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -165,51 +137,46 @@
 31
 32
 33
-34
-</pre></td><td class="rouge-code"><pre><span class="c1">// 285.00 pts</span>
-
-<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">1000000007</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">LISNumber</span><span class="o">::</span><span class="n">count</span><span class="p">(</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cardsnum</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span> <span class="p">){</span>
-    <span class="k">constexpr</span> <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">;</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span> <span class="kt">long</span><span class="o">&gt;</span><span class="p">(</span><span class="n">T</span><span class="p">));</span>
-    <span class="n">rep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">T</span><span class="p">){</span>
-        <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="mi">3</span><span class="p">);</span>
-    <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">repsz</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cardsnum</span><span class="p">){</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">qb</span><span class="p">(</span><span class="n">K</span><span class="o">+</span><span class="mi">3</span><span class="p">);</span>
-        <span class="n">rep</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">K</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">prev</span><span class="p">]){</span>
-            <span class="kt">int</span> <span class="n">zero</span> <span class="o">=</span> <span class="n">prev</span><span class="p">;</span>
-            <span class="kt">int</span> <span class="n">one</span>  <span class="o">=</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">begin</span><span class="p">(</span><span class="n">cardsnum</span><span class="p">),</span> <span class="n">begin</span><span class="p">(</span><span class="n">cardsnum</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">zero</span><span class="p">;</span>
-            <span class="n">rep</span><span class="p">(</span><span class="n">numzero</span><span class="p">,</span> <span class="n">zero</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span>
-                <span class="k">const</span> <span class="kt">int</span> <span class="n">numone</span> <span class="o">=</span> <span class="n">cardsnum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">numzero</span><span class="p">;</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">numone</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-                <span class="kt">long</span> <span class="kt">long</span> <span class="n">cnt</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">prev</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="n">zero</span><span class="p">][</span><span class="n">numzero</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-                <span class="c1">// one と, 入れた zero の後ろ</span>
-                <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">one</span> <span class="o">+</span> <span class="n">numzero</span><span class="p">;</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">numone</span> <span class="o">+</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">t</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">cnt</span> <span class="o">*=</span> <span class="n">C</span><span class="p">[</span><span class="n">numone</span> <span class="o">+</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">numone</span><span class="p">])</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">prev</span> <span class="o">+</span> <span class="n">numone</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">)</span> <span class="p">(</span><span class="n">qb</span><span class="p">[</span><span class="n">prev</span> <span class="o">+</span> <span class="n">numone</span><span class="p">]</span> <span class="o">+=</span> <span class="n">cnt</span><span class="p">)</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-        <span class="n">swap</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">qb</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">K</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div>
-
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
-              <div class='tag'><a href="../../tags/lis.html">LIS</a></div>
-              <div class='tag'><a href="../../tags/dp.html">DP</a></div>
-          </footer>
-      </article>
+34</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="background-color:#212121;color:#7c7c7c;">// 285.00 pts
+</span><span style="color:#ffffff;">
+</span><span style="color:#66ccff;">constexpr </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> mod </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1000000007</span><span style="color:#ffffff;">;
+</span><span style="color:#cfcb90;">int </span><span style="color:#f8f8f8;">LISNumber::count</span><span style="color:#ffffff;">( vector &lt;</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt; </span><span style="color:#c6c5fe;">cardsnum</span><span style="color:#ffffff;">, </span><span style="color:#cfcb90;">int </span><span style="color:#c6c5fe;">K </span><span style="color:#ffffff;">){
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">constexpr </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> T </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1400</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">    vector&lt;vector&lt;</span><span style="color:#cfcb90;">long long</span><span style="color:#ffffff;">&gt;&gt; </span><span style="color:#c6c5fe;">C</span><span style="color:#ffffff;">(T, </span><span style="color:#c6c5fe;">vector</span><span style="color:#ffffff;">&lt;</span><span style="color:#cfcb90;">long long</span><span style="color:#ffffff;">&gt;(T));
+</span><span style="color:#ffffff;">    </span><span style="color:#c6c5fe;">rep</span><span style="color:#ffffff;">(i, T){
+</span><span style="color:#ffffff;">        C[i].</span><span style="color:#c6c5fe;">resize</span><span style="color:#ffffff;">(i</span><span style="color:#aaaaaa;">+</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">        C[i][</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> C[i][i] </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">        </span><span style="color:#66ccff;">for</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> j </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">; j </span><span style="color:#aaaaaa;">&lt;</span><span style="color:#ffffff;"> i; </span><span style="color:#aaaaaa;">++</span><span style="color:#ffffff;">j) C[i][j] </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">(C[i</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">][j</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> C[i</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">][j]) </span><span style="color:#aaaaaa;">%</span><span style="color:#ffffff;"> mod;
+</span><span style="color:#ffffff;">    }
+</span><span style="color:#ffffff;">
+</span><span style="color:#ffffff;">    vector&lt;ll&gt; </span><span style="color:#c6c5fe;">dp</span><span style="color:#ffffff;">(K</span><span style="color:#aaaaaa;">+</span><span style="font-weight:bold;color:#ff73fd;">3</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">    dp[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">    </span><span style="color:#c6c5fe;">repsz</span><span style="color:#ffffff;">(i, cardsnum){
+</span><span style="color:#ffffff;">        vector&lt;ll&gt; </span><span style="color:#c6c5fe;">qb</span><span style="color:#ffffff;">(K</span><span style="color:#aaaaaa;">+</span><span style="font-weight:bold;color:#ff73fd;">3</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">        </span><span style="color:#c6c5fe;">rep</span><span style="color:#ffffff;">(prev, K</span><span style="color:#aaaaaa;">+</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">) </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(dp[prev]){
+</span><span style="color:#ffffff;">            </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> zero </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> prev;
+</span><span style="color:#ffffff;">            </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> one  </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">accumulate</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">begin</span><span style="color:#ffffff;">(cardsnum), </span><span style="color:#c6c5fe;">begin</span><span style="color:#ffffff;">(cardsnum)</span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;">i, </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">) </span><span style="color:#aaaaaa;">-</span><span style="color:#ffffff;"> zero;
+</span><span style="color:#ffffff;">            </span><span style="color:#c6c5fe;">rep</span><span style="color:#ffffff;">(numzero, zero</span><span style="color:#aaaaaa;">+</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">){
+</span><span style="color:#ffffff;">                </span><span style="color:#66ccff;">const </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> numone </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> cardsnum[i] </span><span style="color:#aaaaaa;">-</span><span style="color:#ffffff;"> numzero;
+</span><span style="color:#ffffff;">                </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(numone </span><span style="color:#aaaaaa;">&lt; </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">) </span><span style="color:#66ccff;">continue</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">                </span><span style="color:#cfcb90;">long long</span><span style="color:#ffffff;"> cnt </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> dp[prev] </span><span style="color:#aaaaaa;">*</span><span style="color:#ffffff;"> C[zero][numzero] </span><span style="color:#aaaaaa;">%</span><span style="color:#ffffff;"> mod;
+</span><span style="color:#ffffff;">                </span><span style="background-color:#212121;color:#7c7c7c;">// one と, 入れた zero の後ろ
+</span><span style="color:#ffffff;">                </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> t </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> one </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> numzero;
+</span><span style="color:#ffffff;">                </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(numone </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> t </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">) </span><span style="color:#66ccff;">continue</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">                </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(t </span><span style="color:#aaaaaa;">!= </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">) (cnt </span><span style="color:#aaaaaa;">*=</span><span style="color:#ffffff;"> C[numone </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> t </span><span style="color:#aaaaaa;">- </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">][numone]) </span><span style="color:#aaaaaa;">%=</span><span style="color:#ffffff;"> mod;
+</span><span style="color:#ffffff;">                </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(prev </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> numone </span><span style="color:#aaaaaa;">&lt;=</span><span style="color:#ffffff;"> K) (qb[prev </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> numone] </span><span style="color:#aaaaaa;">+=</span><span style="color:#ffffff;"> cnt) </span><span style="color:#aaaaaa;">%=</span><span style="color:#ffffff;"> mod;
+</span><span style="color:#ffffff;">            }
+</span><span style="color:#ffffff;">        }
+</span><span style="color:#ffffff;">        </span><span style="color:#c6c5fe;">swap</span><span style="color:#ffffff;">(dp, qb);
+</span><span style="color:#ffffff;">    }
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return</span><span style="color:#ffffff;"> dp[K];
+</span><span style="color:#ffffff;">}</span></pre></td></tr></tbody></table></code></pre></article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/TopCoder.html">TopCoder (48)</a></div>
+          <div class='tag'><a href="/tags/LIS.html">LIS (1)</a></div>
+          <div class='tag'><a href="/tags/DP.html">DP (18)</a></div>
+      </footer>
     </main>
   </body>
 </html>
