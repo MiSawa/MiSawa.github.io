@@ -2,77 +2,68 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>誤差と戦う小手先のテク - みさわめも</title>
-<meta name="description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
-<meta itemprop="name" content="誤差と戦う小手先のテク" />
-<meta itemprop="description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="誤差と戦う小手先のテク" />
-<meta name="twitter:description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="誤差と戦う小手先のテク" />
-<meta property="og:description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>誤差と戦う小手先のテク - みさわめも</title>
 
-    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="誤差と戦う小手先のテク" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="誤差と戦う小手先のテク" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="誤差と戦う小手先のテク" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta itemprop="description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
+    <meta name="description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
+    <meta name="twitter:description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
+    <meta property="og:description" content="競技プログラミングで、誤差による誤答を回避するためのテクニック集。" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
+    
   </head>
-
-  <body class='others others_avoid_errors others_avoid_errors_techniques_to_avoid_errors'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -90,109 +81,67 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../../index.html">Top</a> </li>
-            <li> <a href="../../contests.html">Contests</a> </li>
-            <li> <a href="../index.html">Articles</a> </li>
-            <li> <a href="../../tags/index.html">Tags</a> </li>
-            <li> <a href="../../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-            <div style="display:none">`$$
+      <article><div style="display:none">$$
 \gdef{\floor}#1{\lfloor\,#1\,\rfloor}
-$$`</div>
+$$</div>
 <h1>誤差と戦う小手先のテク</h1>
-
 <p>この記事は, <a href="http://www.adventar.org/calendars/1165">Competitive Programming （その2） Advent Calendar 2015</a> の 12/16 の記事として書かれました.</p>
-
 <p>12/15 の記事は iwashi31 さんの <a href="http://iwashi31.hatenablog.com/entry/2015/12/15/235026">ゲームAIコンテストのすすめ</a> で, 12/17 の記事は Respect2D さんの <a href="http://itohjam.hatenablog.com/entry/2015/12/17/035829">AtCoderでのコンテスト主催者向けのツール紹介</a> です.</p>
-
 <h2>イントロ</h2>
-
 <p>競技プログラミングでは, 特に計算幾何の問題を解くときなど, 誤差が襲い掛かってくる場面があります.
-そのとき, 最も簡単な選択肢は &quot;その問題から逃げる&quot; ことで, 実際その選択が正しい場合もあります.
+そのとき, 最も簡単な選択肢は "その問題から逃げる" ことで, 実際その選択が正しい場合もあります.
 しかし, 時には戦わなければならず, 戦うための道具を知っておくことは重要です.</p>
-
 <p>ということで, 僕が知っている, 誤差との戦うための <strong>競技プログラミングにおける</strong> 小手先のテクニックを, いくつか紹介したいと思います.</p>
-
 <p>具体的には,</p>
-
 <ul>
-  <li>誤差が辛い問題かの判定や, 誤差が出ると辛い場所を見つけるときの, 自分の基本的な思考経路,</li>
-  <li>誤差が辛そうなとき, それをどうやって克服するか</li>
+<li>誤差が辛い問題かの判定や, 誤差が出ると辛い場所を見つけるときの, 自分の基本的な思考経路,</li>
+<li>誤差が辛そうなとき, それをどうやって克服するか</li>
 </ul>
-
 <p>の二点について書きました.</p>
-
-<p>相対誤差/絶対誤差などに踏み込んだ話や, &quot;こうすれば絶対大丈夫&quot; とかいう話ではなく, &quot;経験的にこうすると避けられる事が多い&quot; 程度の話です.</p>
-
+<p>相対誤差/絶対誤差などに踏み込んだ話や, "こうすれば絶対大丈夫" とかいう話ではなく, "経験的にこうすると避けられる事が多い" 程度の話です.</p>
 <p>何度か戦った経験のある人は大体知っているかもしれませんが, ご容赦下さい.</p>
-
 <p><a href="http://d.hatena.ne.jp/komiyam/20111210/1323503019">komiyam さんの記事</a> がよく纏まっているので, そちらも読むとよいと思います.</p>
-
 <h2>大前提</h2>
-
 <p>まず, <code>long double</code> や <code>__float128</code> など, 精度の高い型を使うのが最初に考えるべきこと.</p>
-
 <p>特に計算幾何の問題など, 計算時間に余裕がある問題では, これをするデメリットは無いので, 誤差を気にしなくてよいときでも, とりあえずそうしておくべき.</p>
-
 <h2>誤差と戦うべきか</h2>
-
-<p>もちろん, &quot;てきとーにやってもなんとかなる&quot; 場合は, 誤差をあまり気にせず, てきとーに書いて済ませたい.
-その為には, &quot;てきとーにやってもなんとかなる&quot; かを判断出来なければならない.</p>
-
-<p>基本的な判断基準は, &quot;最終的な出力にどれだけ影響するか&quot; ということ.
+<p>もちろん, "てきとーにやってもなんとかなる" 場合は, 誤差をあまり気にせず, てきとーに書いて済ませたい.
+その為には, "てきとーにやってもなんとかなる" かを判断出来なければならない.</p>
+<p>基本的な判断基準は, "最終的な出力にどれだけ影響するか" ということ.
 イメージは, 出力を, 誤差が出そうな計算の項で微分するような感じ.</p>
-
 <h3>例: 極座標</h3>
-
 <p>例えば, 出力の座標ベクトル $(x, y)$ を, $(x, y) = (r \cos \theta, r \sin \theta)$ として, $r$ と $\theta$ で管理しているとしよう.</p>
-
 <p>$(x, y)$ を $r$ で微分すると $(\cos \theta, \sin \theta)$ だから, $r$ が $\epsilon$ 変わると $(x, y)$ は大体 $\epsilon (\cos \theta, \sin \theta)$ だけ変わる.
 $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力に同じくらいのオーダーでしか影響しないことが解る.</p>
-
 <p>一方で, $(x, y)$ を $\theta$ で微分すると $(-r \sin \theta, r \cos \theta)$ だから, $\theta$ が $\epsilon$ 変わると, $(x, y)$ は大体 $\epsilon (-r \sin \theta, r \cos \theta)$ だけ変わる.
 従って, $\theta$ への誤差は, 出力に $r$ 倍くらいの影響を与える.</p>
-
 <p>例えば, 角度に $\mathit{EPS}$ くらいの誤差が乗りうる状況(角度を $\mathit{EPS}$ で摂動したなど)では, 座標になおすと $r * \mathit{EPS}$ 程度の誤差になるから, 座標に対して同じ $\mathit{EPS}$ を使う操作はするべきではない.</p>
-
 <p>もちろん, これは絶対誤差の意味で, 相対誤差は同じオーダーになる.</p>
-
 <h3>例: 四捨五入</h3>
-
 <p>連続から離散にする時には, かなり注意が必要である.
 例えば, 出力は整数だが, それを最後まで浮動小数点数で計算している場合を考えよう.</p>
-
 <p>誤差が無く, $x$ が整数を表しているならば, 単なる切り捨て $\floor{x}$ と四捨五入 $\floor{x + 0.5}$ は同じだが, 普通は四捨五入をして出力する.</p>
-
-<p>これらの違いは &quot;不連続点がどこにあるか&quot; にある.</p>
-
+<p>これらの違いは "不連続点がどこにあるか" にある.</p>
 <p>切り捨ては $x$ が整数の場所で不連続であるが, 後者は $x$ が整数 $+ 0.5$ の場所で不連続であり, 不連続な点を, $x$ のとりうる値である整数 $\pm \epsilon$ からずらしている.</p>
-
 <p>これにより, 整数 $\pm \epsilon$ における微係数を $0$ にできる.</p>
-
-<p>今回は, $x$ の取りうる値が整数 $\pm \epsilon$ のような所であることを利用できたが, 例えば &quot;$x$ に対し, $\floor{\tan x}$ を答えよ&quot; のような状況では, どうしようもない.</p>
-
+<p>今回は, $x$ の取りうる値が整数 $\pm \epsilon$ のような所であることを利用できたが, 例えば "$x$ に対し, $\floor{\tan x}$ を答えよ" のような状況では, どうしようもない.</p>
 <h3>例: min と argmin</h3>
-
-<p>三分探索をするとき, &quot;$f(x)$ の最小値は求めやすいが, 最小値を与える $x$ を求めるのは誤差が辛い&quot; ことが多いというのを知っている人は多いと思う.</p>
-
+<p>三分探索をするとき, "$f(x)$ の最小値は求めやすいが, 最小値を与える $x$ を求めるのは誤差が辛い" ことが多いというのを知っている人は多いと思う.</p>
 <p>これは, $f(x)$ の最小値を与える $x$ での微係数が $0$ だと, その付近ではほぼ同じ値を取るため, $f$ を求めるときの誤差に影響を受けやすいからである.</p>
-
-<p>似たように, &quot;$p \in S$ を選び, $f(p)$ を最小にする&quot; 系の問題で, 最小値を求めるのはよいが, 最小値を与える $p \in S$ を求めるのは誤差が辛いことがある.</p>
-
+<p>似たように, "$p \in S$ を選び, $f(p)$ を最小にする" 系の問題で, 最小値を求めるのはよいが, 最小値を与える $p \in S$ を求めるのは誤差が辛いことがある.</p>
 <h3>例: 一致判定, 大小比較</h3>
-
 <p>$|x - y| < \epsilon$ で一致判定をしたり, $x < y - \epsilon$ と $x > y + \epsilon$ で大小比較をすることが, 非常によくある.</p>
-
-<p>これはもちろん, &quot;あまりに近い数は無い&quot; 場合や, &quot;非常に近い場合はどんな結果を返してもよい&quot; 場合にしか使えない.</p>
-
+<p>これはもちろん, "あまりに近い数は無い" 場合や, "非常に近い場合はどんな結果を返してもよい" 場合にしか使えない.</p>
 <p>ちなみに, よくこれで比較するのを数カ所忘れたりするが, それを防止するのに, 次のような関数を定義し, いつもこれを利用して比較するようにするとよい.</p>
-
-<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -203,161 +152,86 @@ $-1 \le \cos \theta, \sin \theta \le 1$ だから, $r$ への誤差は, 出力�
 9
 10
 11
-12
-</pre></td><td class="rouge-code"><pre><span class="k">using</span> <span class="n">R</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">double</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="n">R</span> <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1E-11</span><span class="p">;</span>
-
-<span class="c1">// r の(誤差付きの)符号に従って, -1, 0, 1 を返す.</span>
-<span class="kt">int</span> <span class="nf">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">r</span><span class="p">){</span> <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;</span> <span class="n">EPS</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">EPS</span><span class="p">);</span> <span class="p">}</span>
-<span class="c1">// a, b の(誤差付きの)大小比較の結果に従って, -1, 0, 1 を返す.</span>
-<span class="kt">int</span> <span class="nf">sgn</span><span class="p">(</span><span class="k">const</span> <span class="n">R</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">R</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span> <span class="k">return</span> <span class="n">sgn</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">);</span> <span class="p">}</span>
-
-<span class="c1">// a &gt; 0 は sgn(a) &gt; 0</span>
-<span class="c1">// a &lt; b は sgn(a, b) &lt; 0</span>
-<span class="c1">// a &gt;= b は sgn(a, b) &gt;= 0</span>
-<span class="c1">// のように書く.</span>
-</pre></td></tr></tbody></table></code></pre></div>
+12</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#66ccff;">using</span><span style="color:#ffffff;"> R </span><span style="color:#aaaaaa;">= </span><span style="color:#cfcb90;">long double</span><span style="color:#ffffff;">;
+</span><span style="color:#66ccff;">constexpr</span><span style="color:#ffffff;"> R EPS </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1E-11</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">
+</span><span style="background-color:#212121;color:#7c7c7c;">// r の(誤差付きの)符号に従って, -1, 0, 1 を返す.
+</span><span style="color:#cfcb90;">int </span><span style="color:#f8f8f8;">sgn</span><span style="color:#ffffff;">(</span><span style="color:#66ccff;">const</span><span style="color:#ffffff;"> R</span><span style="color:#aaaaaa;">&amp; </span><span style="color:#c6c5fe;">r</span><span style="color:#ffffff;">){ </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">(r </span><span style="color:#aaaaaa;">&gt;</span><span style="color:#ffffff;"> EPS) </span><span style="color:#aaaaaa;">- </span><span style="color:#ffffff;">(r </span><span style="color:#aaaaaa;">&lt; -</span><span style="color:#ffffff;">EPS); }
+</span><span style="background-color:#212121;color:#7c7c7c;">// a, b の(誤差付きの)大小比較の結果に従って, -1, 0, 1 を返す.
+</span><span style="color:#cfcb90;">int </span><span style="color:#f8f8f8;">sgn</span><span style="color:#ffffff;">(</span><span style="color:#66ccff;">const</span><span style="color:#ffffff;"> R</span><span style="color:#aaaaaa;">&amp; </span><span style="color:#c6c5fe;">a</span><span style="color:#ffffff;">, </span><span style="color:#66ccff;">const</span><span style="color:#ffffff;"> R </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#c6c5fe;">b</span><span style="color:#ffffff;">){ </span><span style="color:#66ccff;">return </span><span style="color:#c6c5fe;">sgn</span><span style="color:#ffffff;">(a </span><span style="color:#aaaaaa;">-</span><span style="color:#ffffff;"> b); }
+</span><span style="color:#ffffff;">
+</span><span style="background-color:#212121;color:#7c7c7c;">// a &gt; 0 は sgn(a) &gt; 0
+</span><span style="background-color:#212121;color:#7c7c7c;">// a &lt; b は sgn(a, b) &lt; 0
+</span><span style="background-color:#212121;color:#7c7c7c;">// a &gt;= b は sgn(a, b) &gt;= 0
+</span><span style="background-color:#212121;color:#7c7c7c;">// のように書く.</span></pre></td></tr></tbody></table></code></pre>
 <h2>誤差と戦う道具</h2>
-
 <p>基本的な道具とその特徴を, 表に纏めた.
 それぞれ, 表そうとするもの(例えば実数全体 $\mathbb{R}$ )があり, それを妥協(有限精度)している.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">道具</th>
-      <th style="text-align: center">何を表すか</th>
-      <th style="text-align: center">妥協したところ</th>
-      <th style="text-align: center">出来ない/難しいこと</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">浮動小数点数</td>
-      <td style="text-align: center">実数</td>
-      <td style="text-align: center">精度</td>
-      <td style="text-align: center">一致判定, 大小比較</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">整数型</td>
-      <td style="text-align: center">整数</td>
-      <td style="text-align: center">オーバーフロー</td>
-      <td style="text-align: center">除算, 他</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">有理数型</td>
-      <td style="text-align: center">有理数</td>
-      <td style="text-align: center">分母子のオーバーフロー</td>
-      <td style="text-align: center">平方根, 三角関数, 他</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">$\bmod p$</td>
-      <td style="text-align: center">$\mathbb{F}_p$</td>
-      <td style="text-align: center">なし</td>
-      <td style="text-align: center">大小比較, 平方根, 三角関数, 他</td>
-    </tr>
-  </tbody>
-</table>
-
+<table><thead><tr><th style="text-align: center">道具</th><th style="text-align: center">何を表すか</th><th style="text-align: center">妥協したところ</th><th style="text-align: center">出来ない/難しいこと</th></tr></thead><tbody>
+<tr><td style="text-align: center">浮動小数点数</td><td style="text-align: center">実数</td><td style="text-align: center">精度</td><td style="text-align: center">一致判定, 大小比較</td></tr>
+<tr><td style="text-align: center">整数型</td><td style="text-align: center">整数</td><td style="text-align: center">オーバーフロー</td><td style="text-align: center">除算, 他</td></tr>
+<tr><td style="text-align: center">有理数型</td><td style="text-align: center">有理数</td><td style="text-align: center">分母子のオーバーフロー</td><td style="text-align: center">平方根, 三角関数, 他</td></tr>
+<tr><td style="text-align: center">$\bmod p$</td><td style="text-align: center">$\mathbb{F}_p$</td><td style="text-align: center">なし</td><td style="text-align: center">大小比較, 平方根, 三角関数, 他</td></tr>
+</tbody></table>
 <p>だいたい, このうち一つを使うか, 浮動小数点数ともう一つを組み合わせて使うことが多い.</p>
-
 <p>組み合わせて使う場合も,</p>
-
 <ul>
-  <li>クリティカルな場所だけ他の型を使う,</li>
-  <li>同じことを複数の型で計算する</li>
+<li>クリティカルな場所だけ他の型を使う,</li>
+<li>同じことを複数の型で計算する</li>
 </ul>
-
 <p>の二通りがある.</p>
-
 <p>また, なるべく, これらの道具に置き換えられるような計算方針でライブラリを書くとよい.</p>
-
 <h3>浮動小数点数</h3>
-
 <p>これで済むならそれでよい.
 一致判定や大小比較は, 近すぎる数があると難しい.</p>
-
 <p><code>eps</code> をてきとーに調節して誤魔化すのは常套手段.</p>
-
 <h3>整数</h3>
-
 <p>入力が整数で, 途中計算で割り算や平方根などを使わない上に, 途中結果が大き過ぎない場合は, <code>int</code>, <code>long long</code> や <code>__int128</code> などの整数型を使うことを検討する.</p>
-
 <p>平方根を扱う代わりに自乗を持っておくテクニック (例えば, $\sqrt{a^2 + b^2}$ と $c$ の比較を $a^2 + b^2$ と $c^2$ の比較で行う) などで, 整数の演算に還元することもよくある.</p>
-
 <h3>有理数</h3>
-
 <p>整数の場合に加えて割り算を扱える.
 これにより, 点と直線の距離や, 直線同士の交点などを扱うことができる.</p>
-
-<p>大小比較でオーバーフローしないように注意. ( <a href="compare_fractions.html">ここ</a> を参照)</p>
-
+<p>大小比較でオーバーフローしないように注意. ( <a href="./compare_fractions.html">ここ</a> を参照)</p>
 <h3>$\bmod p$</h3>
-
 <p>大きい素数 $p$ を取り, 全て $p$ で割った余りで計算する.
 $p$ で割り切れない数での割り算までなら出来る.</p>
-
 <p>オーバーフローせずに, (差が $p$ で割りきれてしまう場合を除いて)一致判定ができるのが重要.
 浮動小数点数と同時に同じ計算を $\bmod p$ で行い, ハッシュのようにして使うことが多い.</p>
-
-<p>複数の $p$ を用いることで, &quot;実際は異なるが同じと判定してしまう&quot; 確率を下げられる. (中国式剰余定理)</p>
-
+<p>複数の $p$ を用いることで, "実際は異なるが同じと判定してしまう" 確率を下げられる. (中国式剰余定理)</p>
 <p>有理数より実装が楽なので, 大小比較が無いなら, こちらを選択することも考えるべき.</p>
-
 <p>例えば, (それぞれ格子点二点ずつで指定された)三直線が一点で交わるかを判定することを考えよう.</p>
-
 <p>一番簡単に思いつくのは, 二直線の交点を取り, それがもう一本の直線の上にあるかを判定する方法や, 異なるペアで交点をとり, それらが一致するかを判定する方法だろう.
 しかし, これを実数で計算するのは, 誤差が怖い.</p>
-
 <p>このようなときは, 入力の $\bmod p$ を取り, 交点の座標を $\bmod p$ で計算し, 直線上かの判定や点の一致判定も $\bmod p$ で行なってしまえばよい.</p>
-
 <h2>例: Shortest Bridge</h2>
-
 <p>問題文は<a href="http://jag2015autumn.contest.atcoder.jp/tasks/icpc2015autumn_i">こちら</a>.</p>
-
-<details>
-  <summary>
-ネタバレを含むので折りたたみ  </summary>
-
-  <p>この問題は, 大雑把にいうと二つのパートにわかれる.</p>
-
-  <ol>
-    <li>
-      <p>橋の長さが最も短くなるような橋の候補を列挙する.</p>
-    </li>
-    <li>
-      <p>上で列挙した各橋について, 始点から橋の西側, 橋の東側から終点の最短距離をそれぞれ求め, その和の最小値を求める.</p>
-    </li>
-  </ol>
-
-  <p>前半パートは, &quot;橋の長さの最小値&quot; ではなく, &quot;橋の長さが最小となるような橋を列挙せよ&quot; というタイプである.
-ここで誤差が出ると, &quot;橋の長さが最も短い&quot; という条件を満たさない候補が紛れ込む.</p>
-
-  <p>橋の長さが近いからといって, 始点から橋の西側, 橋の東側から終点の最短距離の和が近いとは限らないため, 前半パートの誤差は答えに大きな影響を及ぼす可能性があり, 前半パートで誤差を出さないことは重要である.</p>
-
-  <p>一方, 後半パートでは, &quot;全体の道のりが最小となる橋の位置を求めよ&quot; ではなく &quot;全体の道のりの最小値を求めよ&quot; なので, ここでの誤差が答えに及ぼす影響は大きくならない. (出た誤差と同程度.)</p>
-
-  <p>実は, この問題では <code>long double</code> と小さめの <code>eps</code> を使うと通る(ことがある)が, 不安な場合は, 前半パートだけ, 誤差と戦えばよい.</p>
-
-  <p>前半パートでは, 点と点, 点と直線の距離を列挙し, その比較をすることになる.
+<p><details><summary> ネタバレを含むので折りたたみ</summary></p>
+<p>この問題は, 大雑把にいうと二つのパートにわかれる.</p>
+<ol start="0">
+<li>
+<p>橋の長さが最も短くなるような橋の候補を列挙する.</p>
+</li>
+<li>
+<p>上で列挙した各橋について, 始点から橋の西側, 橋の東側から終点の最短距離をそれぞれ求め, その和の最小値を求める.</p>
+</li>
+</ol>
+<p>前半パートは, "橋の長さの最小値" ではなく, "橋の長さが最小となるような橋を列挙せよ" というタイプである.
+ここで誤差が出ると, "橋の長さが最も短い" という条件を満たさない候補が紛れ込む.</p>
+<p>橋の長さが近いからといって, 始点から橋の西側, 橋の東側から終点の最短距離の和が近いとは限らないため, 前半パートの誤差は答えに大きな影響を及ぼす可能性があり, 前半パートで誤差を出さないことは重要である.</p>
+<p>一方, 後半パートでは, "全体の道のりが最小となる橋の位置を求めよ" ではなく "全体の道のりの最小値を求めよ" なので, ここでの誤差が答えに及ぼす影響は大きくならない. (出た誤差と同程度.)</p>
+<p>実は, この問題では <code>long double</code> と小さめの <code>eps</code> を使うと通る(ことがある)が, 不安な場合は, 前半パートだけ, 誤差と戦えばよい.</p>
+<p>前半パートでは, 点と点, 点と直線の距離を列挙し, その比較をすることになる.
 これらは自乗すると有理数(入力の加減乗除のみで表せる)だから, 自乗したものを比較することにする.</p>
-
-  <p>今回の場合, &quot;大小比較&quot; が出来なければならず, 除算もあるから, 有理数で扱うとよい.</p>
-
-  <p>少し計算すればわかるが, これは分母子を 64 bit の整数型で表した有理数型で扱える範囲の数になる.</p>
-</details>
-
+<p>今回の場合, "大小比較" が出来なければならず, 除算もあるから, 有理数で扱うとよい.</p>
+<p>少し計算すればわかるが, これは分母子を 64 bit の整数型で表した有理数型で扱える範囲の数になる.
+</details></p>
 <h2>おわり</h2>
-
 <p>12/15 の記事は iwashi31 さんの <a href="http://iwashi31.hatenablog.com/entry/2015/12/15/235026">ゲームAIコンテストのすすめ</a> で, 12/17 の記事は Respect2D さんの <a href="http://itohjam.hatenablog.com/entry/2015/12/17/035829">AtCoderでのコンテスト主催者向けのツール紹介</a> です.</p>
-
-
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../../tags/誤差.html">誤差</a></div>
-          </footer>
-      </article>
+</article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/%E8%AA%A4%E5%B7%AE.html">誤差 (1)</a></div>
+      </footer>
     </main>
   </body>
 </html>

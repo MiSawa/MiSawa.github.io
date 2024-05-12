@@ -1,75 +1,65 @@
-
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>yukicoder 0021 平均の差 - みさわめも</title>
-<meta itemprop="name" content="yukicoder 0021 平均の差" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="yukicoder 0021 平均の差" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="yukicoder 0021 平均の差" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>yukicoder 0021 平均の差 - みさわめも</title>
 
-    <link href="../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="yukicoder 0021 平均の差" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="yukicoder 0021 平均の差" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="yukicoder 0021 平均の差" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
+    
   </head>
-
-  <body class='yukicoder yukicoder_0021'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -87,33 +77,23 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../index.html">Top</a> </li>
-            <li> <a href="../contests.html">Contests</a> </li>
-            <li> <a href="../others/index.html">Articles</a> </li>
-            <li> <a href="../tags/index.html">Tags</a> </li>
-            <li> <a href="../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-          <h2> yukicoder 0021 平均の差 </h2>
-  <a href="http://yukicoder.me/problems/67">問題文</a>
-  <h3>概要</h3>
-
+      <article><h2>yukicoder 0021 平均の差</h2>
+    <a href="http://yukicoder.me/problems/67">問題文</a><h3>概要</h3>
 <p>問題文読んで.</p>
-
 <h4>制約</h4>
-
 <p>$1 \le n \le 9$</p>
-
 <h3>解法</h3>
-
 <p>ちゃんと分割を全通り試さなきゃいけないのかと思いきや, 最小値と最大値の差を出力するだけ.</p>
-
 <h3>ソースコード</h3>
-<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -121,25 +101,20 @@
 6
 7
 8
-9
-</pre></td><td class="rouge-code"><pre><span class="kt">bool</span> <span class="nf">solve</span><span class="p">(){</span>
-    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">;</span>
-    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">k</span><span class="p">;</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">in</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">x</span> <span class="o">:</span> <span class="n">in</span><span class="p">)</span> <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">x</span><span class="p">;</span>
-    <span class="k">auto</span> <span class="n">t</span> <span class="o">=</span> <span class="n">minmax_element</span><span class="p">(</span><span class="n">all</span><span class="p">(</span><span class="n">in</span><span class="p">));</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">t</span><span class="p">.</span><span class="n">second</span> <span class="o">-</span> <span class="o">*</span><span class="n">t</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div>
-
-    <a href="./src/0021.cc">download full source code</a>
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../tags/yukicoder.html">yukicoder</a></div>
-          </footer>
-      </article>
+9</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">bool </span><span style="color:#f8f8f8;">solve</span><span style="color:#ffffff;">(){
+</span><span style="color:#ffffff;">    </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> n, k;
+</span><span style="color:#ffffff;">    cin </span><span style="color:#aaaaaa;">&gt;&gt;</span><span style="color:#ffffff;"> n </span><span style="color:#aaaaaa;">&gt;&gt;</span><span style="color:#ffffff;"> k;
+</span><span style="color:#ffffff;">    vector&lt;</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt; </span><span style="color:#c6c5fe;">in</span><span style="color:#ffffff;">(n);
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">auto </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#ffffff;">x </span><span style="color:#aaaaaa;">:</span><span style="color:#ffffff;"> in) cin </span><span style="color:#aaaaaa;">&gt;&gt;</span><span style="color:#ffffff;"> x;
+</span><span style="color:#ffffff;">    </span><span style="color:#cfcb90;">auto</span><span style="color:#ffffff;"> t </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">minmax_element</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">all</span><span style="color:#ffffff;">(in));
+</span><span style="color:#ffffff;">    cout </span><span style="color:#aaaaaa;">&lt;&lt; *</span><span style="color:#ffffff;">t.</span><span style="color:#c6c5fe;">second </span><span style="color:#aaaaaa;">- *</span><span style="color:#ffffff;">t.</span><span style="color:#c6c5fe;">first </span><span style="color:#aaaaaa;">&lt;&lt;</span><span style="color:#ffffff;"> endl;
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#99cc99;">true</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">}</span></pre></td></tr></tbody></table></code></pre>      <a href="./src/0021.cc">download source code</a>
+</article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/yukicoder.html">yukicoder (29)</a></div>
+      </footer>
     </main>
   </body>
 </html>

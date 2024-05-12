@@ -2,77 +2,68 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>Dinic 法とその時間計算量 - みさわめも</title>
-<meta name="description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
-<meta itemprop="name" content="Dinic 法とその時間計算量" />
-<meta itemprop="description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="Dinic 法とその時間計算量" />
-<meta name="twitter:description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Dinic 法とその時間計算量" />
-<meta property="og:description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Dinic 法とその時間計算量 - みさわめも</title>
 
-    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="Dinic 法とその時間計算量" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="Dinic 法とその時間計算量" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dinic 法とその時間計算量" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta itemprop="description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
+    <meta name="description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
+    <meta name="twitter:description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
+    <meta property="og:description" content="Dinic 法の実装手法の解説と時間計算量の解析、特殊なグラフ上での時間計算量の解析。" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
+    
   </head>
-
-  <body class='others others_flow others_flow_dinic_time_complexity'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -90,18 +81,15 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../../index.html">Top</a> </li>
-            <li> <a href="../../contests.html">Contests</a> </li>
-            <li> <a href="../index.html">Articles</a> </li>
-            <li> <a href="../../tags/index.html">Tags</a> </li>
-            <li> <a href="../../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-            <div style="display:none">`$$
+      <article><div style="display:none">$$
 \gdef\vec#1{\mathbf{#1}}
 \gdef\vecb{\vec{b}}
 \gdef\veczero{\vec{0}}
@@ -111,180 +99,137 @@
 \gdef\ce{\operatorname{current\_edge}}
 \gdef\fe{\operatorname{first\_edge}}
 \gdef\ne{\operatorname{next\_edge}}
-$$`</div>
-
+$$</div>
 <h1>Dinic 法とその時間計算量</h1>
 <h2>要約</h2>
-
 <ul>
-  <li>一般に, $n$ 頂点 $m$ 辺のグラフと実数の辺容量 $u$ が与えられたとき, このネットワーク上での Dinic 法の計算量は $O(n^2 m)$ である.</li>
-  <li>辺容量が整数のとき,
-    <ul>
-      <li>最大流を $F$ とすると, $O(F m)$ でもある.</li>
-      <li>辺容量の平均値が $k$ のとき, $O(k m^{3/2})$ でもある.</li>
-      <li>辺容量の最大値が $k$ で多重辺が無いとき, $O(k n^{2/3}m)$ でもある.</li>
-      <li>各頂点を通れるフロー量の平均値が $k$ 以下, すなわち $k \ge \operatorname{avg}_v \min(\sum_{e \in \delta^+(v)} u_e, \sum_{e \in \delta^-(v)} u_e)$ なとき, 計算量は $O(k \sqrt{n} m)$ でもある.<sup id="fnref:delta" role="doc-noteref"><a href="#fn:delta" class="footnote">1</a></sup></li>
-      <li>二部マッチングのときは, 上が $k = 1$ で成立し, $O(\sqrt{n} m)$.</li>
-      <li>容量が整数は必須だけれど, 他の条件は高々定数個の例外があっても OK.</li>
-    </ul>
-  </li>
-  <li>無向基礎グラフにおける $s$-$t$ 最<strong>長</strong>路長を $l$ とすると, $O(l^2 m)$ である.
-    <ul>
-      <li>二部グラフにおいて, 頂点分割の小さい方の頂点数を $s$ とすれば, $O(s^2 m)$ である.</li>
-    </ul>
-  </li>
-  <li>動的木を使うと, 一般のグラフで $O(n m \log n)$ になる.</li>
-  <li>実装をミスると指数オーダー.</li>
+<li>一般に, $n$ 頂点 $m$ 辺のグラフと実数の辺容量 $u$ が与えられたとき, このネットワーク上での Dinic 法の計算量は $O(n^2 m)$ である.</li>
+<li>辺容量が整数のとき,
+<ul>
+<li>最大流を $F$ とすると, $O(F m)$ でもある.</li>
+<li>辺容量の平均値が $k$ のとき, $O(k m^{3/2})$ でもある.</li>
+<li>辺容量の最大値が $k$ で多重辺が無いとき, $O(k n^{2/3}m)$ でもある.</li>
+<li>各頂点を通れるフロー量の平均値が $k$ 以下, すなわち $k \ge \operatorname{avg}_v \min(\sum_{e \in \delta^+(v)} u_e, \sum_{e \in \delta^-(v)} u_e)$ なとき, 計算量は $O(k \sqrt{n} m)$ でもある.<sup class="footnote-reference" id="fnref:delta-1"><a href="#fn:delta" class="footnote">1</a></sup></li>
+<li>二部マッチングのときは, 上が $k = 1$ で成立し, $O(\sqrt{n} m)$.</li>
+<li>容量が整数は必須だけれど, 他の条件は高々定数個の例外があっても OK.</li>
 </ul>
-
+</li>
+<li>無向基礎グラフにおける $s$-$t$ 最<strong>長</strong>路長を $l$ とすると, $O(l^2 m)$ である.
+<ul>
+<li>二部グラフにおいて, 頂点分割の小さい方の頂点数を $s$ とすれば, $O(s^2 m)$ である.</li>
+</ul>
+</li>
+<li>動的木を使うと, 一般のグラフで $O(n m \log n)$ になる.</li>
+<li>実装をミスると指数オーダー.</li>
+</ul>
 <p>この記事では, 理論的な側面やその背景にはあまり立ち入らない.
-定数倍なども特に気にせず, &quot;教科書に書いてある Dinic 法&quot; と &quot;よくある Dinic 法の実装&quot; の間を埋めることと, その計算量を解析することを目的としている.</p>
-
+定数倍なども特に気にせず, "教科書に書いてある Dinic 法" と "よくある Dinic 法の実装" の間を埋めることと, その計算量を解析することを目的としている.</p>
 <p>昔書いた記事 <a href="https://topcoder-g-hatena-ne-jp.jag-icpc.org/Mi_Sawa/20140311/">最大流問題について</a>, <a href="https://topcoder-g-hatena-ne-jp.jag-icpc.org/Mi_Sawa/20140320.html">最大流問題について その3</a> の一部を詳しく説明した感じです.</p>
-
 <h2>記号</h2>
 <ul>
-  <li>$\exG$: $G$ に逆辺を追加したやつ.</li>
-  <li>$G_\vecf$: $\vecf$ に関する残余ネットワーク. $\exG$ に容量を, 順辺は $u_e - f_e$, 逆辺は $f_e$ で入れたやつ.</li>
-  <li>$m$: $\exG$ の辺の数. つまり元のグラフの倍.</li>
+<li>$\exG$: $G$ に逆辺を追加したやつ.</li>
+<li>$G_\vecf$: $\vecf$ に関する残余ネットワーク. $\exG$ に容量を, 順辺は $u_e - f_e$, 逆辺は $f_e$ で入れたやつ.</li>
+<li>$m$: $\exG$ の辺の数. つまり元のグラフの倍.</li>
 </ul>
-
 <p>$O(n + m) = O(m)$ と簡略にしたいので(必要ならば連結成分を取り出して), $n = O(m)$ を仮定する.</p>
-
 <h2>Dinic 法の概要</h2>
-
 <p>Dinic 法は, 暫定解であるフロー $\vecf$ を持ち, 次の2つを $s$ から $t$ への残余パスが無くなるまで繰り返すアルゴリズムである.</p>
-
-<p><strong>dual step</strong>:<sup id="fnref:whydual" role="doc-noteref"><a href="#fn:whydual" class="footnote">2</a></sup></p>
-
+<p><strong>dual step</strong>:<sup class="footnote-reference" id="fnref:whydual-1"><a href="#fn:whydual" class="footnote">2</a></sup></p>
 <p>残余ネットワーク $G_\vecf$ 上で, $s$ から $t$ への最短経路 DAG, すなわち最短 $s$-$t$ パスに含まれうる頂点/辺のみからなるグラフを求める.
 ここで, 各辺のコストは <code>1</code>, つまり通る辺の個数を最小化する経路を求めるものとする.</p>
-
-<p><strong>primal step</strong><sup id="fnref:whyprimal" role="doc-noteref"><a href="#fn:whyprimal" class="footnote">3</a></sup>,<sup id="fnref:blocking" role="doc-noteref"><a href="#fn:blocking" class="footnote">4</a></sup></p>
-
+<p><strong>primal step</strong><sup class="footnote-reference" id="fnref:whyprimal-1"><a href="#fn:whyprimal" class="footnote">3</a></sup>,<sup class="footnote-reference" id="fnref:blocking-1"><a href="#fn:blocking" class="footnote">4</a></sup></p>
 <p>$H$ を前回の dual step で求めた DAG で初期化し, $H$ が空グラフになるまで, 次を繰り返す.</p>
-
 <ol>
-  <li>H 上での $s$-$t$ パスを一つ求める.</li>
-  <li>そのパス上に流せるだけ流す.</li>
-  <li>残余容量が $0$ になった辺と, $s$ から辿り着けない頂点, $t$ へ辿り着けない頂点, それらに隣接する辺を $H$ から取り除く.</li>
+<li>H 上での $s$-$t$ パスを一つ求める.</li>
+<li>そのパス上に流せるだけ流す.</li>
+<li>残余容量が $0$ になった辺と, $s$ から辿り着けない頂点, $t$ へ辿り着けない頂点, それらに隣接する辺を $H$ から取り除く.</li>
 </ol>
-
 <p>この繰り返しの後, dual step で求めた DAG 上で流したフローを, 暫定解である $G$ 上のフロー $\vecf$ に反映する. これにより, 残余ネットワーク, 特に逆辺の残余容量も更新される.</p>
-
 <h2>計算量</h2>
-
 <p>さて, このアルゴリズムの計算量を調べよう.</p>
-
 <p>いま, ひとつの dual-primal step に注目する. この dual step での $s$ から $v$ への最短路長(路が無いならば $\infty$)を $\label(v)$, $l = \label(t)$ とすると, $s$ から到達可能な任意の辺 $(u, v)$ に対し, $\label(u) + 1 \ge \label(v)$ である. $s$-$t$ 最短路 DAG を $H_0$ とする.
 このとき, $s$ から辿り着け, $t$ へ辿り着けるような辺 $(u, v)$ が $H_0$ に含まれるためには, $\label(u) + 1 = \label(v)$ であることが必要である.
 直後の primal step の後, $H$ 上のフローを $\vecf$ に反映する際に, $G_\vecf$ の辺が追加/削除されるが,</p>
-
 <ul>
-  <li>$G_\vecf$ に追加されうる辺 $(u, v)$ は, $H_0$ の逆辺, 従って $\label(u) = \label(v)+1$ となる辺のみである.</li>
-  <li>$H_0$ 上の任意の $s$-$t$ パスは, その少なくとも一辺が$G_f$ から削除される.</li>
+<li>$G_\vecf$ に追加されうる辺 $(u, v)$ は, $H_0$ の逆辺, 従って $\label(u) = \label(v)+1$ となる辺のみである.</li>
+<li>$H_0$ 上の任意の $s$-$t$ パスは, その少なくとも一辺が$G_f$ から削除される.</li>
 </ul>
-
 <p>の2つが成り立つ.</p>
-
 <p>更新後の $G_\vecf$ の $s$-$t$ パスを一つとる. このパス上での $\label$ の値からなる列を考えると, 高々 $1$ ずつしか増加しない初項 $0$, 末項 $l$ の数列であるから, これが長さ $l$ 以下となるには, このパスに含まれる全ての辺 $(u, v)$ で $\label(u) + 1 = \label(v)$ を満たし, 長さ $l$ となるしかない. しかし, このような辺は新たに $G_\vecf$ に加わったものではないので, このパス更新前の $G_\vecf$ の長さ $l$ の $s$-$t$ パス, 従って $H_0$ 上の $s$-$t$ パスであったことになり, primal step でその少なくとも一辺が削除されたことに矛盾する. 従って, 更新後の $G_\vecf$ の任意の $s$-$t$ パスの長さが $l$ より長く, 次の dual step では $s$ から $t$ への最短路長が真に長くなる事がわかった.
 $s$-$t$ パスの長さは高々 $n-1$ であるから, dual-primal step は高々 $n-1$ 回しか繰り返されないことがわかる.</p>
-
 <p>次に, dual step は, 幅優先探索で $O(m)$ で実現できる.</p>
-
 <p>最後に, primal step の計算量を考えよう.
 $H$ は最短経路 DAG であったから, $s$ から順に出る辺を辿るだけで, $O(n)$ で $s$-$t$ パスを一つ求めることが出来る. $H$ の更新についても, 残余容量が $0$ になった辺を削除した後, 入次数や出次数が $0$ になった頂点とそれに接続する辺を削除することを繰り返せばよいから, 取り除く頂点と辺の数の線形時間, 従ってこの primal step 内で合計 $O(m+n)$ で行える.
 フローを流す度に辺が少なくとも一本削除されるから, 合計で $O(nm + m + n) = O(nm)$ となる.</p>
-
 <p>dual-primal step は高々 $n-1$ 回行われ, dual step が $O(m)$, primal step が $O(nm)$ であったから, 合計で $O(n^2 m)$ である.</p>
-
 <h2>Current-Edge data structure を用いた実装方法</h2>
-
 <p>上では, $H$ を毎 dual-primal step で陽に作り, そこから頂点や辺を削除していく方針を見た.
 しかし, $H$ や $H$ 上のフローを陽に保持することなく, $\exG$ と暫定解としての $\exG$ 上のフロー, いくつかの補助変数を用いて実装するのが <em>非常に</em> 一般的である.</p>
-
 <p><strong>dual step</strong>:</p>
-
 <p>dual step では陽に DAG を作らず, $s$ からの距離(もしくは $t$ への距離. この場合符号を反転するか大小関係を逆にして読むこと.) $\label(u)$ を求める.
 すると, $s$-$t$ パスは, その全ての辺で $\label(u) + 1 = \label(v)$ を満たすとき, またその時に限り, 所望の DAG に含まれる.</p>
-
 <p><strong>primal step</strong>:
 前提として, 隣接リストなどのデータ構造を用い, 各頂点 $u$ に対し, $\exG$ 上の $u$ から出る辺 $(u, v)$ を適当に固定された順序でイテレート出来るものとする.
-すなわち, &quot;最初の辺&quot; を返す $\fe(v)$ と, &quot;あるならば次の辺, 無いなら特別な値 $\bot$ を返す&quot; $\ne(e)$ が, それぞれ $O(1)$ で出来るものとする.</p>
-
+すなわち, "最初の辺" を返す $\fe(v)$ と, "あるならば次の辺, 無いなら特別な値 $\bot$ を返す" $\ne(e)$ が, それぞれ $O(1)$ で出来るものとする.</p>
 <p>残余容量が正で, $\label(u) + 1 = \label(v)$ である辺 $e = (u, v)$ を, admissible であると呼ぶ.
 Admissible であり, $s$ から admissible な辺のみを用いて辿りつける始点と $t$ に admissible な辺のみを用いて辿り着ける終点を持つ辺が, 概要の節で述べた $H$ の辺に対応する.</p>
-
 <p>primal step では, dual step で求めた $\label(\cdot)$ に加えて $\ce(\cdot)$ を用る.
-また, 概要の節でのアルゴリズムの &quot;3. 残余容量が $0$ になった辺と, $s$ から辿り着けない頂点, $t$ へ辿り着けない頂点を $H$ から取り除く.&quot; は, 遅延して実行する.</p>
-
+また, 概要の節でのアルゴリズムの "3. 残余容量が $0$ になった辺と, $s$ から辿り着けない頂点, $t$ へ辿り着けない頂点を $H$ から取り除く." は, 遅延して実行する.</p>
 <p>最初に, $v \neq t$ に対しては $\ce(v) = \fe(v)$, $v = t$ に対しては $\ce(t) = \bot$ と初期化する.
 この $\ce$ を用いて, 概要の節の $H$ 上のパスを一つ求めるアルゴリズムは, 次のように実現できる.</p>
-
 <ol>
-  <li>$i = 0, v_0 = s$ とする.<sup id="fnref:fromt" role="doc-noteref"><a href="#fn:fromt" class="footnote">5</a></sup></li>
-  <li>$\ce(v_i) \neq \bot$ だが $\ce(v_i)$ が admissible でないとき:
-    <ol>
-      <li>$\ce(v_i)$ を $\ne(\ce(v_i))$ で更新する.</li>
-      <li>2.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$\ce(v_i) \neq \bot$ のとき:
-    <ol>
-      <li>$\ce(v_i) = (v_i, v_{i+1})$ となるよう $v_{i+1}$ を定める</li>
-      <li>$i$ を $i+1$ に更新する</li>
-      <li>2.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$v_i = s$, すなわち $i = 0$ のとき:
-    <ol>
-      <li>admissible な辺からなる $s$-$t$ パスを発見出来なかったことを報告し, 終了する.</li>
-    </ol>
-  </li>
-  <li>$v_i \neq t$ のとき:
-    <ol>
-      <li>$i$ を $i-1$ で更新する.</li>
-      <li>$\ce(v_i)$ を $\ne(\ce(v_i))$ で更新する.</li>
-      <li>2.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$v_i = t$ のとき:
-    <ol>
-      <li>パス $s = v_0, \dots, v_i = t$ を報告し, 終了する.</li>
-    </ol>
-  </li>
+<li>$i = 0, v_0 = s$ とする.<sup class="footnote-reference" id="fnref:fromt-1"><a href="#fn:fromt" class="footnote">5</a></sup></li>
+<li>$\ce(v_i) \neq \bot$ だが $\ce(v_i)$ が admissible でないとき:
+<ol>
+<li>$\ce(v_i)$ を $\ne(\ce(v_i))$ で更新する.</li>
+<li>2.へ戻る.</li>
 </ol>
-
+</li>
+<li>$\ce(v_i) \neq \bot$ のとき:
+<ol>
+<li>$\ce(v_i) = (v_i, v_{i+1})$ となるよう $v_{i+1}$ を定める</li>
+<li>$i$ を $i+1$ に更新する</li>
+<li>2.へ戻る.</li>
+</ol>
+</li>
+<li>$v_i = s$, すなわち $i = 0$ のとき:
+<ol>
+<li>admissible な辺からなる $s$-$t$ パスを発見出来なかったことを報告し, 終了する.</li>
+</ol>
+</li>
+<li>$v_i \neq t$ のとき:
+<ol>
+<li>$i$ を $i-1$ で更新する.</li>
+<li>$\ce(v_i)$ を $\ne(\ce(v_i))$ で更新する.</li>
+<li>2.へ戻る.</li>
+</ol>
+</li>
+<li>$v_i = t$ のとき:
+<ol>
+<li>パス $s = v_0, \dots, v_i = t$ を報告し, 終了する.</li>
+</ol>
+</li>
+</ol>
 <p>このアルゴリズムにおける重要な不変条件として,</p>
-
 <ul>
-  <li>辺 $(u, v)$ が admissible かつ $v$ から $t$ への admissible な辺から成るパスがあるならば, それは $\ce(v)$ 以降の辺である. (逆は必ずしも真ではない)</li>
+<li>辺 $(u, v)$ が admissible かつ $v$ から $t$ への admissible な辺から成るパスがあるならば, それは $\ce(v)$ 以降の辺である. (逆は必ずしも真ではない)</li>
 </ul>
-
 <p>がある. この不変条件が正しいことは, $\ce(v_i)$ を更新する箇所, 具体的には 2.1. と 5.2. で保たれることと, ある時点で admisslbe で無い辺は以後 admissible にならないことを確認すればわかる.
 また, このアルゴリズム自体が正しいことは, 不変条件から示せる.</p>
-
 <ul>
-  <li>3.2. で $i$ に加えた $1$ は, 6.1. で報告するパスの長さか, 5.1. で減らされる $1$ に寄与する.</li>
-  <li>2.1, 5.1. で $\ce(\cdot)$ を変更している.</li>
-  <li>1., 4., 6. はそれぞれ高々1回しか実行されない.</li>
+<li>3.2. で $i$ に加えた $1$ は, 6.1. で報告するパスの長さか, 5.1. で減らされる $1$ に寄与する.</li>
+<li>2.1, 5.1. で $\ce(\cdot)$ を変更している.</li>
+<li>1., 4., 6. はそれぞれ高々1回しか実行されない.</li>
 </ul>
-
 <p>から, このアルゴリズムの計算量は, 最終的に報告するパスの長さと $\ce(\cdot)$ を変更した回数の和に関する線形時間である.</p>
-
-<p>さて, このアルゴリズムで報告されたパスに対して, 含まれる辺の残余容量の最小値と同じだけフローを $\vecf$ に追加し, これによって残余容量が $0$ となった辺 $e=(u, v)$ に対し, $\ce(u)$ を $\ne(e)$ で更新する.<sup id="fnref:updateisunnecessary" role="doc-noteref"><a href="#fn:updateisunnecessary" class="footnote">6</a></sup>
+<p>さて, このアルゴリズムで報告されたパスに対して, 含まれる辺の残余容量の最小値と同じだけフローを $\vecf$ に追加し, これによって残余容量が $0$ となった辺 $e=(u, v)$ に対し, $\ce(u)$ を $\ne(e)$ で更新する.<sup class="footnote-reference" id="fnref:updateisunnecessary-1"><a href="#fn:updateisunnecessary" class="footnote">6</a></sup>
 すると, 次のパスを探索する際は, 上のアルゴリズムを $\ce(\cdot)$ を再度初期化することなく適用することができる.
 このことの正しさは, やはり不変条件が保たれることからわかる.</p>
-
-<p>Admissible な辺からなる $s$-$t$ パスが無くなるまでこれを実行すると, $\ce(\cdot)$ は合計高々 $m$ 回変更される<sup id="fnref:whyOm" role="doc-noteref"><a href="#fn:whyOm" class="footnote">7</a></sup>が, 6.1. によってパスを得る度に一度変更するから, このアルゴリズムが実行されるのは高々 $m+1$ 回である. また, 各実行で $O(n)$ に加えて $\ce(\cdot)$ の変更回数に関する線形時間かかるから, 合計 $O(m n + m) = O(nm)$ かかる.</p>
-
+<p>Admissible な辺からなる $s$-$t$ パスが無くなるまでこれを実行すると, $\ce(\cdot)$ は合計高々 $m$ 回変更される<sup class="footnote-reference" id="fnref:whyOm-1"><a href="#fn:whyOm" class="footnote">7</a></sup>が, 6.1. によってパスを得る度に一度変更するから, このアルゴリズムが実行されるのは高々 $m+1$ 回である. また, 各実行で $O(n)$ に加えて $\ce(\cdot)$ の変更回数に関する線形時間かかるから, 合計 $O(m n + m) = O(nm)$ かかる.</p>
 <p>dual-primal step が高々 $n-1$ 回なのは前の解析と変わらないから, 合計 $O(n^2 m)$ である.</p>
-
 <h2>Current-Edge data structure の実装を間違えた場合</h2>
-
 <p>次の C++ コードは, 上のアルゴリズムの非常によくある実装の一部を抜き出したものである.</p>
-
-<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -298,209 +243,152 @@ Admissible であり, $s$ から admissible な辺のみを用いて辿りつけ
 12
 13
 14
-15
-</pre></td><td class="rouge-code"><pre><span class="n">Flow</span> <span class="nf">primal</span><span class="p">(</span><span class="k">const</span> <span class="n">Flow</span> <span class="n">current_path_cap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">current_path_cap</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="o">&amp;</span><span class="n">i</span> <span class="o">=</span> <span class="n">current_edge</span><span class="p">[</span><span class="n">v</span><span class="p">];</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">edges</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">=</span> <span class="n">edges</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">capacity</span> <span class="o">&amp;&amp;</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">to</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">from</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// recurse with e</span>
-      <span class="k">const</span> <span class="n">Flow</span> <span class="n">f</span> <span class="o">=</span> <span class="n">primal</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">capacity</span> <span class="o">-</span> <span class="n">e</span><span class="p">.</span><span class="n">flow</span><span class="p">,</span> <span class="n">current_path_cap</span><span class="p">),</span> <span class="n">e</span><span class="p">.</span><span class="n">to</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-      <span class="n">e</span><span class="p">.</span><span class="n">flow</span> <span class="o">+=</span> <span class="n">f</span><span class="p">;</span>
-      <span class="n">e</span><span class="p">.</span><span class="n">reverse</span><span class="o">-&gt;</span><span class="n">flow</span> <span class="o">-=</span> <span class="n">f</span><span class="p">;</span>
-      <span class="k">return</span> <span class="n">f</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div>
+15</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#ffffff;">Flow </span><span style="color:#f8f8f8;">primal</span><span style="color:#ffffff;">(</span><span style="color:#66ccff;">const</span><span style="color:#ffffff;"> Flow </span><span style="color:#c6c5fe;">current_path_cap</span><span style="color:#ffffff;">, </span><span style="color:#66ccff;">const </span><span style="color:#ffffb6;">size_t </span><span style="color:#c6c5fe;">v</span><span style="color:#ffffff;">) {
+</span><span style="color:#ffffff;">  </span><span style="color:#66ccff;">if </span><span style="color:#ffffff;">(v </span><span style="color:#aaaaaa;">==</span><span style="color:#ffffff;"> target) </span><span style="color:#66ccff;">return</span><span style="color:#ffffff;"> current_path_cap;
+</span><span style="color:#ffffff;">  </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">(</span><span style="color:#ffffb6;">size_t </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#ffffff;">i </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> current_edge[v]; i </span><span style="color:#aaaaaa;">&lt;</span><span style="color:#ffffff;"> edges[v].</span><span style="color:#c6c5fe;">size</span><span style="color:#ffffff;">(); </span><span style="color:#aaaaaa;">++</span><span style="color:#ffffff;">i) {
+</span><span style="color:#ffffff;">    </span><span style="color:#cfcb90;">auto </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#ffffff;">e </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> edges[v][i];
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">if </span><span style="color:#ffffff;">(e.</span><span style="color:#c6c5fe;">flow </span><span style="color:#aaaaaa;">&lt;</span><span style="color:#ffffff;"> e.</span><span style="color:#c6c5fe;">capacity </span><span style="color:#aaaaaa;">&amp;&amp;</span><span style="color:#ffffff;"> label[e.</span><span style="color:#c6c5fe;">to</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">==</span><span style="color:#ffffff;"> label[e.</span><span style="color:#c6c5fe;">from</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">+ </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">) {
+</span><span style="color:#ffffff;">      </span><span style="background-color:#212121;color:#7c7c7c;">// recurse with e
+</span><span style="color:#ffffff;">      </span><span style="color:#66ccff;">const</span><span style="color:#ffffff;"> Flow f </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">primal</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">std::min</span><span style="color:#ffffff;">(e.</span><span style="color:#c6c5fe;">capacity </span><span style="color:#aaaaaa;">-</span><span style="color:#ffffff;"> e.</span><span style="color:#c6c5fe;">flow</span><span style="color:#ffffff;">, current_path_cap), e.</span><span style="color:#c6c5fe;">to</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">      </span><span style="color:#66ccff;">if </span><span style="color:#ffffff;">(f </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">) </span><span style="color:#66ccff;">continue</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">      e.</span><span style="color:#c6c5fe;">flow </span><span style="color:#aaaaaa;">+=</span><span style="color:#ffffff;"> f;
+</span><span style="color:#ffffff;">      e.</span><span style="color:#c6c5fe;">reverse</span><span style="color:#ffffff;">-&gt;</span><span style="color:#c6c5fe;">flow </span><span style="color:#aaaaaa;">-=</span><span style="color:#ffffff;"> f;
+</span><span style="color:#ffffff;">      </span><span style="color:#66ccff;">return</span><span style="color:#ffffff;"> f;
+</span><span style="color:#ffffff;">    }
+</span><span style="color:#ffffff;">  }
+</span><span style="color:#ffffff;">  </span><span style="color:#66ccff;">return </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">}</span></pre></td></tr></tbody></table></code></pre>
 <p>この <code>size_t &amp; i = current_edge[v]</code> の <code>&amp;</code> は <strong>非常に</strong> 重要である.
 これを忘れた場合, 前節で説明した Current-Edge data structure を使わず, 全ての残余パスを調べることになる.
 $s$-$t$ パスの本数は $n$ の指数オーダーありうるので, 指数オーダーのアルゴリズムになってしまう.</p>
-
 <p>このような間違った実装法で $\Theta(2^{n/2})$ になるようなインスタンスを生成するプログラム, $n = 100$ で生成されたインスタンスと, 実際に間違った実装法での実装が <a href="https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686">ここ</a> に置いてある.
 primal step, dual step はそれぞれ $s$ 側と $t$ 側から出来るため, $4$ 通りの実装方法があるが, そのいずれでも $\Theta(2^{n/2})$ となっているハズなので, 自分の実装が不安な場合はこの生成器を使って試してみるとよいだろう.</p>
-
 <h2>動的木を使った実装</h2>
-
 <p>この節は読み飛ばしても差支えない.</p>
-
 <p>前節の $\ce(\cdot)$ は, $s$ を葉の一つ, $\ce(v) = \bot$ な頂点を根とする内向き森になっている.
-この森を GetRoot, GetLastEdgeInPath<sup id="fnref:GetLastEdgeInPath" role="doc-noteref"><a href="#fn:GetLastEdgeInPath" class="footnote">8</a></sup>, Link, Cut, GetValue<sup id="fnref:GetValue" role="doc-noteref"><a href="#fn:GetValue" class="footnote">9</a></sup>, AddToPath<sup id="fnref:AddToPath" role="doc-noteref"><a href="#fn:AddToPath" class="footnote">10</a></sup>, MinNodeOfPath<sup id="fnref:MinNodeOfPath" role="doc-noteref"><a href="#fn:MinNodeOfPath" class="footnote">11</a></sup> を $O(\log n)$ でサポートする動的木, 例えば Sleator-Tarjan Link/Cut tree で管理すると, $O(\log n)$ について一度 $\ce(\cdot)$ を更新する(Link/Cut)か admissible なパスにフローを流す(MinNodeOfPath + AddToPath)ことができる.</p>
-
+この森を GetRoot, GetLastEdgeInPath<sup class="footnote-reference" id="fnref:GetLastEdgeInPath-1"><a href="#fn:GetLastEdgeInPath" class="footnote">8</a></sup>, Link, Cut, GetValue<sup class="footnote-reference" id="fnref:GetValue-1"><a href="#fn:GetValue" class="footnote">9</a></sup>, AddToPath<sup class="footnote-reference" id="fnref:AddToPath-1"><a href="#fn:AddToPath" class="footnote">10</a></sup>, MinNodeOfPath<sup class="footnote-reference" id="fnref:MinNodeOfPath-1"><a href="#fn:MinNodeOfPath" class="footnote">11</a></sup> を $O(\log n)$ でサポートする動的木, 例えば Sleator-Tarjan Link/Cut tree で管理すると, $O(\log n)$ について一度 $\ce(\cdot)$ を更新する(Link/Cut)か admissible なパスにフローを流す(MinNodeOfPath + AddToPath)ことができる.</p>
 <p>具体的には, 動的木を辺数 $0$ で初期化し, 各頂点には開始時点の残余容量で値を付与した後, 次を行う.</p>
-
 <ol>
-  <li>$v = \operatorname{GetRoot}(s)$ とする.</li>
-  <li>$\ce(v) \neq \bot$ だが $\ce(v)$ が admissible でないとき:
-    <ol>
-      <li>$\ce(v)$ を $\ne(\ce(v))$ で更新する.</li>
-      <li>2.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$\ce(v) \neq \bot$ のとき:
-    <ol>
-      <li>$\operatorname{Link}(\ce(v))$ する</li>
-      <li>1.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$v = s$ のとき:
-    <ol>
-      <li>admissible な辺からなる $s$-$t$ パスを発見出来なかったことを報告し, 終了する.</li>
-    </ol>
-  </li>
-  <li>$v \neq t$ のとき:
-    <ol>
-      <li>$e = (u, v) = \operatorname{GetLastEdgeInPath}(s)$ とする.</li>
-      <li>$\operatorname{Cut}(e)$ する.</li>
-      <li>$\ce(u)$ を $\ne(e)$ で更新する.</li>
-      <li>1.へ戻る.</li>
-    </ol>
-  </li>
-  <li>$v = t$ のとき:
-    <ol>
-      <li>$u = \operatorname{MinNodeOfPath}(s)$ とし, $f = \operatorname{GetValue}(u)$ とする.</li>
-      <li>$\operatorname{AddToPath}(s, -f)$ する.</li>
-      <li>$u = \operatorname{MinNodeOfPath}(s)$ とし, $e = \ce(u)$, $f = \operatorname{GetValue}(u)$ とする.</li>
-      <li>$f \neq 0$ ならば 1.へ戻る.</li>
-      <li>$\operatorname{Cut}(e)$ する.</li>
-      <li>$\ce(u)$ を $\ne(e)$ で更新する.</li>
-      <li>6.3.へ戻る.</li>
-    </ol>
-  </li>
+<li>$v = \operatorname{GetRoot}(s)$ とする.</li>
+<li>$\ce(v) \neq \bot$ だが $\ce(v)$ が admissible でないとき:
+<ol>
+<li>$\ce(v)$ を $\ne(\ce(v))$ で更新する.</li>
+<li>2.へ戻る.</li>
 </ol>
-
+</li>
+<li>$\ce(v) \neq \bot$ のとき:
+<ol>
+<li>$\operatorname{Link}(\ce(v))$ する</li>
+<li>1.へ戻る.</li>
+</ol>
+</li>
+<li>$v = s$ のとき:
+<ol>
+<li>admissible な辺からなる $s$-$t$ パスを発見出来なかったことを報告し, 終了する.</li>
+</ol>
+</li>
+<li>$v \neq t$ のとき:
+<ol>
+<li>$e = (u, v) = \operatorname{GetLastEdgeInPath}(s)$ とする.</li>
+<li>$\operatorname{Cut}(e)$ する.</li>
+<li>$\ce(u)$ を $\ne(e)$ で更新する.</li>
+<li>1.へ戻る.</li>
+</ol>
+</li>
+<li>$v = t$ のとき:
+<ol>
+<li>$u = \operatorname{MinNodeOfPath}(s)$ とし, $f = \operatorname{GetValue}(u)$ とする.</li>
+<li>$\operatorname{AddToPath}(s, -f)$ する.</li>
+<li>$u = \operatorname{MinNodeOfPath}(s)$ とし, $e = \ce(u)$, $f = \operatorname{GetValue}(u)$ とする.</li>
+<li>$f \neq 0$ ならば 1.へ戻る.</li>
+<li>$\operatorname{Cut}(e)$ する.</li>
+<li>$\ce(u)$ を $\ne(e)$ で更新する.</li>
+<li>6.3.へ戻る.</li>
+</ol>
+</li>
+</ol>
 <p>このアルゴリズムの終了時点での各頂点に付与された値に応じて, 暫定解のフロー量を更新する.
 このアルゴリズムは primal step を $O(m \log n)$ で実装し, 全体として $O(n m \log n)$ の最大流アルゴリズムを与えている.</p>
-
 <h2>特殊なネットワーク上での計算量</h2>
 <p><strong>!!!以下, 辺容量の整数性を仮定する!!!</strong></p>
-
 <p>動的木を用いた実装については一旦忘れて, 特殊なグラフ上で Current-Edge data structure を用いた実装を実行したときに, Dinic 法の計算量がより小さくなることを見る.</p>
-
 <h3>最大流量に関する計算量</h3>
-
 <p>辺容量が整数であるから, フローを更新する際, その値は少なくとも $1$ 増える.
 従って, 最大流量が $F$ であるとすると, フローを更新できるのは高々 $F$ 回である.
 dual-primal step 一回につき, 少なくとも一回フローを更新できるから, dual step は合計で $O(F m)$.</p>
-
 <p>一方, primal step はパスを発見する度にフローを更新する. この計算量は, 発見するパスの長さと $\ce(\cdot)$ の更新回数の和に関する線形時間であった.
 ここで, パスの長さは $O(n)$, パスを発見する回数は全 dual-primal step 合わせて $O(F)$ であり, $\ce(\cdot)$ の更新回数は一つの primal step につき $O(m)$ であったから,
 全て合わせて $O(F m + F n + F m) = O(F m)$ である.</p>
-
 <h3>辺容量が高々定数/辺容量の平均値が高々定数</h3>
-
 <p>最大流量に関する計算量の議論は, Dinic 法の実行中でも成立する. すなわち, 実行中のある時点で, 残余グラフ上の最大流量が $F (\ge 1)$ となったとき, その後 $O(F m)$ でアルゴリズムは終了する.
 最大流-最小カット定理から, 実行中のある時点でのある残余カットの容量が $F (\ge 1)$ であるとき, その後 $O(F m)$ でアルゴリズムが終了することも言える.</p>
-
 <p>さて, 辺容量の平均が $k$ であるとする.
 primal step で発見したパスに属する各辺からは, 残余容量が少なくとも $1$ 減らされる. 残余容量の合計は $O(k m)$ であるから, 各 primal step は $O(k m + m) = O(km)$ である.</p>
-
 <p>一方, $l \in \set{1,\dots,n-1}$ を任意にひとつ選び, $l \ge \label(t)$ であるような最初の dual-primal step が開始した時点を考える.
 $V_i = \set{ v \setmid \label(t) = i}, W_i = \set{ v \setmid \label(t) \le i } = \cup_{j=0}^{i} U_j$, とすると, 残余容量が正であるような辺 $(u, v)$ は $\label(u) + 1 \ge \label(v)$ であるから, $W_i$ による残余カット容量は $V_i$ と $V_{i+1}$ の間の辺の残余容量の和である. 従って, $W_i$ による残余カット容量の($i$ を動かしたときの)和は辺容量の和以下, すなわち高々 $km$ である.
 $W_i$ は $0 \le i < l$ で $s$-$t$ カットを与えるから, この $l$ 個のカットの残余カット容量の最小値は $km / l$ 以下である.</p>
-
 <p>以上から, 各辺の容量が高々 $k$ であるとき, $l \ge \label(t)$ であるような最初の dual-primal step に至るまでにかかる時間計算量は $O(kml)$ であり, この後最大流に至るまでの時間計算量は $O((km / l) m)$ であるから, 合計で $O(kml + (km/l) m)$ であり, $l = \sqrt{m}$ とすれば $O(k m^{3/2})$ であることがわかった.</p>
-
 <p>更に, 各辺の容量が高々 $k$ で, 多重辺が無いとする. $0 \le i < l$ に対する $V_i$ を, $(V_0, V_1), (V_2, V_3), \dots$ のようにペアに分割すると, 少なくとも1つのペア $(V_i, V_{i+1})$ の要素数の合計が $O(2n / l) = O(n / l)$ である. 従って, このペア間の辺の残余容量の合計, すなわち $W_i$ による残余カット容量は $O(k (n / l)^2)$ である.
 よって, 各辺の容量が高々 $k$ で多重辺が無いとき, Dinic 法が $O(kml + k (n/l)^2 m)$ であり, $l = n^{2/3}$ とすれば $O(k n^{2/3} m)$ であることがわかった.</p>
-
 <h3>頂点容量の平均値が高々定数</h3>
-
 <p>頂点の容量を, その頂点へ入る辺の容量の和と, その頂点を出る辺の容量の和の小さい方とし, その(頂点を動かした時の)平均値を $k$ とする. すなわち,
 $$k = \operatorname{avg}_v \min(\sum_{e \in \delta^+(v)} u_e, \sum_{e \in \delta^-(v)} u_e)$$
 とする. 前節と同様, $l = \label(t)$ のときの $V_i$ や $W_i$ を考える.
-$$
-A_i = \set{ v \in V_i \setmid \sum_{e \in \delta^+(v)} u_e < \sum_{e \in \delta^-(v)} u_e }, \quad B_i = V_i \setminus A_i
-$$
+$$ A_i = \set{ v \in V_i \setmid \sum_{e \in \delta^+(v)} u_e < \sum_{e \in \delta^-(v)} u_e }, \quad B_i = V_i \setminus A_i $$
 とし, $U_i = W_{i-1} \cup A_i$ とすると, $U_i$ による残余カット容量は $\sum_{e \in \delta^+(A_i)} u_e + \sum_{e \in \delta^-(B_i)} u_e$ で上から抑えられる. これの($i$ を動かしたときの)和は高々 $kn$ だから, 少なくとも一つの $i$ で $U_i$ による残余カット容量が高々 $kn / l$ になる.</p>
-
 <p>よって, 各頂点の容量が高々 $k$ であるとき, Dinic 法が $O(kml + k(n/l)m)$ であり, $l = \sqrt{n}$ とすれば $O(k \sqrt{n} m)$ であることがわかった.</p>
-
 <p>二部グラフ $(U, V)$ 上の二部マッチングを, 頂点 $s$, $t$ と $s$ から $u \in U$, $v \in V$ から $t$ への辺を加えたグラフ上で, 辺容量 $1$ として最大流問題に帰着する場合, $s$ へ入る辺, $t$ から出る辺の容量和はそれぞれ $0$ であり, $u \in U$ へ入る辺, $v \in V$ から出る辺の容量和は $1$ であるから, 上で $k = 1$ とした場合の計算量 $O(\sqrt{n} m)$ を得る.</p>
-
 <h3>例外がある場合</h3>
-
 <p>上の証明は, 辺容量や頂点容量が $k$ を超えたり, 多重辺がある場合でも, そのような頂点/辺が高々有限個であるときは, ちょっと変更すればオーダーとしては同じものが得られる.
 定数個の, 条件を満たさない超頂点を加えた場合などに役に立つだろう.</p>
-
 <h3>GCD</h3>
-
 <p>容量に関しては, min と加減算程度しか使わないため, 容量の最大公約数 $g = \operatorname{GCD}_{e} u_e$ で各容量を割ってもアルゴリズムの挙動は変わらない.
 これを用いると, 例えば容量が $1$ とは限らない定数の場合でも, $k=1$ として上の結果を利用してよいことがわかる.</p>
-
 <h3>無向基礎グラフにおける $s$-$t$ 最長路長が短い場合</h3>
-
 <p>これについては容量の整数性を仮定しなくともよい. 無向基礎グラフ(もしくは $\exG$)上での $s$-$t$ 最長路長を $l$ とすると, 各 dual-primal step で $\label(t) \le l$ であるから, dual-primal step は高々 $l$ 回しか行なわれない.</p>
-
 <p>dual step は $O(m)$ である.
 一方 primal step の計算量は, 発見するパスの長さと $\ce(\cdot)$ の更新回数の和に関する線形時間であった.
 ここで, パスの長さは $O(l)$ でパスは各 primal step で高々 $m$ 本見つかり, $\ce(\cdot)$ の更新回数は一つの primal step につき $O(m)$ であったから, 全て合わせて $O(l (m + l m + m) ) = O(l^2 m)$ である.</p>
-
 <p>特に, $G$ の無向基礎グラフにおいて頂点集合を二つの独立集合 $A$ と $B$ に分割出来る(すなわち二部グラフである)場合, $s = \min(|A|, |B|)$ とすると, $s$-$t$ 最長路長は高々 $2 s$ であり, そのグラフ上での Dinic 法の計算量は $O(s^2 m)$ となる.</p>
-
 <h3>余談</h3>
-
 <p>上の証明を見ていればわかるように, 多くのフローが序盤の dual-primal step で流れる事が期待される.
-簡単なインスタンス, 例えばランダムグラフは, 経験的に, この性質を強くもつものが多い. <sup id="fnref:myimpression" role="doc-noteref"><a href="#fn:myimpression" class="footnote">12</a></sup>
+簡単なインスタンス, 例えばランダムグラフは, 経験的に, この性質を強くもつものが多い. <sup class="footnote-reference" id="fnref:myimpression-1"><a href="#fn:myimpression" class="footnote">12</a></sup>
 一方で, 計算量には, パスが見つかった際に流すフローで, そのパスのどれだけの辺を消滅させられるかも関わってくる.
 こちらは, 上の容量が高々定数な場合のように, フロー空間が縮退しているインスタンスが簡単になる.</p>
-
 <h2>参考文献</h2>
-
 <ul>
-  <li><a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">R.K.Ahuja, T.L.Magnanti, J.B.Orlin, &quot;Network Flows: Theory, Algorithms, and Applications&quot;, Prentice-Hall, Inc., 1993.</a></li>
+<li><a href="https://www.amazon.co.jp/dp/013617549X" title="Network Flows: Theory, Algorithms, and Applications">R.K.Ahuja, T.L.Magnanti, J.B.Orlin, "Network Flows: Theory, Algorithms, and Applications", Prentice-Hall, Inc., 1993.</a></li>
 </ul>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:delta" role="doc-endnote">
-      <p>$\delta^+(v)$: $v$ から出る辺全体の集合, $\delta^-(v)$: $v$ へ入る辺全体の集合. <a href="#fnref:delta" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:whydual" role="doc-endnote">
-      <p>これが dual step と呼ばれているのを見たことはない. しかし, 線形計画問題として定式化したときの双対の $\varepsilon$ 緩和を考え, 主の解を更新せずに双対の解を更新することで, なるべく小さい $\varepsilon$ に対する $\varepsilon$-optimality を満たすようにする操作である. <a href="#fnref:whydual" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:whyprimal" role="doc-endnote">
-      <p>dual step に対応し, こちらは $\varepsilon$-optimality を保ちつつ主問題の目的関数値を増大させている. <a href="#fnref:whyprimal" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:blocking" role="doc-endnote">
-      <p>これは dual step で求めた DAG の上でブロッキングフローを求める操作である. <a href="#fnref:blocking" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:fromt" role="doc-endnote">
-      <p>今回は $s$ から出発するようにしたが, $t$ から始めてもよい. その場合さまざまなものが逆転する. <a href="#fnref:fromt" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:updateisunnecessary" role="doc-endnote">
-      <p>$\ce(u)$ は更新しなくても, 計算量は変わらない. ここでは, 計算量解析の簡単さを優先した. <a href="#fnref:updateisunnecessary" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:whyOm" role="doc-endnote">
-      <p>$\ce(\cdot)$ は辺のイテレータで, 各辺一度しか出てこない. <a href="#fnref:whyOm" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:GetLastEdgeInPath" role="doc-endnote">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる辺で, 最も根に近いもの. <a href="#fnref:GetLastEdgeInPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:GetValue" role="doc-endnote">
-      <p>各頂点には値(具体的には $\ce(v)$ の残余容量)が付与されている. $v$ に対し, この付与された値を返す. <a href="#fnref:GetValue" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:AddToPath" role="doc-endnote">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点に付与された値に $x$ を足し込む. <a href="#fnref:AddToPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:MinNodeOfPath" role="doc-endnote">
-      <p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点のうち, 付与された値が最も小さいものを返す. 複数あるならば, 最も根に近いものを返す. <a href="#fnref:MinNodeOfPath" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:myimpression" role="doc-endnote">
-      <p>個人の感想です. <a href="#fnref:myimpression" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
-
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../../tags/フロー.html">フロー</a></div>
-              <div class='tag'><a href="../../tags/最大流.html">最大流</a></div>
-          </footer>
-      </article>
+<div class="footnotes"><ol><li id="fn:delta">
+<p>$\delta^+(v)$: $v$ から出る辺全体の集合, $\delta^-(v)$: $v$ へ入る辺全体の集合. <a href="#fnref:delta-1">↩</a></p>
+</li><li id="fn:whydual">
+<p>これが dual step と呼ばれているのを見たことはない. しかし, 線形計画問題として定式化したときの双対の $\varepsilon$ 緩和を考え, 主の解を更新せずに双対の解を更新することで, なるべく小さい $\varepsilon$ に対する $\varepsilon$-optimality を満たすようにする操作である. <a href="#fnref:whydual-1">↩</a></p>
+</li><li id="fn:whyprimal">
+<p>dual step に対応し, こちらは $\varepsilon$-optimality を保ちつつ主問題の目的関数値を増大させている. <a href="#fnref:whyprimal-1">↩</a></p>
+</li><li id="fn:blocking">
+<p>これは dual step で求めた DAG の上でブロッキングフローを求める操作である. <a href="#fnref:blocking-1">↩</a></p>
+</li><li id="fn:fromt">
+<p>今回は $s$ から出発するようにしたが, $t$ から始めてもよい. その場合さまざまなものが逆転する. <a href="#fnref:fromt-1">↩</a></p>
+</li><li id="fn:updateisunnecessary">
+<p>$\ce(u)$ は更新しなくても, 計算量は変わらない. ここでは, 計算量解析の簡単さを優先した. <a href="#fnref:updateisunnecessary-1">↩</a></p>
+</li><li id="fn:whyOm">
+<p>$\ce(\cdot)$ は辺のイテレータで, 各辺一度しか出てこない. <a href="#fnref:whyOm-1">↩</a></p>
+</li><li id="fn:GetLastEdgeInPath">
+<p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる辺で, 最も根に近いもの. <a href="#fnref:GetLastEdgeInPath-1">↩</a></p>
+</li><li id="fn:GetValue">
+<p>各頂点には値(具体的には $\ce(v)$ の残余容量)が付与されている. $v$ に対し, この付与された値を返す. <a href="#fnref:GetValue-1">↩</a></p>
+</li><li id="fn:AddToPath">
+<p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点に付与された値に $x$ を足し込む. <a href="#fnref:AddToPath-1">↩</a></p>
+</li><li id="fn:MinNodeOfPath">
+<p>$v$ に対し $v$ から $v$ を含む木の根へのパスに含まれる頂点のうち, 付与された値が最も小さいものを返す. 複数あるならば, 最も根に近いものを返す. <a href="#fnref:MinNodeOfPath-1">↩</a></p>
+</li><li id="fn:myimpression">
+<p>個人の感想です. <a href="#fnref:myimpression-1">↩</a></p>
+</li></ol></div></article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/%E3%83%95%E3%83%AD%E3%83%BC.html">フロー (4)</a></div>
+          <div class='tag'><a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81.html">最大流 (3)</a></div>
+      </footer>
     </main>
   </body>
 </html>

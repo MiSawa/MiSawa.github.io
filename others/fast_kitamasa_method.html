@@ -2,77 +2,68 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>高速 Kitamasa 法 - みさわめも</title>
-<meta name="description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
-<meta itemprop="name" content="高速 Kitamasa 法" />
-<meta itemprop="description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="高速 Kitamasa 法" />
-<meta name="twitter:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="高速 Kitamasa 法" />
-<meta property="og:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>高速 Kitamasa 法 - みさわめも</title>
 
-    <link href="../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="高速 Kitamasa 法" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="高速 Kitamasa 法" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="高速 Kitamasa 法" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta itemprop="description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
+    <meta name="description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
+    <meta name="twitter:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
+    <meta property="og:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
+    
   </head>
-
-  <body class='others others_fast_kitamasa_method'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -90,388 +81,226 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../index.html">Top</a> </li>
-            <li> <a href="../contests.html">Contests</a> </li>
-            <li> <a href="index.html">Articles</a> </li>
-            <li> <a href="../tags/index.html">Tags</a> </li>
-            <li> <a href="../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-            <div style="display:none">`$$
+      <article><div style="display:none">$$
 \gdef\seq#1{\left(\,#1\,\right)}
 \gdef\pos#1#2{\stackrel{#1}{\stackrel{\smile}{#2}}}
-$$`</div>
-
+$$</div>
 <h1>高速 Kitamasa 法</h1>
-
 <h2>要約</h2>
-
 <ul>
-  <li>
-    <p>$k$ 階の線型漸化式 (フィボナッチ数列とか) の $N$ 項目を高速に求める.</p>
-  </li>
-  <li>
-    <p>競技プログラミング界隈で Kitamasa 法と呼ばれているやつは, 多項式の冪剰余.</p>
-  </li>
-  <li>
-    <p>高速多項式剰余で殴れば, $O(k \log k \log n)$.</p>
-  </li>
-  <li>
-    <p>実装だけしたいなら, 一番下の擬似コードを見るといいかも.</p>
-  </li>
-  <li>
-    <p>誤字脱字, ミス, ここがわからんとか, もっと綺麗な方法があれば, 教えて下さい.</p>
-  </li>
+<li>
+<p>$k$ 階の線型漸化式 (フィボナッチ数列とか) の $N$ 項目を高速に求める.</p>
+</li>
+<li>
+<p>競技プログラミング界隈で Kitamasa 法と呼ばれているやつは, 多項式の冪剰余.</p>
+</li>
+<li>
+<p>高速多項式剰余で殴れば, $O(k \log k \log n)$.</p>
+</li>
+<li>
+<p>実装だけしたいなら, 一番下の擬似コードを見るといいかも.</p>
+</li>
+<li>
+<p>誤字脱字, ミス, ここがわからんとか, もっと綺麗な方法があれば, 教えて下さい.</p>
+</li>
 </ul>
-
 <h2>イントロ</h2>
-
 <p>初めの $k$ 項 $a_0, \dots, a_{k-1}$ と, $k$ 階線型漸化式
 $$a_{n+k} = c_1 a_{n+k-1} + \dots + c_k a_{n}, \quad \forall n \ge 0$$
 によって定まる数列 $a = \seq{a_n}_{n=0}^{\infty}$ を考える.</p>
-
-<p>$a_{n+k} = c_1 a_{n+k-1} + \dots + c_k a_{n} + d$ のような &quot;定数項&quot; がついている漸化式については,
+<p>$a_{n+k} = c_1 a_{n+k-1} + \dots + c_k a_{n} + d$ のような "定数項" がついている漸化式については,
 $$a_{n+k+1} - a_{n+k} = c_1 (a_{n+k} - a_{n+k-1}) + \dots + c_k (a_{n+1} - a_n) $$
 のように差分を取り, 左辺の $a_{n+k}$ を移項することで, $k+1$ 階の線型漸化式に帰着出来ることを Remark しておく.
-&quot;$n$ の多項式&quot; がついている漸化式についても同様.</p>
-
+"$n$ の多項式" がついている漸化式についても同様.</p>
 <p>この記事での目標は, 数列 $a$ の $N$ 項目 $a_N$ を高速に求めることである.</p>
-
 <p>まずは, 競技プログラミング界隈では, <a href="http://d.hatena.ne.jp/wata_orz/20090922/1253615708">Kitamasa 法</a> などとして知られており, コンパニオン行列の冪乗を計算するのと実質的にはほぼ同じと思われるアルゴリズムについて復習し, その後高速化する.
 コンパニオン行列の冪乗については, <a href="https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf">前原さんの解説</a> を参照するとよい.</p>
-
 <p>Kitamasa 法, コンパニオン行列の冪乗を求める手法はいずれも $O(k^2 \log N)$ である.</p>
-
 <p>コンパニオン行列の冪乗を陽に求めると, 行列の要素数である $O(k^2)$ が不可避であるが, 陽には求めていない Kitamasa 法を高速化すると, $O(k \log k \log N)$ 程度に落とすことが出来る.</p>
-
 <p>ここで解説するアルゴリズムは, 結局ただの多項式剰余算であるから, 高速な多項式剰余算を知っていれば, それを思い出せばよい.</p>
-
 <p>多項式剰余では, 通常, 係数を逆順にした多項式での Montgomery 剰余算のようなことをするが, これをそのまま多項式の言葉で書いても, 今回の目的から離れすぎて, 直感的に意味が解りづらい.
 このページでは, 基本的に数列の言葉に翻訳して書くことにした.
 多項式の言葉との対応も少し書いておいたが, そこは読み飛ばしてもよい.</p>
-
-<p>また, 基本的に &quot;斉次&quot; にしている. すなわち, 和を取っている所は, 大抵添字の和が不変であるようにしている.
-そのため, 添字がたまにややこしいことになっているが, ざっと読むなら, &quot;添字がどちら向きに動いているか&quot; だけ追っていれば, だいたい理解出来ると思う.</p>
-
+<p>また, 基本的に "斉次" にしている. すなわち, 和を取っている所は, 大抵添字の和が不変であるようにしている.
+そのため, 添字がたまにややこしいことになっているが, ざっと読むなら, "添字がどちら向きに動いているか" だけ追っていれば, だいたい理解出来ると思う.</p>
 <h2>準備</h2>
-
 <h4>仮定と記法</h4>
 <p>以後, 数列の各要素は, 一つ固定した単位元付きの可換環の元で,
 二つの数列 $a = \seq{a_i}_{i=0}^{\infty},\ b = \seq{b_i}_{i=0}^{\infty}$ に対し,
 $$c_n = \sum_{i=0}^{n} a_{i} b_{n-i}$$
 で定まる数列 $c = \seq{c_i}_{i=0}^{\infty}$ を高速に ($n$ 項目までを $O(n \log n)$ で) 計算できるものとする.
 この $c$ を $a$ と $b$ の畳込み (convolution) と呼び, $a * b$ で表す.</p>
-
 <p>要するに, FFT 的なのが出来れば充分.</p>
-
 <p>また, $a_i$ 達を表すのに充分な精度の計算が $O(1)$ でできるものとしておく.</p>
-
-<p>これらの仮定は, 例えば &quot;$a_N \bmod M$ を求める&quot; といった状況にマッチしている.
+<p>これらの仮定は, 例えば "$a_N \bmod M$ を求める" といった状況にマッチしている.
 一般の法だと畳込みがキツいと思うかもしれないが, FFT 出来るいくつかの整数を法として畳み込みを計算した後, 中国式剰余定理で戻せばよい.
 これについては, 余談の所に少しだけ補足した.</p>
-
 <p>簡単のため, 有限数列は, 定義外の index では $0$ になるものとしておく.</p>
-
 <p>それから, 例えば $a = (*, \dots, *, \pos{l}{1}, 0, \dots, 0, \pos{r}{1})$ で, $a_l = a_r = 1$ で, $l < i < r$ なる $i$ に対しては $a_i = 0$ であるような, 有限 ($a_r$ までしか定義されていない) 数列を表すことにする.</p>
-
-<p>また, &quot;$n$ 項目&quot; というときは, index が $n$ であるものを表す (i.e. $0$-origin) とし, $a_n$ や $(a*b)_n$ で, それぞれ $a$, $a*b$ の $n$ 項目を表すものとする.</p>
-
+<p>また, "$n$ 項目" というときは, index が $n$ であるものを表す (i.e. $0$-origin) とし, $a_n$ や $(a*b)_n$ で, それぞれ $a$, $a*b$ の $n$ 項目を表すものとする.</p>
 <p>さらに, $\seq{a_i}_{i=l}^{r}$ や $\seq{a}_{l}^{r}$ で, $\seq{a_l, a_{l+1}, \dots, a_r}$ なる数列を表すことにする.</p>
-
 <h4>畳込みの基本的な性質</h4>
 <p>$a = \seq{a_i}_{i=0}^{\infty},\ b = \seq{b_i}_{i=0}^{\infty}$ を考えよう.</p>
-
 <p>$(a*b)_n = \sum_{i+j = n} a_i b_j$
 であるから, これは $\seq{a}_{0}^{n}$, $\seq{b}_{0}^{n}$ のみに依存する.
 よって, 畳込みの $n$ 項目までのみを考えるときは, $a$ と $b$ も $n$ 項目までのみを考えればよい.</p>
-
 <p>また, 反転の畳込みは畳み込みの反転である.
 ちゃんと言うと, 有限数列 $\seq{a}_{0}^{n},\ \seq{b}_{0}^{m}$ に対し, $c = a*b$ とすると, $\operatorname{rev}_{n+m}(c) = \operatorname{rev}_n(a) * \operatorname{rev}_m(b)$ である.
 ここで, $\operatorname{rev}_k(x)$ は, $\operatorname{rev_k}(x)_i = x_{k-i}$ なる数列である.</p>
-
 <p>上の二つをあわせれば, 二つの有限数列の畳込みの最後の $n$ 項を見たければ, 元の数列の最後の $n$ 項しか要らないことがわかる.</p>
-
 <p>また, $(a * b) * c = a * (b * c)$ や, $(a + b) * c = (a * c) + (b * c)$ なども成り立つ.
 ただし, $a + b$ は要素ごとの和を表す.</p>
-
 <h2>Kitamasa 法</h2>
-
 <p>各項 $a_m$ は, 漸化式
 $$ a_{n+k} = c_1 a_{n+k-1} + \dots + c_k a_{n} $$
 を $n = m-k, \dots, 0$ の順で適用することで,
 $$ a_m = \sum_{i=0}^{k-1} b_{m,k-1-i} a_i $$
 と, $a_0, \dots, a_{k-1}$ の線型結合で書ける.
 この係数 $b_m = \seq{b_{m,i}}_{i=0}^{k-1}$ をより高速に求めるのが, やりたいことである.</p>
-
 <p>$b_{m,0}, \dots, b_{m,k-1}$ は初項 $a_0, \dots, a_{k-1}$ に依らないから, 初項が $a_n, \dots, a_{n+k-1}$ であると思えば,
 $$ a_{n+m} = \sum_{i=0}^{k-1} b_{m,k-1-i} a_{n+i} $$
 になる.</p>
-
 <p>$n=1$ とすれば, $ a_{m+1} = \sum_{i=0}^{k-1} b_{m, k-1-i} a_{1+i} $ と, $a_{m+1}$ を $a_1, \dots, a_k$ の線型結合で書ける.
 ここで, 漸化式を $n=0$ で用い, $a_k$ を消去すれば, $a_{m+1} = \sum_{i=0}^{k-1} b_{m+1, k-1-i} a_i$ のように, $b_{m+1}$ を $O(k)$ で求められる.</p>
-
 <p>一方, $n = m$ とすれば,
-$$\begin{aligned}
-a_{2m}
-&= \sum_{i=0}^{k-1} b_{m,k-1-i} a_{m+i} \\
-&= \sum_{i=0}^{k-1} b_{m,k-1-i} \sum_{j=0}^{k-1} b_{m,k-j-1} a_{i+j} \\
-&= \sum_{s=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} b_{m,i} b_{m,j} \\
-&= \sum_{s=0}^{2k-2} a_{s} (b_m * b_m)_{2k-2-s}
-\end{aligned}$$
+$$\begin{aligned} a_{2m} &= \sum_{i=0}^{k-1} b_{m,k-1-i} a_{m+i} \\ &= \sum_{i=0}^{k-1} b_{m,k-1-i} \sum_{j=0}^{k-1} b_{m,k-j-1} a_{i+j} \\ &= \sum_{s=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} b_{m,i} b_{m,j} \\ &= \sum_{s=0}^{2k-2} a_{s} (b_m * b_m)_{2k-2-s} \end{aligned}$$
 となる.
 この $b_m$ と $b_m$ の畳込みを $\beta$ とおく.
 これは, ナイーブには $O(k^2)$ で実現可能である. $O(k \log k)$ で計算できることを仮定していたが, これは漸化式が疎である場合に, 高速化に繋がる.</p>
-
 <p>これで, $a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s}$ と, $a_{2m}$ を $a_{0}, \dots, a_{2k-2}$ の線型結合で表せた.
 あとは, 再び漸化式を $n = k-2, \dots, 0$ で用い, $a_{2k-2}, \dots, a_k$ を消去すれば, $a_{2m} = \sum_{i=0}^{k-1} a_i b_{2m, k-1-i}$ と, $b_{2m}$ が $O(k^2)$, 漸化式が疎な場合は $O(k)$ で求まる.</p>
-
 <p>あとは, 繰り返し自乗法を用いれば, $\seq{b_{N,i}}_{i=0}^{k-1}$ を $O(k^2 \log N)$, 漸化式が疎な場合は $O(k \log k \log N)$ で計算できる.</p>
-
 <h2>Kitamasa 法と多項式剰余</h2>
-
 <p>Kitamasa 法は, 本質的には多項式剰余である.</p>
-
 <p>$c_0 = -1$ として $c$ を拡張すると, 漸化式は
 $$\sum_{i=0}^{k} c_{k-i} a_{n+i} = 0,\quad \forall n \ge 0$$
 と表せる.</p>
-
 <p>さて, $t$ を不定元とし,
-$$\begin{aligned}
-g(t)
-&= \sum_{i=0}^k c_{k-i} t^i \\
-&= -t^k + c_1 t^{k-1} + \dots + c_k t^0
-\end{aligned}$$
+$$\begin{aligned} g(t) &= \sum_{i=0}^k c_{k-i} t^i \\ &= -t^k + c_1 t^{k-1} + \dots + c_k t^0 \end{aligned}$$
 なる多項式 (符号を逆にした $-g(t)$ は特性多項式と呼ばれる) を考えよう.</p>
-
 <p>$g(t)$ による剰余をとることは,
-&quot;$t^{n+k}$ を $\sum_{i=0}^{k-1} c_{k-1-i} t^{n+i}$ で置き換えろ&quot;
+"$t^{n+k}$ を $\sum_{i=0}^{k-1} c_{k-1-i} t^{n+i}$ で置き換えろ"
 という変換規則を用いて, $k-1$ 次以下の多項式にすることである.</p>
-
-<p>これは, ちょうど &quot;$a_{n+k}$ を $\sum_{i=0}^{k-1} c_{k-1-i} a_{n+i}$ で置き換えろ&quot; という変換規則と同一視できる.
+<p>これは, ちょうど "$a_{n+k}$ を $\sum_{i=0}^{k-1} c_{k-1-i} a_{n+i}$ で置き換えろ" という変換規則と同一視できる.
 従って, $a_N$ を求めることは, $t^N$ の $g(t)$ による剰余を求めることと等価である.</p>
-
 <p>Kitamasa 法は, $t^N \bmod g(t)$ を繰り返し自乗法とナイーブな剰余算で求めているアルゴリズムであるとみなせる.
 実際, $\beta$ から $b_{2m}$ を求めている部分を見れば, 多項式剰余算そのものであるというのがよくわかるだろう.</p>
-
 <h2>高速 Kitamasa 法</h2>
-
 <p>高速な多項式除算を, 数列の言葉で言い換えて紹介する.</p>
-
 <p>$\seq{c_i}_{i=0}^{k}$ に対し, $\seq{c'_i}_{i=0}^k$ を,
-$$
-c * c' = (-1, 0, \dots, \pos{k}{0}, *, \dots, \pos{2k}{*})
-$$
+$$ c * c' = (-1, 0, \dots, \pos{k}{0}, *, \dots, \pos{2k}{*}) $$
 なる数列とする.
 実は, この $c'$ は, $a_{2k}$ を多項式剰余で求めるときの商を表しており, $c * c'$ の $k+1$ 項目以降の部分は $b_{2k}$ を表している.</p>
-
-<p>多項式の言葉でいうと, $-c'$ は, $g(t)$ の係数を逆順にした多項式 $g(1/t)t^k$ の &quot;逆多項式&quot; の近似である.
+<p>多項式の言葉でいうと, $-c'$ は, $g(t)$ の係数を逆順にした多項式 $g(1/t)t^k$ の "逆多項式" の近似である.
 この $c'$ を用いて, 多項式環上の Montgomery 剰余算のようなものをするのが, 今回紹介するアルゴリズムである.</p>
-
 <p>この $c'$ の計算方法は後で紹介することにして, 今は, 既に求めたものとして話を進めよう.</p>
-
 <p>Kitamasa 法のボトルネックは,
-$$\begin{aligned}
-a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s} \tag{eq:A}
-\end{aligned}$$
+$$\begin{aligned} a_{2m} = \sum_{s=0}^{2k-2} a_{s} \beta_{2k-2-s} \tag{eq:A} \end{aligned}$$
 の形から, $a_{2m} = \sum_{i=0}^{k-1} a_i b_{2m, k-1-i}$ となるような $b_{2m}$ を求める部分であった.</p>
-
 <p>一方, 漸化式は,
 $$\sum_{i=0}^{k} c_{k-i} a_{n+i} = 0,\quad \forall n \ge 0$$
 の形である.</p>
-
 <p>この式を, $n = j,\ 0 \le j \le k-2$ に対して, 具体的な値は後に決める $q_{k-2-j}$ 倍して足し合わせると,
-$$\begin{aligned}
-0
-&= \sum_{j=0}^{k-2} q_{k-2-j} \sum_{i=0}^{k} c_{k-i} a_{j+i} \\
-&= \sum_{j=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} q_i c_j \\
-&= \sum_{j=0}^{2k-2} a_{s} (q * c)_{2k-2-s} \tag{eq:B}
-\end{aligned}$$
+$$\begin{aligned} 0 &= \sum_{j=0}^{k-2} q_{k-2-j} \sum_{i=0}^{k} c_{k-i} a_{j+i} \\ &= \sum_{j=0}^{2k-2} a_{s} \sum_{i+j = 2k-2-s} q_i c_j \\ &= \sum_{j=0}^{2k-2} a_{s} (q * c)_{2k-2-s} \tag{eq:B} \end{aligned}$$
 となる.</p>
-
-<p>この $\seq{q}_{0}^{k-2}$ が, 式 $\text{eq:A}$ の &quot;剰余算&quot; 操作の &quot;商&quot; になるように取る.
+<p>この $\seq{q}_{0}^{k-2}$ が, 式 $\text{eq:A}$ の "剰余算" 操作の "商" になるように取る.
 すなわち, $\beta$ から $b_{2m}$ を求める際の係数になるように取る.
 すると, 式 $(\text{eq:A})$ と $(\text{eq:B})$ の差は
-$$
-(\text{eq:A}) - (\text{eq:B}) = \sum_{s=0}^{k-1} a_s r_{2k-2-s}
-$$
+$$ (\text{eq:A}) - (\text{eq:B}) = \sum_{s=0}^{k-1} a_s r_{2k-2-s} $$
 と $a_k$ 以降がキャンセルし,
 $r = (0, \dots, 0, r_{k-1}, \dots, r_{2k-2}) = (0, \dots, 0, b_{2m, 0}, \dots, b_{2m, k-1})$
 となる.</p>
-
 <p>ここで, 式 $(\text{eq:A})$ の $a$ の係数列と, $c'$ の畳込みの $k-2$ 項目までを見ると,
-$$\begin{aligned}
-\seq{c' * \beta}_{0}^{k-2}
-&= \seq{c' * (r + (q * c))}_{0}^{k-2} \\
-&= \seq{c' * r + q * (c * c')}_{0}^{k-2} \\
-&= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\
-&\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2}
-\end{aligned}$$
+$$\begin{aligned} \seq{c' * \beta}_{0}^{k-2} &= \seq{c' * (r + (q * c))}_{0}^{k-2} \\ &= \seq{c' * r + q * (c * c')}_{0}^{k-2} \\ &= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\ &\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2} \end{aligned}$$
 となるが, 畳込みの $k-2$ 項目までを求めるには $k-2$ 項目までしか必要無いことを考えれば,
-$$\begin{aligned}
-\seq{c' * \beta}_{0}^{k-2}
-&= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\
-&\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2} \\
-&= 0 - \seq{q}_{0}^{k-2} \\
-&= - \seq{q}_{0}^{k-2}
-\end{aligned}$$
+$$\begin{aligned} \seq{c' * \beta}_{0}^{k-2} &= \seq{c' * (0, \dots, 0, r_{k-1}, \dots, r_{2k-2})}_{0}^{k-2} \\ &\quad + \seq{q * (-1, 0, \dots, \pos{k}{0}, *, \dots, *)}_{0}^{k-2} \\ &= 0 - \seq{q}_{0}^{k-2} \\ &= - \seq{q}_{0}^{k-2} \end{aligned}$$
 となり, $q$ を復元することが出来る.</p>
-
 <p>これを使えば,
-$$\begin{aligned}
-r
-&= \beta - q * c \\
-&= \beta + c * \seq{c' * \beta}_{0}^{k-2}
-\end{aligned}$$
+$$\begin{aligned} r &= \beta - q * c \\ &= \beta + c * \seq{c' * \beta}_{0}^{k-2} \end{aligned}$$
 と, $r$, 従って $b_{2m}$ を求めることが出来る.</p>
-
 <p>あとは, 通常の Kitamasa 法と同様である.</p>
-
 <h2>$c'$ の計算</h2>
-
 <p>残ったのは, $c'$ の計算である.</p>
-
 <p>もう一度書いておくと,
 $c_0 = -1$ なる $\seq{c_i}_{i=0}^{k}$ に対し, $\seq{c'_i}_{i=0}^k$ を,
-$$
-c * c' = (-1, 0, \dots, \pos{k}{0}, *, \dots, \pos{2k}{*})
-$$
+$$ c * c' = (-1, 0, \dots, \pos{k}{0}, *, \dots, \pos{2k}{*}) $$
 なるものとして取ろうという話であった.</p>
-
 <p>これを求めるのには, ニュートン法を用いる.</p>
-
-<p>$$\begin{aligned}
-c * c'
-&= (-1, 0, \dots, 0, \pos{t}{*}, *, \dots ) \\
-&= (-1, 0, \dots) + \gamma
-\end{aligned}$$
+<p>$$\begin{aligned} c * c' &= (-1, 0, \dots, 0, \pos{t}{*}, *, \dots ) \\ &= (-1, 0, \dots) + \gamma \end{aligned}$$
 となる $c'$ が求まっているとしよう.
 従って, $i < t$ に対しては $\gamma_i = 0$ である.
 もちろん, $c' = (1, 0, \dots)$ はこれを $t = 1$ で満たすので, 初期値としてこれを取れる.</p>
-
 <p>すると,
-$$\begin{aligned}
-c * c' * \left( (2, 0, \dots ) + c * c' \right)
-&= c * c' * \left( (1, 0, \dots ) + \gamma \right) \\
-&=  \left( (-1, 0, \dots ) + \gamma \right) * \left( (1, 0, \dots ) + \gamma \right) \\
-&= (-1, 0, \dots) * (1, 0, \dots) + \gamma * \gamma \\
-&\quad + (-1, 0, \dots) * \gamma + ( 1, 0, \dots) * \gamma \\
-&= (-1, 0, \dots) + \gamma * \gamma
-\end{aligned}$$
-となるが, $\gamma * \gamma$ は $(0, \dots, 0, \pos{2t}{*}, *, \dots)$ の形をしているから, $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ の変換で &quot;精度&quot; が倍に増えたことになる.</p>
-
+$$\begin{aligned} c * c' * \left( (2, 0, \dots ) + c * c' \right) &= c * c' * \left( (1, 0, \dots ) + \gamma \right) \\ &=  \left( (-1, 0, \dots ) + \gamma \right) * \left( (1, 0, \dots ) + \gamma \right) \\ &= (-1, 0, \dots) * (1, 0, \dots) + \gamma * \gamma \\ &\quad + (-1, 0, \dots) * \gamma + ( 1, 0, \dots) * \gamma \\ &= (-1, 0, \dots) + \gamma * \gamma \end{aligned}$$
+となるが, $\gamma * \gamma$ は $(0, \dots, 0, \pos{2t}{*}, *, \dots)$ の形をしているから, $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ の変換で "精度" が倍に増えたことになる.</p>
 <p>また, この計算中, $c$ は $2t-1$ までしか見なくてよく, 変換後の $c'$ も $2t-1$ より後ろを削ってよい.</p>
-
 <p>これを用いて $t > k$ となるまで計算し, その時点での $c'$ の $k$ 項目までを取れば, これが欲しかった $c'$ である.</p>
-
 <p>必要な計算量は, 長さ $O(t)$ の畳込みを $t = 2^i \le 2k$ でやるので, 結局 $O(k \log k)$ で済む.</p>
-
 <h2>余談</h2>
-
 <p>以下, 余談なので, 雑に書く.</p>
-
 <h4>$\operatorname{mod} M$</h4>
-
 <p>今回のアルゴリズムを $\operatorname{mod} M$ で適用するには, $\Z / M \Z$ で畳込みをしたい.</p>
-
 <p>最小非負剰余を取っておき, 各要素が $0, \dots, M-1$ な, 長さ $n$ の二つの整数列 $a, b$ を畳み込むことを考える.
 $\Z$ での畳込みの結果は, 各要素高々 $n M^2$ である.</p>
-
 <p>普通の DFT が可能ないくつかの素数 $\{ p_i \}$ を取ろう.
 このそれぞれについて $a * b \bmod p_i$ を計算すれば, 中国式剰余定理から $a * b \bmod \prod p_i$ がわかる.
 従って, $\prod p_i > n M^2$ なるように取っておけば, $a*b$ そのものが復元出来るから, $a * b \bmod M$ がわかる.</p>
-
 <p>実際は, 中国式剰余定理を用いて $a$ を復元した後 $M$ での剰余を取るのではなく,
 $M$ での剰余を取りつつ復元することができる.
 これについては, 関連問題にも挙げたが, <a href="http://yukicoder.me/problems/448">yukicoder No.187 中華風 (Hard)</a> を解いてみるとよい.</p>
-
 <h4>畳込みの中間結果と DFT 後の世界</h4>
-
 <p>畳込みに DFT を用いる場合, 例えば
 $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ は,
 の計算では, $c'$ の DFT は一回だけ計算し, 使い回すべきである.</p>
-
 <p>また, 多項式剰余を取る際, $c$, $c'$ との畳込みを使うが, これを $O(\log N)$ 回用いるので, やはり DFT を使い回すべきである.</p>
-
 <p>また, 長さを多め (この場合 $3t$ 程度) に取っておけば, $\seq{(a*b)*c}_{0}^{t}$ のようなものを, $a, b, c$ を DFT した後, 要素ごとに積を取り, 逆 DFT することで, DFT 4 回で計算出来る.</p>
-
 <p>$(2, 0, \dots)$ の DFT が $(2, 2, \dots)$ であることなどを使えば, $c' \mapsto c' * \left( (2, 0, \dots) + c * c' \right)$ の計算は DFT 後の世界でできる.</p>
-
 <p>もちろん, 各ループでDFT 前の世界に戻って切り捨てる操作を挟まず, 全て DFT 後の世界で考えることもできる.
 実際に DFT 後の世界で式を立ててみると, 非常に綺麗な式になる.
 式は綺麗なのだが, 残念ながら, これだと必要な長さが $\Omega(k^2)$ くらいになるはず.</p>
-
 <p>また, 計算量の解析では $c$ は $O(t)$ 項目まで用いることにしていたが,
 精度を長く取り, 常に $k$ 項目まで見ることにすれば, 計算量の意味では遅くなる ( $c'$ を求めるのに $O(k \log k)$ ではなく $O(k (\log k)^2)$ かかる) が, DFT を使いまわせるので定数倍は軽くなり, 速くなる可能性がある.</p>
-
 <h4>前計算</h4>
-
 <p>Kitamasa 法で出てきた基本的な等式は, $b_{2m} = b_{m} * b_{m} \bmod c$ のようなものであったが, もう少し一般に, $b_{m+n} = b_{m} * b_{n} \bmod c$ も成り立つ.</p>
-
 <p>これを用いると, $b_{2^i}$ を各 $i$ で求めておけば, それらのうち $N$ で立っているビットの部分だけを使って $b_N$ を計算できる.</p>
-
 <p>この方法だと, 前計算は $N$ のビット数程度の畳込みと剰余算, 各クエリ $N$ の立っているビットの数くらいの畳込みと剰余算になる.</p>
-
 <p>一方, 通常の Kitamasa 法では, $N$ のビット数くらいの自分自身との畳込みと剰余算と, $N$ の立っているビット数くらいの $O(k)$ での自明な剰余算になる.
 クエリ系でない場合は, こちらの方が実用上速いと思われる.</p>
-
 <h4>応用</h4>
-
 <p>ここまで書いたように, 線型漸化式の $n$ 項目を求めることは, 多項式除算をすることである.
 これは, 例えば一般項の導出にも役立つことがある.</p>
-
 <p>生きていると年に一回くらいは求めるし, 飽きているかもしれないが,
 いまいちど, 多項式除算を用いてフィボナッチ数 $\seq{F}_{0}^{\infty}$ の一般項を求めてみよう.
 但し, ここでは, $F = (0, 1, 1, 2, 3, 5, \dots)$ と, $F_0 = 0$ にしておく.</p>
-
 <p>$c = (-1, 1, 1)$ であるから, $\phi = (1 + \sqrt{5}) / 2$ とすれば,
-$$\begin{aligned}
-g(t)
-&= -t^2 + t + 1 \\
-&= - \left(t - (1 + \sqrt{5}) / 2\right) \left(t - (1 - \sqrt{5}) / 2\right) \\
-&= - (t - \phi)(t + \phi^{-1}) \\
-\end{aligned}$$
+$$\begin{aligned} g(t) &= -t^2 + t + 1 \\ &= - \left(t - (1 + \sqrt{5}) / 2\right) \left(t - (1 - \sqrt{5}) / 2\right) \\ &= - (t - \phi)(t + \phi^{-1}) \\ \end{aligned}$$
 となる.</p>
-
 <p>求めたいのは $t^n \bmod g(t)$,
 すなわち,
 $$ r(t) + q(t) g(t) = t^n,\ \deg r < 2 $$
 となるような $r$ であった.</p>
-
 <p>$g(\phi) = g(-\phi^{-1}) = 0$ であることに注意すると,
-$$\begin{aligned}
-r(\phi) &= \phi^n, \\
-r(-\phi^{-1}) &= (-\phi^{-1})^n = (-\phi)^{-n}
-\end{aligned}$$
+$$\begin{aligned} r(\phi) &= \phi^n, \\ r(-\phi^{-1}) &= (-\phi^{-1})^n = (-\phi)^{-n} \end{aligned}$$
 である.
 これを用いてラグランジュ補完すれば,
-$$\begin{aligned}
-r(t)
-&= \phi^n \frac{t + \phi^{-1}}{\phi + \phi^{-1}}
-+(-\phi)^{-n} \frac{t - \phi}{-\phi^{-1} - \phi} \\
-&= \frac{\phi^n (t + \phi^{-1}) - (-\phi)^{-n} (t - \phi)}{\phi + \phi^{-1}} \\
-&= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}t + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}}
-\end{aligned}$$
+$$\begin{aligned} r(t) &= \phi^n \frac{t + \phi^{-1}}{\phi + \phi^{-1}} +(-\phi)^{-n} \frac{t - \phi}{-\phi^{-1} - \phi} \\ &= \frac{\phi^n (t + \phi^{-1}) - (-\phi)^{-n} (t - \phi)}{\phi + \phi^{-1}} \\ &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}t + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}} \end{aligned}$$
 と, $r(t)$ を復元できる.
 従って,
-$$\begin{aligned}
-F_n
-&= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}} F_1 + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}} F_0 \\
-&= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}}
-\end{aligned}$$
+$$\begin{aligned} F_n &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}} F_1 + \frac{\phi^{n-1} - (-\phi)^{-n+1}}{\sqrt{5}} F_0 \\ &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}} \end{aligned}$$
 と, 一般項が求まった.</p>
-
 <h2>擬似コード</h2>
-
 <p>最後に, 擬似コードを載せておく.</p>
-
 <p>メインルーチンは, 次のような感じ.
 $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
-
-<div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -483,24 +312,21 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 10
 11
 12
-13
-</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># b[k-1] = 1
-</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">min</span><span class="p">{</span> <span class="n">i</span> <span class="o">|</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="p">},</span> <span class="p">...,</span> <span class="mi">0</span> <span class="c1"># デクリメントしながら
-</span>        <span class="n">b</span> <span class="o">=</span> <span class="n">multiply_mod</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">i</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="c1"># n の i ビット目が 1
-</span>            <span class="c1"># b = multiply_mod(b, [0, ..., 0, 1, 0] ) を愚直にやる
-</span>            <span class="n">b</span> <span class="o">-=</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">c</span>  <span class="c1"># c[0] = -1 なので b += b[0] * c としてよい.
-</span>            <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">...,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">result</span>
-</pre></td></tr></tbody></table></code></pre></div>
+13</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">def </span><span style="color:#f8f8f8;">calc</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">n</span><span style="color:#ffffff;">)
+</span><span style="color:#ffffff;">    b </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">] </span><span style="background-color:#212121;color:#7c7c7c;"># b[k-1] = 1
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">i </span><span style="color:#66ccff;">in </span><span style="color:#dad085;">min</span><span style="color:#ffffff;">{ i </span><span style="color:#aaaaaa;">| </span><span style="color:#dad085;">pow</span><span style="color:#ffffff;">(</span><span style="font-weight:bold;color:#ff73fd;">2</span><span style="color:#ffffff;">, i) </span><span style="color:#aaaaaa;">&gt;= </span><span style="color:#ffffff;">n }, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0 </span><span style="background-color:#212121;color:#7c7c7c;"># デクリメントしながら
+</span><span style="color:#ffffff;">        b </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">multiply_mod</span><span style="color:#ffffff;">(b, b)
+</span><span style="color:#ffffff;">        </span><span style="color:#66ccff;">if </span><span style="color:#ffffff;">(n </span><span style="color:#aaaaaa;">&gt;&gt; </span><span style="color:#ffffff;">i </span><span style="color:#aaaaaa;">&amp; </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">) </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">1 </span><span style="background-color:#212121;color:#7c7c7c;"># n の i ビット目が 1
+</span><span style="color:#ffffff;">            </span><span style="background-color:#212121;color:#7c7c7c;"># b = multiply_mod(b, [0, ..., 0, 1, 0] ) を愚直にやる
+</span><span style="color:#ffffff;">            b </span><span style="color:#aaaaaa;">-= </span><span style="color:#ffffff;">(b[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">]</span><span style="color:#aaaaaa;">/</span><span style="color:#ffffff;">c[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">]) </span><span style="color:#aaaaaa;">* </span><span style="color:#ffffff;">c  </span><span style="background-color:#212121;color:#7c7c7c;"># c[0] = -1 なので b += b[0] * c としてよい.
+</span><span style="color:#ffffff;">            b </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">b[</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">
+</span><span style="color:#ffffff;">    result </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">0
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">i </span><span style="color:#66ccff;">in </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1
+</span><span style="color:#ffffff;">        result </span><span style="color:#aaaaaa;">+= </span><span style="color:#ffffff;">a[i] </span><span style="color:#aaaaaa;">* </span><span style="color:#ffffff;">b[k </span><span style="color:#aaaaaa;">- </span><span style="color:#ffffff;">i </span><span style="color:#aaaaaa;">- </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result</span></pre></td></tr></tbody></table></code></pre>
 <p>余談に書いた前計算をする場合は, 次のようなものを基本にする.</p>
-
-<div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -512,38 +338,32 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 10
 11
 12
-13
-</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># b[k-1] = 1
-</span>    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># x[k-2] = 1
-</span>    <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">multiply_mod</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">/=</span> <span class="mi">2</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">multiply_mod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="c1"># コイツをキャッシュしておく.
-</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">result</span>
-</pre></td></tr></tbody></table></code></pre></div>
+13</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">def </span><span style="color:#f8f8f8;">calc</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">n</span><span style="color:#ffffff;">)
+</span><span style="color:#ffffff;">    b </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">] </span><span style="background-color:#212121;color:#7c7c7c;"># b[k-1] = 1
+</span><span style="color:#ffffff;">    x </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="background-color:#212121;color:#7c7c7c;"># x[k-2] = 1
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">while </span><span style="color:#ffffff;">n </span><span style="color:#aaaaaa;">!= </span><span style="font-weight:bold;color:#ff73fd;">0
+</span><span style="color:#ffffff;">        </span><span style="color:#66ccff;">if </span><span style="color:#ffffff;">n </span><span style="color:#aaaaaa;">&amp; </span><span style="font-weight:bold;color:#ff73fd;">1 </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">1
+</span><span style="color:#ffffff;">            b </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">multiply_mod</span><span style="color:#ffffff;">(b, x)
+</span><span style="color:#ffffff;">        n </span><span style="color:#aaaaaa;">/= </span><span style="font-weight:bold;color:#ff73fd;">2
+</span><span style="color:#ffffff;">        x </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">multiply_mod</span><span style="color:#ffffff;">(x, x) </span><span style="background-color:#212121;color:#7c7c7c;"># コイツをキャッシュしておく.
+</span><span style="color:#ffffff;">
+</span><span style="color:#ffffff;">    result </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">0
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">i </span><span style="color:#66ccff;">in </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1
+</span><span style="color:#ffffff;">        result </span><span style="color:#aaaaaa;">+= </span><span style="color:#ffffff;">a[i] </span><span style="color:#aaaaaa;">* </span><span style="color:#ffffff;">b[k </span><span style="color:#aaaaaa;">- </span><span style="color:#ffffff;">i </span><span style="color:#aaaaaa;">- </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result</span></pre></td></tr></tbody></table></code></pre>
 <p>次に, $\mathrm{multiply\_mod}$ だが, これは式のまま.
 但し, $c'$ は $\mathrm{ic}$ と表記した.</p>
-
-<div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
-5
-</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">multiply_mod</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">convolute</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="n">convolute</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">ic</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">+</span> <span class="n">convolute</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">...,</span> <span class="mi">2</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-</pre></td></tr></tbody></table></code></pre></div>
+5</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">def </span><span style="color:#f8f8f8;">multiply_mod</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">a</span><span style="color:#ffffff;">, </span><span style="color:#c6c5fe;">b</span><span style="color:#ffffff;">)
+</span><span style="color:#ffffff;">    beta </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(a, b)
+</span><span style="color:#ffffff;">    q </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(beta, ic)[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">2</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">    result </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">beta </span><span style="color:#aaaaaa;">+ </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(c, q)
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result[k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, 2k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">2</span><span style="color:#ffffff;">]</span></pre></td></tr></tbody></table></code></pre>
 <p>最後に, $c'$ の計算も, 式のまま.</p>
-
-<div class="highlight"><pre class="highlight python"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -552,63 +372,40 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 7
 8
 9
-10
-</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">calc_ic</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="n">ic</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">k</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">current</span> <span class="o">=</span> <span class="n">convolute</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ic</span><span class="p">)</span>
-        <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">2</span>
-        <span class="n">ic</span> <span class="o">=</span> <span class="n">convolute</span><span class="p">(</span><span class="n">ic</span><span class="p">,</span> <span class="n">current</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">ic</span> <span class="o">=</span> <span class="n">ic</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">...,</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">ic</span>
-</pre></td></tr></tbody></table></code></pre></div>
+10</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">def </span><span style="color:#f8f8f8;">calc_ic</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">c</span><span style="color:#ffffff;">)
+</span><span style="color:#ffffff;">    ic </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">[</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">    t </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">while </span><span style="color:#ffffff;">t </span><span style="color:#aaaaaa;">&lt;= </span><span style="color:#ffffff;">k
+</span><span style="color:#ffffff;">        t </span><span style="color:#aaaaaa;">= </span><span style="color:#dad085;">min</span><span style="color:#ffffff;">(</span><span style="font-weight:bold;color:#ff73fd;">2 </span><span style="color:#aaaaaa;">* </span><span style="color:#ffffff;">t, k </span><span style="color:#aaaaaa;">+ </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">)
+</span><span style="color:#ffffff;">        current </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(c[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, t</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">], ic)
+</span><span style="color:#ffffff;">        current[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">+= </span><span style="font-weight:bold;color:#ff73fd;">2
+</span><span style="color:#ffffff;">        ic </span><span style="color:#aaaaaa;">= </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(ic, current[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, t</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">])
+</span><span style="color:#ffffff;">        ic </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">ic[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, t</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">ic</span></pre></td></tr></tbody></table></code></pre>
 <h2>参考文献</h2>
-
 <p>二冊の本は, 高速多項式除算の部分を参考にした.</p>
-
 <ol>
-  <li>
-    <p>R. Crandall, C. Pomerance, 和田秀男 監訳, &quot;素数全書: 計算からのアプローチ&quot;, 朝倉書店, 2010, ISBN978-4-254-11128-6.</p>
-  </li>
-  <li>
-    <p>J. von zur Gathen, J. Gerhard, 山本慎, 三好重明, 原正雄, 谷聖一, 衛藤和文 訳, &quot;コンピュータ代数ハンドブック&quot;, 朝倉書店, 2006, ISBN978-4-254-11106-4.</p>
-  </li>
-  <li>
-    <p>wata_orz, &quot;The First KMCMonthly Contest 解説&quot;, 2015/04/29 閲覧, <a href="http://d.hatena.ne.jp/wata_orz/20090922/1253615708">http://d.hatena.ne.jp/wata_orz/20090922/1253615708</a></p>
-  </li>
-  <li>
-    <p>Takanori MAEHARA, &quot;コンパニオン行列のべき乗&quot;, 2015/04/29 閲覧, <a href="https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf">https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf</a></p>
-  </li>
+<li>R. Crandall, C. Pomerance, 和田秀男 監訳, "素数全書: 計算からのアプローチ", 朝倉書店, 2010, ISBN978-4-254-11128-6.</li>
+<li>J. von zur Gathen, J. Gerhard, 山本慎, 三好重明, 原正雄, 谷聖一, 衛藤和文 訳, "コンピュータ代数ハンドブック", 朝倉書店, 2006, ISBN978-4-254-11106-4.</li>
+<li>wata_orz, "The First KMCMonthly Contest 解説", 2015/04/29 閲覧, <a href="http://d.hatena.ne.jp/wata_orz/20090922/1253615708">http://d.hatena.ne.jp/wata_orz/20090922/1253615708</a></li>
+<li>Takanori MAEHARA, "コンパニオン行列のべき乗", 2015/04/29 閲覧, <a href="https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf">https://dl.dropboxusercontent.com/u/109915284/companion20140318.pdf</a></li>
 </ol>
-
 <h2>関連問題</h2>
 <p>一つ目は, 一般の法で求めるための準備に.
 二つ目は $O(k^2 \log n)$ でも通る.
 三つ目は $O(k \log k \log n)$ が想定されているようである.</p>
-
 <ol>
-  <li>
-    <p><a href="http://yukicoder.me/problems/448">yukicoder No.187 中華風 (Hard)</a></p>
-  </li>
-  <li>
-    <p><a href="http://tdpc.contest.atcoder.jp/tasks/tdpc_fibonacci">Typical DP Contest T フィボナッチ</a></p>
-  </li>
-  <li>
-    <p><a href="http://www.codechef.com/problems/RNG">CODECHEF Random Number Generator</a></p>
-  </li>
+<li><a href="http://yukicoder.me/problems/448">yukicoder No.187 中華風 (Hard)</a></li>
+<li><a href="http://tdpc.contest.atcoder.jp/tasks/tdpc_fibonacci">Typical DP Contest T フィボナッチ</a></li>
+<li><a href="http://www.codechef.com/problems/RNG">CODECHEF Random Number Generator</a></li>
 </ol>
-
-
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../tags/数列.html">数列</a></div>
-              <div class='tag'><a href="../tags/多項式.html">多項式</a></div>
-              <div class='tag'><a href="../tags/kitamasa法.html">Kitamasa法</a></div>
-          </footer>
-      </article>
+</article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/%E6%95%B0%E5%88%97.html">数列 (1)</a></div>
+          <div class='tag'><a href="/tags/%E5%A4%9A%E9%A0%85%E5%BC%8F.html">多項式 (1)</a></div>
+          <div class='tag'><a href="/tags/Kitamasa%E6%B3%95.html">Kitamasa法 (1)</a></div>
+      </footer>
     </main>
   </body>
 </html>

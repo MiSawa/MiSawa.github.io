@@ -1,75 +1,65 @@
-
 <!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>TopCoder SRM652 Div1 Medium 500 MaliciousPath - みさわめも</title>
-<meta itemprop="name" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@Mi_Sawa" />
-<meta name="twitter:title" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
-<meta property="og:site_name" content="みさわめも" />
-<meta property="og:locale" content="ja_JP" />
-<meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>TopCoder SRM652 Div1 Medium 500 MaliciousPath - みさわめも</title>
 
-    <link href="../../stylesheets/normalize-672beeec.css" rel="stylesheet" /><link href="../../stylesheets/all-69f25411.css" rel="stylesheet" /><link href="../../stylesheets/rouge-1aec61e0.css" rel="stylesheet" />
+    <meta itemprop="name" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Mi_Sawa" />
+    <meta name="twitter:title" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
+    <meta name="twitter:creator" content="@Mi_Sawa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TopCoder SRM652 Div1 Medium 500 MaliciousPath" />
+    <meta property="og:site_name" content="みさわめも" />
+    <meta property="og:locale" content="ja_JP" />
+    <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
+    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    
     <script>
-  window.WebFontConfig = {
-    custom: {
-      families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
-        'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
-        'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
-        'KaTeX_Size4', 'KaTeX_Typewriter'],
-    },
-  };
-</script>
-<script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: "$$", right: "$$", display: true},
-        {left: "$", right: "$", display: false},
-        {left: "\\(", right: "\\)", display: false},
-        {left: "\\[", right: "\\]", display: true},
-      ],
-      macros: {
-        // '\\N': '{\\mathbb{N}}',
-        // '\\Z': '{\\mathbb{Z}}',
-        '\\Q': '{\\mathbb{Q}}',
-        // '\\R': '{\\mathbb{R}}',
-        '\\C': '{\\mathbb{C}}',
-        '\\divides': '{\\mid}',
-        '\\abs': '{\\left| #1 \\right|}',
-        '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
-        '\\setmid': '\\relmiddle|',
-        '\\set': '\\left\\{\\,#1\\,\\right\\}',
-      },
-    });
-  });
-</script>
-
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-25117970-3"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-25117970-3');
-        gtag('config', 'G-L8X6JXB71M');
-      </script>
+      window.WebFontConfig = {
+        custom: {
+          families: ['KaTeX_AMS', 'KaTeX_Caligraphic:n4,n7', 'KaTeX_Fraktur:n4,n7',
+            'KaTeX_Main:n4,n7,i4,i7', 'KaTeX_Math:i4,i7', 'KaTeX_Script',
+            'KaTeX_SansSerif:n4,n7,i4', 'KaTeX_Size1', 'KaTeX_Size2', 'KaTeX_Size3',
+            'KaTeX_Size4', 'KaTeX_Typewriter'],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "\\[", right: "\\]", display: true},
+          ],
+          macros: {
+            // '\\N': '{\\mathbb{N}}',
+            // '\\Z': '{\\mathbb{Z}}',
+            '\\Q': '{\\mathbb{Q}}',
+            // '\\R': '{\\mathbb{R}}',
+            '\\C': '{\\mathbb{C}}',
+            '\\divides': '{\\mid}',
+            '\\abs': '{\\left| #1 \\right|}',
+            '\\relmiddle': '\\mathrel{}\\middle#1\\mathrel{}',
+            '\\setmid': '\\relmiddle|',
+            '\\set': '\\left\\{\\,#1\\,\\right\\}',
+          },
+        });
+      });
+    </script>
+    
   </head>
-
-  <body class='topcoder topcoder_0652 topcoder_0652_MaliciousPath'>
+  <body>
     <header>
       <input id='nav-hamburger-checkbox' type='checkbox' />
       <label id='nav-hamburger-button' for='nav-hamburger-checkbox'>
@@ -87,62 +77,44 @@
       </label>
       <nav>
         <ul>
-            <li> <a href="../../index.html">Top</a> </li>
-            <li> <a href="../../contests.html">Contests</a> </li>
-            <li> <a href="../../others/index.html">Articles</a> </li>
-            <li> <a href="../../tags/index.html">Tags</a> </li>
-            <li> <a href="../../about.html">About</a> </li>
+            <li><a href="/index.html">Top</a></li>
+            <li><a href="/contests.html">Contests</a></li>
+            <li><a href="/others/index.html">Articles</a></li>
+            <li><a href="/tags/index.html">Tags</a></li>
+            <li><a href="/about.html">About</a></li>
       </nav>
     </header>
-
     <main>
-
-      <article>
-            <h2> TopCoder SRM652 Div1 Medium 500 MaliciousPath </h2>
-    <a href="http://community.topcoder.com/stat?c=problem_statement&amp;pm=13596&amp;rd=16316">問題文</a>
-    <h3>概要</h3>
-
+      <article><h2>TopCoder SRM652 Div1 Medium 500 MaliciousPath</h2>
+    <a href="http://community.topcoder.com/stat?c=problem_statement&pm=13596&rd=16316">問題文</a><h3>概要</h3>
 <p>$n$ 頂点の重み付き有向グラフ $G$ が与えられる.
 ここで, $G$ は多重辺や自己ループは許す, 全ての頂点の出次数が正なグラフである.
 Alice は頂点 $0$ から頂点 $n-1$ に行きたい.
 Bob はそれを邪魔したい.
 Alice は 1 ターンに一つ, 今居る場所から辺を辿って移動しようとする.
 Bob は $k$ 回までその移動を邪魔し, 指定した辺を辿らせる事が出来る.</p>
-
 <p>Bob の目標は, Alice に $n-1$ まで辿り着かせない事, それが不可能ならば, Alice の辿る辺のコストの和(同じ辺でも辿る度に加算)が最も大きくなるようにする事である.
 一方, Alice の目標は, $n-1$ まで辿り着く事, それが可能ならコストの和が最も小さくなるようにする事である.</p>
-
 <p>双方が最善を尽くした時のコストを求めよ.
 辿りつけなければ $-1$.</p>
-
 <h4>制約</h4>
-
 <p>$n = |V(G)| \le 10^3$, $|E(G)| \le 2.5 * 10^3$,
 $c(e) := \mathrm{cost}(e) \le 10^6$.</p>
-
 <h3>解法</h3>
 <p><code>long long</code> に注意.</p>
-
 <p>$H$ を $G$ の逆グラフとし,
 Alice が頂点 $u$ に居て, Bob が残り $k$ 回邪魔出来る時の結果を $\mathrm{dp}[k][u]$ とする.</p>
-
 <p>$\mathrm{dp}[0]$ は, $n-1$ からの $H$ での最短路長の配列である.</p>
-
 <p>$\mathrm{dp}[k-1]$ が定まっている時,</p>
-
 <ul>
-  <li>$\mathrm{dp}[k][u]$ は $\max_{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.</li>
-  <li>$\mathrm{dp}[k][u]$ は, $\min_{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.</li>
+<li>$\mathrm{dp}[k][u]$ は $\max_{e = (u, v)} \mathrm{dp}[k-1][v] + c(e)$ 以上.</li>
+<li>$\mathrm{dp}[k][u]$ は, $\min_{e = (u, v)} \mathrm{dp}[k][v] + c(e)$ 以上.</li>
 </ul>
-
 <p>の二つを満たすような最小のものを $\mathrm{dp}[k][u]$ とすればよい.</p>
-
 <p>後者が難しいが, 「後者だけで dijkstra 法をしつつ, 今確定する頂点が前者を満たさなければ, 前者を満たすように置き換える」という戦略でよい.
 なぜならば, dijkstra 法で必要なのは, 「今確定する頂点が本当にこれ以降変わらない」という事で, これは満たされるから.</p>
-
 <h3>ソースコード</h3>
-
-<div class="highlight"><pre class="highlight cpp"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -178,55 +150,50 @@ Alice が頂点 $u$ に居て, Bob が残り $k$ 回邪魔出来る時の結果�
 34
 35
 36
-37
-</pre></td><td class="rouge-code"><pre><span class="k">struct</span> <span class="nc">E</span><span class="p">{</span>
-    <span class="kt">int</span> <span class="n">t</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
-    <span class="n">E</span><span class="p">(){}</span>
-    <span class="n">E</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="o">:</span> <span class="n">t</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">c</span><span class="p">(</span><span class="n">c</span><span class="p">){}</span>
-<span class="p">};</span>
-
-<span class="k">typedef</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;&gt;</span> <span class="n">G</span><span class="p">;</span>
-<span class="k">static</span> <span class="k">const</span> <span class="n">ll</span> <span class="n">INF</span> <span class="o">=</span> <span class="mi">1LL</span><span class="o">&lt;&lt;</span><span class="mi">50</span><span class="p">;</span>
-
-<span class="kt">long</span> <span class="kt">long</span> <span class="n">MaliciousPath</span><span class="o">::</span><span class="n">minPath</span><span class="p">(</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">K</span><span class="p">,</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">from</span><span class="p">,</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">to</span><span class="p">,</span> <span class="n">vector</span> <span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cost</span> <span class="p">){</span>
-    <span class="n">G</span> <span class="n">g</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-    <span class="n">repsz</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">from</span><span class="p">)</span> <span class="k">if</span><span class="p">(</span><span class="n">from</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">){</span>
-        <span class="n">g</span><span class="p">[</span><span class="n">from</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">eb</span><span class="p">(</span><span class="n">to</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-        <span class="n">h</span><span class="p">[</span><span class="n">to</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">eb</span><span class="p">(</span><span class="n">from</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-    <span class="p">}</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">INF</span><span class="p">),</span> <span class="n">qb</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">K</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">){</span>
-        <span class="n">qb</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-        <span class="n">rep</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">g</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="n">chmax</span><span class="p">(</span><span class="n">qb</span><span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">c</span><span class="p">);</span>
-
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">d</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">INF</span><span class="p">);</span>
-        <span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">ll</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">ll</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="n">greater</span><span class="o">&lt;</span><span class="n">tuple</span><span class="o">&lt;</span><span class="n">ll</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&gt;</span> <span class="n">pq</span><span class="p">;</span>
-        <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-        <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">pq</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
-            <span class="n">ll</span> <span class="n">c</span><span class="p">;</span> <span class="kt">int</span> <span class="n">u</span><span class="p">;</span>
-            <span class="n">tie</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="n">pq</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-            <span class="n">pq</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">c</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="n">chmax</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">qb</span><span class="p">[</span><span class="n">u</span><span class="p">]);</span>
-            <span class="n">qb</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
-            <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">e</span> <span class="o">:</span> <span class="n">h</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">if</span><span class="p">(</span><span class="n">chmin</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">t</span><span class="p">],</span> <span class="n">c</span> <span class="o">+</span> <span class="n">e</span><span class="p">.</span><span class="n">c</span><span class="p">))</span> <span class="n">pq</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">t</span><span class="p">],</span> <span class="n">e</span><span class="p">.</span><span class="n">t</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="n">swap</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">qb</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">INF</span><span class="p">)</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></td></tr></tbody></table></code></pre></div>
-
-
-          <footer>
-            <h3>Tags</h3>
-              <div class='tag'><a href="../../tags/topcoder.html">TopCoder</a></div>
-              <div class='tag'><a href="../../tags/グラフ.html">グラフ</a></div>
-              <div class='tag'><a href="../../tags/最短路.html">最短路</a></div>
-              <div class='tag'><a href="../../tags/dp.html">DP</a></div>
-          </footer>
-      </article>
+37</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#cfcb90;">struct </span><span style="color:#f8f8f8;">E</span><span style="color:#ffffff;">{
+</span><span style="color:#ffffff;">    </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> t, c;
+</span><span style="color:#ffffff;">    </span><span style="color:#f8f8f8;">E</span><span style="color:#ffffff;">(){}
+</span><span style="color:#ffffff;">    </span><span style="color:#f8f8f8;">E</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">int </span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">, </span><span style="color:#cfcb90;">int </span><span style="color:#c6c5fe;">c</span><span style="color:#ffffff;">) : </span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">(t), </span><span style="color:#c6c5fe;">c</span><span style="color:#ffffff;">(c){}
+</span><span style="color:#ffffff;">};
+</span><span style="color:#ffffff;">
+</span><span style="color:#cfcb90;">typedef</span><span style="color:#ffffff;"> vector&lt;vector&lt;E&gt;&gt; </span><span style="text-decoration:underline;color:#ffffb6;">G</span><span style="color:#ffffff;">;
+</span><span style="color:#66ccff;">static const</span><span style="color:#ffffff;"> ll INF </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">1LL</span><span style="color:#aaaaaa;">&lt;&lt;</span><span style="font-weight:bold;color:#ff73fd;">50</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">
+</span><span style="color:#cfcb90;">long long </span><span style="color:#f8f8f8;">MaliciousPath::minPath</span><span style="color:#ffffff;">( </span><span style="color:#cfcb90;">int </span><span style="color:#c6c5fe;">n</span><span style="color:#ffffff;">, </span><span style="color:#cfcb90;">int </span><span style="color:#c6c5fe;">K</span><span style="color:#ffffff;">, vector &lt;</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt; </span><span style="color:#c6c5fe;">from</span><span style="color:#ffffff;">, vector &lt;</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt; </span><span style="color:#c6c5fe;">to</span><span style="color:#ffffff;">, vector &lt;</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt; </span><span style="color:#c6c5fe;">cost </span><span style="color:#ffffff;">){
+</span><span style="color:#ffffff;">    G </span><span style="color:#c6c5fe;">g</span><span style="color:#ffffff;">(n), </span><span style="color:#c6c5fe;">h</span><span style="color:#ffffff;">(n);
+</span><span style="color:#ffffff;">    </span><span style="color:#c6c5fe;">repsz</span><span style="color:#ffffff;">(i, from) </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(from[i] </span><span style="color:#aaaaaa;">!=</span><span style="color:#ffffff;"> n</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">){
+</span><span style="color:#ffffff;">        g[from[i]].</span><span style="color:#c6c5fe;">eb</span><span style="color:#ffffff;">(to[i], cost[i]);
+</span><span style="color:#ffffff;">        h[to[i]].</span><span style="color:#c6c5fe;">eb</span><span style="color:#ffffff;">(from[i], cost[i]);
+</span><span style="color:#ffffff;">    }
+</span><span style="color:#ffffff;">    vector&lt;ll&gt; </span><span style="color:#c6c5fe;">dp</span><span style="color:#ffffff;">(n, INF), </span><span style="color:#c6c5fe;">qb</span><span style="color:#ffffff;">(n);
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> k </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">; k </span><span style="color:#aaaaaa;">&lt;=</span><span style="color:#ffffff;"> K; </span><span style="color:#aaaaaa;">++</span><span style="color:#ffffff;">k){
+</span><span style="color:#ffffff;">        qb.</span><span style="color:#c6c5fe;">assign</span><span style="color:#ffffff;">(n, </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">        </span><span style="color:#c6c5fe;">rep</span><span style="color:#ffffff;">(u, n) </span><span style="color:#66ccff;">for</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">auto </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#ffffff;">e </span><span style="color:#aaaaaa;">:</span><span style="color:#ffffff;"> g[u]) </span><span style="color:#c6c5fe;">chmax</span><span style="color:#ffffff;">(qb[u], dp[e.</span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> e.</span><span style="color:#c6c5fe;">c</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">
+</span><span style="color:#ffffff;">        vector&lt;ll&gt; </span><span style="color:#c6c5fe;">d</span><span style="color:#ffffff;">(n, INF);
+</span><span style="color:#ffffff;">        priority_queue&lt;tuple&lt;ll, </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt;, vector&lt;tuple&lt;ll, </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt;&gt;, greater&lt;tuple&lt;ll, </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;">&gt;&gt;&gt; pq;
+</span><span style="color:#ffffff;">        pq.</span><span style="color:#c6c5fe;">emplace</span><span style="color:#ffffff;">(d[n</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, n</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">        </span><span style="color:#66ccff;">while</span><span style="color:#ffffff;">(</span><span style="color:#aaaaaa;">!</span><span style="color:#ffffff;">pq.</span><span style="color:#c6c5fe;">empty</span><span style="color:#ffffff;">()){
+</span><span style="color:#ffffff;">            ll c; </span><span style="color:#cfcb90;">int</span><span style="color:#ffffff;"> u;
+</span><span style="color:#ffffff;">            </span><span style="color:#c6c5fe;">tie</span><span style="color:#ffffff;">(c, u) </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> pq.</span><span style="color:#c6c5fe;">top</span><span style="color:#ffffff;">();
+</span><span style="color:#ffffff;">            pq.</span><span style="color:#c6c5fe;">pop</span><span style="color:#ffffff;">();
+</span><span style="color:#ffffff;">            </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(d[u] </span><span style="color:#aaaaaa;">&lt;</span><span style="color:#ffffff;"> c) </span><span style="color:#66ccff;">continue</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">            </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(k) </span><span style="color:#c6c5fe;">chmax</span><span style="color:#ffffff;">(c, qb[u]);
+</span><span style="color:#ffffff;">            qb[u] </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> c;
+</span><span style="color:#ffffff;">            </span><span style="color:#66ccff;">for</span><span style="color:#ffffff;">(</span><span style="color:#cfcb90;">auto </span><span style="color:#aaaaaa;">&amp;</span><span style="color:#ffffff;">e </span><span style="color:#aaaaaa;">:</span><span style="color:#ffffff;"> h[u]) </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">chmin</span><span style="color:#ffffff;">(d[e.</span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">], c </span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;"> e.</span><span style="color:#c6c5fe;">c</span><span style="color:#ffffff;">)) pq.</span><span style="color:#c6c5fe;">emplace</span><span style="color:#ffffff;">(d[e.</span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">], e.</span><span style="color:#c6c5fe;">t</span><span style="color:#ffffff;">);
+</span><span style="color:#ffffff;">        }
+</span><span style="color:#ffffff;">        </span><span style="color:#c6c5fe;">swap</span><span style="color:#ffffff;">(dp, qb);
+</span><span style="color:#ffffff;">    }
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">(dp[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">&gt;=</span><span style="color:#ffffff;"> INF) dp[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">] </span><span style="color:#aaaaaa;">= -</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">;
+</span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return</span><span style="color:#ffffff;"> dp[</span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">];
+</span><span style="color:#ffffff;">}</span></pre></td></tr></tbody></table></code></pre></article>
+      <footer>
+        <h3>Tags</h3>
+          <div class='tag'><a href="/tags/TopCoder.html">TopCoder (48)</a></div>
+          <div class='tag'><a href="/tags/%E3%82%B0%E3%83%A9%E3%83%95.html">グラフ (3)</a></div>
+          <div class='tag'><a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF.html">最短路 (4)</a></div>
+          <div class='tag'><a href="/tags/DP.html">DP (18)</a></div>
+      </footer>
     </main>
   </body>
 </html>
