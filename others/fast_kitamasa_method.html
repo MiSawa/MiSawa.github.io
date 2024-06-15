@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
     <meta property="og:description" content="線型漸化式のn項目を求める通称きたまさ法と、それを高速化した高速きたまさ法の解説。" />
     <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
-    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    <link href="/stylesheets/all-BE4B6E2E.css" rel="stylesheet" />
     
     <script>
       window.WebFontConfig = {
@@ -300,7 +300,7 @@ $$\begin{aligned} F_n &= \frac{\phi^n - (-\phi)^{-n}}{\sqrt{5}} F_1 + \frac{\phi
 <p>最後に, 擬似コードを載せておく.</p>
 <p>メインルーチンは, 次のような感じ.
 $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -326,7 +326,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 </span><span style="color:#ffffff;">        result </span><span style="color:#aaaaaa;">+= </span><span style="color:#ffffff;">a[i] </span><span style="color:#aaaaaa;">* </span><span style="color:#ffffff;">b[k </span><span style="color:#aaaaaa;">- </span><span style="color:#ffffff;">i </span><span style="color:#aaaaaa;">- </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">]
 </span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result</span></pre></td></tr></tbody></table></code></pre>
 <p>余談に書いた前計算をする場合は, 次のようなものを基本にする.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -353,7 +353,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 </span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result</span></pre></td></tr></tbody></table></code></pre>
 <p>次に, $\mathrm{multiply\_mod}$ だが, これは式のまま.
 但し, $c'$ は $\mathrm{ic}$ と表記した.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -363,7 +363,7 @@ $b$ は, 初期値 $a$ とは逆順で格納していることに注意.</p>
 </span><span style="color:#ffffff;">    result </span><span style="color:#aaaaaa;">= </span><span style="color:#ffffff;">beta </span><span style="color:#aaaaaa;">+ </span><span style="color:#c6c5fe;">convolute</span><span style="color:#ffffff;">(c, q)
 </span><span style="color:#ffffff;">    </span><span style="color:#66ccff;">return </span><span style="color:#ffffff;">result[k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">, </span><span style="color:#99cc99;">...</span><span style="color:#ffffff;">, 2k</span><span style="color:#aaaaaa;">-</span><span style="font-weight:bold;color:#ff73fd;">2</span><span style="color:#ffffff;">]</span></pre></td></tr></tbody></table></code></pre>
 <p>最後に, $c'$ の計算も, 式のまま.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4

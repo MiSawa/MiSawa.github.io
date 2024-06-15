@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="最小費用流問題に対する、単純な割に高速なアルゴリズムの一つである容量スケーリング法の実装と解説。" />
     <meta property="og:description" content="最小費用流問題に対する、単純な割に高速なアルゴリズムの一つである容量スケーリング法の実装と解説。" />
     <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
-    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    <link href="/stylesheets/all-BE4B6E2E.css" rel="stylesheet" />
     
     <script>
       window.WebFontConfig = {
@@ -230,7 +230,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 <p><a href="./library_design.html">ぼくの考えたさいきょうのフローライブラリ</a> から, 前処理, メインループ, primal step, dual step を変更する.</p>
 <h3>新しい前処理</h3>
 <p>前処理では, 容量制約を守る $\vecf$ を一つとり, $\Delta$ の初期値を決める.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -265,7 +265,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 </span><span style="color:#ffffff;">  }</span></pre></td></tr></tbody></table></code></pre>
 <h3>メインループと各フェーズの前処理</h3>
 <p>メインループは次のようになる.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#ffffff;">    </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">(delta </span><span style="color:#aaaaaa;">/=</span><span style="color:#ffffff;"> SCALING_FACTOR; delta; delta </span><span style="color:#aaaaaa;">/=</span><span style="color:#ffffff;"> SCALING_FACTOR) {
@@ -273,7 +273,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 </span><span style="color:#ffffff;">      </span><span style="color:#66ccff;">while </span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">dual</span><span style="color:#ffffff;">(delta)) </span><span style="color:#c6c5fe;">primal</span><span style="color:#ffffff;">(delta);
 </span><span style="color:#ffffff;">    }</span></pre></td></tr></tbody></table></code></pre>
 <p>ここで, <code>saturate_negative</code> は次のような関数である.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -306,7 +306,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 </span><span style="color:#ffffff;">  }</span></pre></td></tr></tbody></table></code></pre>
 <h3>dual step</h3>
 <p>ほぼ, Primal-Dual におけるフロー型の <code>0</code> との比較を $\Delta$ との比較に変えただけ.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -377,7 +377,7 @@ $S^\Delta_\vecf$ から $T^\Delta_\vecf$ へのパスが存在したから, そ�
 </span><span style="color:#ffffff;">  }</span></pre></td></tr></tbody></table></code></pre>
 <h3>primal step</h3>
 <p>こちらも同様. $\Delta$ 以上しか流さないようにしていることに注意.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -487,7 +487,7 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 <p><a href="https://twitter.com/tokoharu_sakura">とこはるさん</a> には事前に読んでいただき, 有用なコメントと共に安心感をいただきました. ありがとうございました!</p>
 <h2>ソースコード</h2>
 <p><details><summary> 長いので折りたたみ</summary></p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -985,7 +985,7 @@ $|f_e - f'_e| < 2 \Delta$ であったから, $G_{\vecf}$ での最小 $A$-$B$ �
 <h3>Library-Checker: Minimum cost b-flow</h3>
 <p>問題は<a href="https://judge.yosupo.jp/problem/min_cost_b_flow">こちら</a></p>
 <p><details><summary> 長いので折りたたみ</summary></p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4

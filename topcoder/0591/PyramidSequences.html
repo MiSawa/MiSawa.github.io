@@ -16,7 +16,7 @@
     <meta property="og:site_name" content="みさわめも" />
     <meta property="og:locale" content="ja_JP" />
     <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
-    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    <link href="/stylesheets/all-BE4B6E2E.css" rel="stylesheet" />
     
     <script>
       window.WebFontConfig = {
@@ -109,12 +109,12 @@ $$ t + ka \equiv i \mod b \\ \Leftrightarrow i - t \equiv k a \mod b $$
 <p>一方, $ B_i $ は, $ i \bmod b &lt; b/2 $ か否かに従って $ i \bmod b $ か $ -i \bmod b $.</p>
 <p>よって, $ (t, x) $ が現れうるのは, $ t \equiv \pm x \mod g $ のとき.</p>
 <p>よって,</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#c6c5fe;">rep</span><span style="color:#ffffff;">(i, N) </span><span style="color:#f8f8f8;">rep</span><span style="color:#ffffff;">(</span><span style="color:#c6c5fe;">j</span><span style="color:#ffffff;">, </span><span style="color:#c6c5fe;">M</span><span style="color:#ffffff;">) </span><span style="color:#66ccff;">if</span><span style="color:#ffffff;">((i</span><span style="color:#aaaaaa;">-</span><span style="color:#ffffff;">j)</span><span style="color:#aaaaaa;">%</span><span style="color:#ffffff;">g </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">0 </span><span style="color:#aaaaaa;">or </span><span style="color:#ffffff;">(i</span><span style="color:#aaaaaa;">+</span><span style="color:#ffffff;">j)</span><span style="color:#aaaaaa;">%</span><span style="color:#ffffff;">g </span><span style="color:#aaaaaa;">== </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">)
 </span><span style="color:#ffffff;">    </span><span style="color:#aaaaaa;">++</span><span style="color:#ffffff;">res;</span></pre></td></tr></tbody></table></code></pre>
 <p>というのは正しい答えを返す.</p>
 <p>あとは, $ i $ を固定した時に $ i \equiv j \mod g $ の解と $ i \equiv -j \mod g $ の解が一致するか否かで場合分けしつつ, ループを一重に落とせる.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -133,7 +133,7 @@ $$ t + ka \equiv i \mod b \\ \Leftrightarrow i - t \equiv k a \mod b $$
 <p>あと, なんか $N = M$ のときコーナーケースになっていた.
 どこの議論か追う気力がない.</p>
 <h3>ソースコード</h3>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4

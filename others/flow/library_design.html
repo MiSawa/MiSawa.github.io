@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="最小費用b-フロー (b-flow) の紹介と、それを用いた競技プログラミング用ライブラリの実装。" />
     <meta property="og:description" content="最小費用b-フロー (b-flow) の紹介と、それを用いた競技プログラミング用ライブラリの実装。" />
     <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
-    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    <link href="/stylesheets/all-BE4B6E2E.css" rel="stylesheet" />
     
     <script>
       window.WebFontConfig = {
@@ -133,7 +133,7 @@ $$</div>
 <code>MinCostFlow&lt;Flow, Cost&gt;</code> で最小化, <code>MaxGainFlow&lt;Flow, Cost&gt;</code> で最大化問題になる.
 ついでに, <code>auto</code> と structured bindings で返り値を受けるのも楽になったので, 結果が infeasible であったかを enum で同時に返すようにした.</p>
 <p>また, <code>add_edge</code> で, 最適解で流れたフロー量などにアクセスできるようにする為のポインタのようなものを返すようにした. <code>MinCostFlow</code> 自体の destruct 後はもちろん invalid なので注意.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -208,7 +208,7 @@ $$</div>
 </span><span style="color:#66ccff;">using</span><span style="color:#ffffff;"> MaxGainFlow </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> MinCostFlow&lt;Flow, Cost, Objective::MAXIMIZE&gt;;</span></pre></td></tr></tbody></table></code></pre>
 <h2>データの持ち方</h2>
 <p>簡単のため, 単に <code>std::vector&lt;std::vector&lt;Edge&gt;&gt;</code> で隣接リストを持つ方式にした. <code>Edge</code> 構造体の定義はもう少し後で.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#ffffff;">private</span><span style="color:#aaaaaa;">:
@@ -220,14 +220,14 @@ $$</div>
 <p>フローの問題の場合, <code>add_edge(i + n, j + n + m ...)</code> のようなオフセットが大量に登場しがちで間違えやすいため,
 頂点数を陽に指定せず, <code>add_vertex()</code> や <code>add_vertices(size_t)</code> で頂点を追加し, その返り値を使う造りにしている.</p>
 <p>例えば,</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3</pre></td><td class="code" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;white-space:pre;"><span style="color:#66ccff;">const </span><span style="color:#cfcb90;">auto</span><span style="color:#ffffff;"> S </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> mcf.</span><span style="color:#c6c5fe;">add_vertex</span><span style="color:#ffffff;">();
 </span><span style="color:#66ccff;">const </span><span style="color:#cfcb90;">auto</span><span style="color:#ffffff;"> vs </span><span style="color:#aaaaaa;">=</span><span style="color:#ffffff;"> mcf.</span><span style="color:#c6c5fe;">add_vertices</span><span style="color:#ffffff;">(n);
 </span><span style="color:#66ccff;">for </span><span style="color:#ffffff;">(</span><span style="color:#ffffb6;">size_t</span><span style="color:#ffffff;"> i </span><span style="color:#aaaaaa;">= </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">; i </span><span style="color:#aaaaaa;">&lt;</span><span style="color:#ffffff;"> n; </span><span style="color:#aaaaaa;">++</span><span style="color:#ffffff;">i) mcf.</span><span style="color:#c6c5fe;">add_edge</span><span style="color:#ffffff;">(S, vs[i], </span><span style="font-weight:bold;color:#ff73fd;">0</span><span style="color:#ffffff;">, </span><span style="font-weight:bold;color:#ff73fd;">1</span><span style="color:#ffffff;">, cost[i]);</span></pre></td></tr></tbody></table></code></pre>
 <p>などのように, 頂点は常に <code>add_vertex</code> / <code>add_vertices</code> の返り値を使う. 本来はこれをラップする構造体を用意して, 不用意に <code>int</code> などを渡せないようにすべきだろうが,
 そうしないことによる利便性もあり, とりあえずこのまま使えるようにしている.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -275,7 +275,7 @@ $$</div>
 従って, 流量下限制約は, 逆辺の流量上限制約と同一視できる.</p>
 <p>これを使って流量下限制約を入れると, 最大流量を $\mathrm{upper}-\mathrm{lower}$ に変形する方法に比べ, 流量の復元が非常に簡単になる.
 $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満たさないことに注意.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -333,7 +333,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 <h2>計算部</h2>
 <h3>途中で使う変数と便利関数たち</h3>
 <p>一つの関数内で使用が簡潔する <code>priority_queue</code> なども, その関数を度々呼ぶなら, 使いまわしたほうが速度的に少々お得.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -369,7 +369,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 これにより, $\vecb$ に非零成分は残るが, フローの上下限制約と, 相補性条件 ($\mathrm{rcost} < 0 \Rightarrow \mathrm{rcap} = 0$) が満たされた初期状態を作れる.
 これら2つの条件は, この前処理以後, 常に保つ.</p>
 <p>また, 小手先の高速化として, $\vecb$ が正である頂点と負である頂点を保持することにした. これはなくとも正しくは動くが, 特に最小費用最大流を求める際などに強めに影響すると考えられる.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -405,7 +405,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 <code>dual()</code> は主問題の解(フロー)は更新せず, そのフローとの相補性条件を保ったまま, 双対問題の解(ポテンシャル)を更新することで, 相補性条件を崩さずにフローを流せる場所を増やす.
 一方 <code>primal()</code> は双対問題の解(ポテンシャル)は更新せず, そのポテンシャルとの相補性条件を保ちつつ, 主問題の解(フロー)を変更することで, $\vecb$ が $\veczero$ に近づくようにする.</p>
 <p>最適値の復元では, 単に $\vec{f} \cdot \vec{c}$ を取ると, 順辺に対する $f_e c_e$ と逆辺に対する $f_{e'} c_{e'} = (- f_e) (- c_e) = f_e c_e$ で倍になる為, 最後に $2$ で割ることに注意.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -440,7 +440,7 @@ $\mathrm{lower}>0$ の場合, $0$ フローが逆辺の流量の制約を満た�
 <p>また, primal step で使うために, 最短経路森を保存しておく.
 今回は, 頂点毎に, その点に入ってくる時に使う辺へのポインタを持つ形にした.
 primal step では簡約コストが $0$ な辺のみを使って増大路を計算することで, 最短経路森の部分をサボることも出来る.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -511,7 +511,7 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 </span><span style="color:#ffffff;">  }</span></pre></td></tr></tbody></table></code></pre>
 <h3>primal step</h3>
 <p>dual step で計算した最短経路森に従い, フローを流すだけ.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -566,7 +566,7 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 <li>アルゴリズムが停止する時, 湧出しから吸込みへの残余パスは存在しない. 従って, $s$-$t$ 流量が最大化されている.</li>
 </ul>
 <p>容量 $\infty$ は, 実際には $s$ 周りの容量を使った.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -615,7 +615,7 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 </span><span style="color:#ffffff;">  }</span></pre></td></tr></tbody></table></code></pre>
 <h2>ソースコード</h2>
 <p><details><summary> 長いので折りたたみ</summary></p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -1122,7 +1122,7 @@ primal step では簡約コストが $0$ な辺のみを使って増大路を計
 <h2>使用例</h2>
 <h3>Library-Checker: Assignment Problem</h3>
 <p>問題は<a href="https://judge.yosupo.jp/problem/assignment">こちら</a></p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4

@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="有理数の大小比較をオーバーフローしないように実装する手法について。" />
     <meta property="og:description" content="有理数の大小比較をオーバーフローしないように実装する手法について。" />
     <link href="/stylesheets/normalize-9D68B9A1.css" rel="stylesheet" />
-    <link href="/stylesheets/all-0047F388.css" rel="stylesheet" />
+    <link href="/stylesheets/all-BE4B6E2E.css" rel="stylesheet" />
     
     <script>
       window.WebFontConfig = {
@@ -100,7 +100,7 @@ $$</div>
 <p>(逆に, 有理数同士の大小比較がボトルネックにならないときは, 別のテクニックで誤差を避けられることがある)</p>
 <p>そこで, 有理数の分母分子自体はオーバーフローしていないときに, 有理数同士の比較を, なるべくオーバーフローさせずに行う方法を見る.</p>
 <p>つまり, 次のような <code>sgn</code> 関数を作りたい.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -196,7 +196,7 @@ $$ \frac{a}{b} = \intpart{\frac{a}{b}} + \frac{a \bmod b}{b} $$
 $$ \properpart{\frac{a}{b}} = \frac{a \bmod b}{b} $$
 である. ここで, $a \bmod b$ は $0 \le (a \bmod b) < b$ となるように取る.</p>
 <p>したがって, $0 \le \text{分子} < \text{分母} \le \sqrt{M}$ であるような二つの有理数の比較に帰着でき, これは単に $ad$ と $bc$ を比較すればよい.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
@@ -225,7 +225,7 @@ $$ \properpart{\frac{a}{b}} = \frac{a \bmod b}{b} $$
 そうでない場合, $\frac{a'}{b}$ と $\frac{c'}{d}$ の大小関係は, $\frac{d}{c'}$ と $\frac{b}{a'}$ の大小関係と一致する.</p>
 <p>これを用いて再帰すれば, いつか $a' = 0$ か $c' = 0$ になり, 終了する.</p>
 <p>連分数展開を知っているひとは, 有理数の連分数展開を行なっていると思ったほうがわかりやすいかもしれない.</p>
-<pre style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
+<pre class="highlight" style="margin:0.8em;background-color:#49483e;"><code class="highlight"><table class="highlight"><tbody><tr><td class="lineno" style="padding-left:0.5em;padding-right:0.5em;border-left:1px solid #000;"><pre class="lineno" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0;color:#f8f8f2;">1
 2
 3
 4
